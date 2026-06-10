@@ -2,6 +2,7 @@ import sys
 import threading
 import time
 from typing import Callable, Any
+from views.style import highlight, RED, YELLOW, GREEN
 
 
 def dot_animation(base_message: str, stop_event: threading.Event):
@@ -41,6 +42,74 @@ def dot_animation(base_message: str, stop_event: threading.Event):
         edit_line(dynamic_message)
         time.sleep(0.5)
 
+    clear_line()
+
+
+def edit_line(message: str):
+    sys.stdout.write("\r" + message)
+    sys.stdout.flush()
+
+def clear_line(cutoff_length = 59):
+    sys.stdout.write("\r" + (" " * cutoff_length))
+    sys.stdout.write("\r")
+    sys.stdout.flush()
+
+
+def load_bar(task_functs: list[Callable], cutoff_length=59):
+    num_functions = len(task_functs)
+    midpoint = cutoff_length // 2
+    gap = "  "  # Spacing around percentage
+
+    def edit_line(message: str):
+        sys.stdout.write("\r" + message)
+        sys.stdout.flush()
+
+    edit_line(f"{" " * midpoint}{gap}{highlight("0%", RED)}{gap}{" " * midpoint}")
+
+    for index, task in enumerate(task_functs, start=1):
+        task()
+        
+        # Calcules progress
+        progress_ratio = index / num_functions
+        percentage = int(progress_ratio * 100)
+        percentage_str = f"{percentage}%"
+
+        # Calculates total fill width (excluding the center)
+        center_width = len(f"{gap}{percentage_str}{gap}")
+        total_fill_width = cutoff_length - center_width
+        filled = round(progress_ratio * total_fill_width)
+
+        # Highlights percentage
+        if 0 <= percentage <= 33:
+            percentage_str = highlight(percentage_str, RED)
+        elif 33 <= percentage <= 66:
+            percentage_str = highlight(percentage_str, YELLOW)
+        else:
+            percentage_str = highlight(percentage_str, GREEN)
+
+        # Calculates number of fills left/right around center
+        left_fill = min(filled, midpoint)
+        right_fill = max(0, filled - midpoint)
+
+        # Calculates remain empty space
+        left_space = midpoint - left_fill
+        right_space = midpoint - right_fill
+        
+        line = (
+            f"{"=" * left_fill}"
+            f"{" " * left_space}"
+            f"{gap}"
+            f"{percentage_str}"
+            f"{gap}"
+            f"{"=" * right_fill}"
+            f"{" " * right_space}"
+        )
+        
+        edit_line(line)
+
+    edit_line(f"{"=" * midpoint}{gap}{highlight("100%", GREEN)}{gap}{"=" * midpoint}")
+    time.sleep(1)
+    
     clear_line()
 
 
@@ -94,3 +163,4 @@ def show_popup_message(message: str, delay_secs: int = 1, countdown_flag: bool =
         print(message, end="\r", flush=True)
         time.sleep(delay_secs)
         clear_line(message)
+        
