@@ -14,6 +14,11 @@ def add_positional_options(parser: SafeArgumentParser) -> SafeArgumentParser:
         action="store_true",
         help='Analyzes urls stored in "url.txt"'
     )
+    parser.add_argument(
+        "--input",
+        type=str,
+        help="File to be parsed for URLs to analyze for batch analysis."
+    )
 
     return parser
 
