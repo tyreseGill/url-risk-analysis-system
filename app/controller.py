@@ -13,6 +13,13 @@ import argparse
 
 
 def analysis(params: argparse.Namespace):
+    """
+    Performs an analysis on a URL based on the provided arguments.
+
+    Args:
+        params (argparse.Namespace): Parsed CLI arguments specifying the target URL
+         and selected analysis options.
+    """
     query = query_url(params.url) if params.domain_identity else None
     ctx = RiskContext()
 
@@ -48,6 +55,12 @@ def analysis(params: argparse.Namespace):
 
 
 def multi_analysis(params: argparse.Namespace):
+    """
+    Perform batch analysis on URLs read from "urls.txt".
+
+    Args:
+        params (argparse.Namespace): Parsed CLI arguments specifying analysis options.
+    """
     try:
         file = open("urls.txt", "r")
         urls = [
