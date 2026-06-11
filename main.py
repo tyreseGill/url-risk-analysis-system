@@ -8,10 +8,11 @@ def main():
 
     if params.url and params.multi_analysis:
         parser.error("Cannot specify a URL and perform a multi-analysis at the same time")
-    elif not params.url and not params.multi_analysis:
-        parser.error('You must either input a URL to analyze or run multiple analyses on URLs listed in "urls.txt"')
+        
+    elif not params.url and not (params.multi_analysis or params.input):
+        parser.error('You must either input a URL to analyze or run multiple analyses on URLs listed in "urls.txt" or an input file of your choosing.')
 
-    if params.multi_analysis:
+    if params.multi_analysis or params.input:
         multi_analysis(params)
     else:
         analysis(params)
