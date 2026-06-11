@@ -9,7 +9,9 @@ from views.cert import print_cert_analysis
 from views.html import print_html_analysis
 from views.virustotal import print_virus_total_stats
 from views.summary import print_risk_summary
+from utils.animations import show_popup_message
 import argparse
+import os
 
 
 def analysis(params: argparse.Namespace):
@@ -56,23 +58,65 @@ def analysis(params: argparse.Namespace):
 
 def multi_analysis(params: argparse.Namespace):
     """
-    Perform batch analysis on URLs read from "urls.txt".
+    Perform batch analysis on URLs read from input file.
 
     Args:
         params (argparse.Namespace): Parsed CLI arguments specifying analysis options.
     """
-    try:
-        file = open("urls.txt", "r")
-        urls = [
-            line.strip("\n")
-            for line in 
-            file.readlines()
-            if not line.startswith("#")
-            and line.strip("\n") != ""
-        ]
-    finally:
-        file.close()
+    file_to_parse = "input/urls.txt"  # Default
+
+    if params.input:
+        # Allows user to input either the absolute path or relative path from the "input/" directory
+        file_to_parse = (
+            f"input/{params.input}"
+            if os.path.isfile(f"input/{params.input}")
+            else params.input
+        )
+
+        if not os.path.isfile(file_to_parse):
+            print(f'[ERROR] The path "{file_to_parse}" was not found.\n')
+            return
+
+    urls = extract_urls(file_to_parse)
 
     for url in urls:
         params.url = url
+        print()
         analysis(params)
+
+
+def extract_urls(file:str):
+    """
+    Extracts all URLs from a file.
+
+    Args:
+        file (str): The file to be parsed.
+    
+    Returns:
+        list[str]: List of URLs.
+    """
+    file_extension = file.split(".")[-1]
+
+    if file_extension in ["txt", "csv"]:
+        try:
+            file = open(file, "r")
+            urls = [
+                line.strip("\n")
+                for line in 
+                file.readlines()  # Only works for .txt and .csv
+                if not line.startswith("#")
+                and line.strip("\n") != ""
+            ]
+        finally:
+            file.close()
+
+    elif file_extension == "html":
+        pass
+
+    elif file_extension == "pdf":
+        pass
+
+    else:
+        print(f'[ERROR] The format "{file_extension}" is not supported.\n')
+
+    return urls
