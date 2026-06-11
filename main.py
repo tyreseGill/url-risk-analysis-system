@@ -1,17 +1,21 @@
 from app.cli import parse_args, resolve_analysis_flags
-from app.controller import run
+from app.controller import analysis, multi_analysis
 
 
 def main():
     params = parse_args()
-    url = params.url
-
-    # Early return if URL wasn't provided
-    if not url:
-        return
-    
     params = resolve_analysis_flags(params)
-    run(params)
+
+    if params.url and params.multi_analysis:
+        parser.error("Cannot specify a URL and perform a multi-analysis at the same time.")
+
+    if not params.url and not params.multi_analysis:
+        parser.error('You must either input a URL to analyze or run multiple analyses on URLs listed in "urls.txt".')
+
+    if params.multi_analysis:
+        multi_analysis(params)
+    else:
+        analysis(params)
 
 
 if __name__ == "__main__":

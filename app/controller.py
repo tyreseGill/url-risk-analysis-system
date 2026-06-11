@@ -12,7 +12,7 @@ from views.summary import print_risk_summary
 import argparse
 
 
-def run(params: argparse.Namespace):
+def analysis(params: argparse.Namespace):
     query = query_url(params.url) if params.domain_identity else None
     ctx = RiskContext()
 
@@ -45,3 +45,21 @@ def run(params: argparse.Namespace):
         print_risk_summary(params.no_explanations, ctx)
     
     print()
+
+
+def multi_analysis(params: argparse.Namespace):
+    try:
+        file = open("urls.txt", "r")
+        urls = [
+            line.strip("\n")
+            for line in 
+            file.readlines()
+            if not line.startswith("#")
+            and line.strip("\n") != ""
+        ]
+    finally:
+        file.close()
+
+    for url in urls:
+        params.url = url
+        analysis(params)
