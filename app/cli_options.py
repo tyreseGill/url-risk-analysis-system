@@ -10,6 +10,7 @@ def add_positional_options(parser: SafeArgumentParser) -> SafeArgumentParser:
     )
     parser.add_argument(
         "--multi_analysis",
+        "--batch_analysis",
         action="store_true",
         help='Analyzes urls stored in "url.txt"'
     )
