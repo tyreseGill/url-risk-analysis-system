@@ -1,4 +1,6 @@
 from models.network.whois import query_url, query_exists
+from models.network.html_parser import fetch_absolute_links
+from models.network.html_parser import convert_html_to_soup
 from models.risk.classifiers import classify_risk
 from models.risk_context import RiskContext
 from models.url.parsing import extract_hostname
@@ -114,8 +116,14 @@ def extract_urls(file:str):
         finally:
             file.close()
 
-    elif file_extension == "html":
-        pass
+    elif file_extension in ["html", "htm"]:
+        html_soup = convert_html_to_soup(file)
+        abs_links = fetch_absolute_links(html_soup)
+        urls = [
+            link.get('href') for link in abs_links
+        ]
+
+        urls = filter_urls(urls)
 
     elif file_extension == "pdf":
         pass
