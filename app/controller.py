@@ -110,6 +110,7 @@ def extract_urls(file:str):
                 if not line.startswith("#")
                 and line.strip("\n") != ""
             ]
+            urls = filter_urls(urls)
         finally:
             file.close()
 
@@ -124,3 +125,25 @@ def extract_urls(file:str):
         return None
 
     return urls
+
+
+def filter_urls(urls: list) -> list:
+    """
+    Returns strings recognized as URLs based on the presence of a schema (http/https)
+     and hostname format.
+
+     Args:
+        urls: List of potential URLs to be filtered out for suspected URLs.
+
+    Returns:
+        list[str]: Filtered list of recognized URLs.
+    """
+    from urllib.parse import urlparse
+    
+    urls = [
+        url
+        for url in urls
+        if urlparse(url).scheme and extract_hostname(url)
+    ]
+    return urls
+
