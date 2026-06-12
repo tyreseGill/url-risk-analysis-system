@@ -79,6 +79,9 @@ def multi_analysis(params: argparse.Namespace):
 
     urls = extract_urls(file_to_parse)
 
+    if not urls:
+        return
+
     for url in urls:
         params.url = url
         print()
@@ -118,5 +121,6 @@ def extract_urls(file:str):
 
     else:
         print(f'[ERROR] The format "{file_extension}" is not supported.\n')
+        return None
 
     return urls
