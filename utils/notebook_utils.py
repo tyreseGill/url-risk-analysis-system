@@ -30,15 +30,20 @@ def showcase_featured_distributions(data_frame: pd.DataFrame, featured_distro: s
     plt.show()
 
     
-def generate_sub_data_frame(cols: set, parquet_file: str = TRAINING_DATA):
+def generate_sub_data_frame(cols: set, parquet_file: str = TRAINING_DATA, add_status: bool = True):
     """
     Creates a data frame from the provided columns.
     """
-    cols.add('status')
+    if add_status:
+        cols.add('status')
+        
     data_frame = pd.read_parquet(parquet_file, columns=cols)
-    data_frame["status"] = (
-        data_frame["status"] == "phishing"
-    ).astype(int)
+    
+    if add_status:
+        data_frame["status"] = (
+            data_frame["status"] == "phishing"
+        ).astype(int)
+        
     return data_frame
 
 
@@ -125,3 +130,13 @@ def get_redundant_correlated_features(data_frame: pd.DataFrame) -> set:
             REDUNDANT_ATTRIBUTES.add(x)
 
     return REDUNDANT_ATTRIBUTES
+
+
+def frame_box_plot(df: pd.DataFrame, title: str):
+    """
+    Generates a box plot to visualize data spread.
+    """
+    df.plot(kind="box")
+    plt.title(title)
+    plt.xticks(rotation=90)
+    plt.show()
