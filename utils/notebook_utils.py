@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 
-TRAINING_DATA = "../data/Testing.parquet"
+TRAINING_DATA = "../data/Training.parquet"
 TARGET = "status"
 
 
