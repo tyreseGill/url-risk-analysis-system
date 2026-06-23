@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import pickle
 
 
 TRAINING_DATA = "../data/Training.parquet"
@@ -160,3 +161,41 @@ def get_low_target_correlation_features(data_frame: pd.DataFrame, threshold: flo
             REDUNDANT_ATTRIBUTES.add(column_name)
 
     return REDUNDANT_ATTRIBUTES
+
+
+def save_redundant_features(redundant_features: set):
+    """
+    Saves redundant features to .pkl file.
+    """
+    with open('../utils/redundant_features.pkl', 'wb') as file:
+        pickle.dump(redundant_features, file)
+
+
+def get_redundant_features():
+    """
+    Fetches redundant features from .pkl file.
+    """
+    REDUNDANT_FEATURES = set()
+    
+    try:
+        with open('../utils/redundant_features.pkl', 'rb') as file:
+            REDUNDANT_FEATURES = pickle.load(file)
+    finally:
+        file.close()
+
+    return REDUNDANT_FEATURES
+
+
+def get_relevant_features(data_frame: pd.DataFrame):
+    """
+    Returns set of relevant features.
+    """
+    REDUNDANT_FEATURES = get_redundant_features()
+    
+    RELEVANT_FEATURES = {
+        col for col in data_frame.columns
+        if col not in REDUNDANT_FEATURES
+        and col != "status"
+    }
+    
+    return RELEVANT_FEATURES
