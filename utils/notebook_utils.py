@@ -133,11 +133,30 @@ def get_redundant_correlated_features(data_frame: pd.DataFrame) -> set:
     return REDUNDANT_ATTRIBUTES
 
 
-def frame_box_plot(df: pd.DataFrame, title: str):
+def frame_box_plot(data_frame: pd.DataFrame, title: str):
     """
     Generates a box plot to visualize data spread.
     """
-    df.plot(kind="box")
+    data_frame.plot(kind="box")
     plt.title(title)
     plt.xticks(rotation=90)
     plt.show()
+
+
+def get_low_target_correlation_features(data_frame: pd.DataFrame, threshold: float = 0.01):
+    """
+    Retrieves features with a very low correlation with regard to the variable to be predicted.
+    """
+    REDUNDANT_ATTRIBUTES = set()
+    
+    data_frame = generate_sub_data_frame(
+        set(data_frame.columns)
+    )
+    
+    target_row = data_frame.corr(numeric_only=True)[TARGET].abs()
+
+    for column_name, corr_val in target_row.items():
+        if corr_val <= threshold:
+            REDUNDANT_ATTRIBUTES.add(column_name)
+
+    return REDUNDANT_ATTRIBUTES
