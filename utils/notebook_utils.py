@@ -97,6 +97,7 @@ def get_highly_correlated_pairs(data_frame: pd.DataFrame, threshold=0.8) -> set:
     # Adds any non-status column-pairings whose intercepting correlation value are too high
     for (pair, corr_pair_value) in most_to_least_corr_pairs[::2].items():
         (x, y) = pair
+        corr_pair_value = math.ceil(corr_pair_value * 100) / 100  # Rounds up to nearest tenth
 
         # Prevents tossing out features with high correlation to URL status
         if 'status' in pair:
