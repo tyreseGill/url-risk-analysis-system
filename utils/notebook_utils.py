@@ -4,9 +4,11 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import pickle
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score
 
 
 TRAINING_DATA = "../data/Training.parquet"
+TESTING_DATA = "../data/Testing.parquet"
 TARGET = "status"
 
 
@@ -35,6 +37,8 @@ def generate_sub_data_frame(cols: set, parquet_file: str = TRAINING_DATA, add_st
     """
     Creates a data frame from the provided columns.
     """
+    cols = set(cols)
+    
     if add_status:
         cols.add('status')
         
@@ -44,6 +48,8 @@ def generate_sub_data_frame(cols: set, parquet_file: str = TRAINING_DATA, add_st
         data_frame["status"] = (
             data_frame["status"] == "phishing"
         ).astype(int)
+
+    data_frame = data_frame.reindex(sorted(data_frame.columns), axis=1)
         
     return data_frame
 
@@ -199,3 +205,36 @@ def get_relevant_features(data_frame: pd.DataFrame):
     }
     
     return RELEVANT_FEATURES
+
+
+def get_x_y(data_frame: pd.DataFrame):
+    """
+    Obtains the features (x) and status (y) of a URL.
+    """
+    x = data_frame.drop(columns=[TARGET])
+    y = data_frame[TARGET]
+    return x, y
+
+
+def test_model(model, training_data_frame: pd.DataFrame):
+    """
+    Trains a model and prints out its training and testing results.
+    """
+    testing_data_frame = generate_sub_data_frame(cols=training_data_frame.columns, parquet_file=TESTING_DATA)
+
+    # Fetch attributes and status of URL
+    x_test, y_test = get_x_y(testing_data_frame)
+    x_train, y_train = get_x_y(training_data_frame)
+
+    model.fit(x_train, y_train)  # Trains model
+
+    # Test model predictions
+    y_train_predicted = model.predict(x_train)
+    y_test_predicted = model.predict(x_test)
+
+    print("\nTraining Report:")
+    print(classification_report(y_train, y_train_predicted))
+    print("\nTest Report:")
+    print(classification_report(y_test, y_test_predicted))
+    
+    return model
