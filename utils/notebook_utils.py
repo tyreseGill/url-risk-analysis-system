@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import pickle
+import shap
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score
 
 
@@ -83,7 +84,7 @@ def get_correlation_to_target(cols: set, target: str = TARGET):
 
 def get_top_correlation_pairs(data_frame: pd.DataFrame, num_pairs_to_list: int) -> pd.Series:
     """
-    Obtains top X number of column-pairings with the highest correlation. 
+    Obtains top data_frame number of column-pairings with the highest correlation. 
     """
     corr_matrix = data_frame.corr(numeric_only=True).abs()
     num_cols = len(data_frame.columns)
@@ -226,7 +227,8 @@ def test_model(model, training_data_frame: pd.DataFrame):
     x_test, y_test = get_x_y(testing_data_frame)
     x_train, y_train = get_x_y(training_data_frame)
 
-    model.fit(x_train, y_train)  # Trains model
+    # Trains model
+    model.fit(x_train, y_train)
 
     # Test model predictions
     y_train_predicted = model.predict(x_train)
@@ -238,3 +240,27 @@ def test_model(model, training_data_frame: pd.DataFrame):
     print(classification_report(y_test, y_test_predicted))
     
     return model
+
+
+# Source: https://www.geeksforgeeks.org/machine-learning/how-to-generate-feature-importance-plots-from-scikit-learn/
+def plot_feature_importance(clf):
+    """
+    Plots bar char illustrating feature importance in descending order.
+    """
+    importances = clf.feature_importances_
+    
+    # Sort feature importances in descending order
+    indices = np.argsort(importances)[::-1]
+    
+    # Rearrange feature names so they match the sorted feature importances
+    names = [clf.feature_names_in_[i] for i in indices]
+    data_frame = generate_sub_data_frame(cols=clf.feature_names_in_, parquet_file=TESTING_DATA, add_status=False)
+    
+    # Create plot
+    plt.figure(figsize=(10, 6))
+    plt.title("Feature Importances")
+    plt.bar(range(data_frame.shape[1]), importances[indices])
+    plt.xticks(range(data_frame.shape[1]), names, rotation=90)
+    plt.xlabel("Features")
+    plt.ylabel("Importance")
+    plt.show()
