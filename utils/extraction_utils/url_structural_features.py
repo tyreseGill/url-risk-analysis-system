@@ -1,3 +1,5 @@
+from models.url.parsing import extract_hostname, contains_ip_address, extract_url_components
+import re
 
 # BOOLEAN functions
 
@@ -93,4 +95,7 @@ def get_longest_word_host(url: str) -> int:
     pass
     
 def get_longest_word_path(url: str) -> int:
+    pass
+
+def get_phish_hints(url: str) -> int:
     pass
