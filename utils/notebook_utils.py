@@ -212,7 +212,7 @@ def get_x_y(data_frame: pd.DataFrame):
     """
     Obtains the features (x) and status (y) of a URL.
     """
-    x = data_frame.drop(columns=[TARGET])
+    x = data_frame.drop(columns=[TARGET, "url"])
     y = data_frame[TARGET]
     return x, y
 
