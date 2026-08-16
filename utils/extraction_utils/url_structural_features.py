@@ -1,5 +1,7 @@
-from models.url.parsing import extract_hostname, contains_ip_address, extract_url_components
+
+from models.url.parsing import extract_hostname, contains_ip_address, extract_url_components, fetch_ip_addresses
 import re
+
 
 # BOOLEAN functions
 
@@ -13,7 +15,28 @@ def contains_punycode(url: str) -> bool:
     pass
 
 def contains_port(url: str) -> bool:
-    pass
+    port_num = re.search(r":\d+", url)
+
+    if not port_num:
+        return False
+
+    port_num = int(
+        port_num.group(0)[1:]
+    )
+    
+    # Checks if URL has a valid port
+    if not (0 <= port_num <= 65_535):
+        return False 
+
+    hostname = extract_hostname(url)
+
+    # Checks if a number is indeed a port given a hostname
+    if hostname:
+        return bool(
+            re.match(rf"https?://{hostname}:{port_num}", url)
+        )
+    
+    return False
 
 # NOTE: nb_external_redirection
 def has_external_redirection(url: str) -> bool:
@@ -41,10 +64,19 @@ def is_domain_in_brand(url: str) -> bool:
 # FLOAT functions
 
 def get_ratio_digits_url(url: str) -> float:
-    pass
+    num_digits = sum(
+        1 for char in url if char.isdigit()
+    )
+    return num_digits / len(url)
 
 def get_ratio_digits_host(url: str) -> float:
-    pass
+    hostname = extract_hostname(url)
+    
+    num_digits = sum(
+        1 for char in hostname if char.isdigit()
+    )
+    
+    return num_digits / len(hostname)
 
 def get_avg_words_raw(url: str) -> float:
     pass
@@ -59,19 +91,29 @@ def get_avg_word_path(url: str) -> float:
 # INTEGER functions
 
 def get_url_length(url: str) -> int:
-    pass
+    return len(url)
 
 def get_hostname_length(url: str) -> int:
-    pass
+    subdomain, domain, tld = extract_url_components(url)
+    hostname = ".".join(
+        part for part in (subdomain, domain, tld)
+        if part
+    )
+    return len(hostname)
 
 def get_nb_symbol(url: str, symbol: str) -> int:
-    pass
+    return url.count(symbol)
 
 def get_nb_redirection(url: str) -> int:
     pass
 
 def get_nb_subdomains(url: str) -> int:
-    pass
+    nb_subdomains = get_nb_symbol(url, '.')
+
+    if nb_subdomains > 3:
+        return 3
+    else:
+        return get_nb_symbol(url, '.')
 
 def get_length_words_raw(url: str) -> int:
     pass
@@ -92,10 +134,33 @@ def get_longest_words_raw(url: str) -> int:
     pass
 
 def get_longest_word_host(url: str) -> int:
-    pass
+    subdomain, _, tld = extract_url_components(url)
+    hostname = extract_hostname(url)
+    if hostname:
+        # _, hostname, _ = extract_url_components(url)
+        words = re.split(r'[.-]', hostname)
+
+        try:
+            words.remove(tld)
+        except ValueError:
+            pass
+
+        longest_word = max(words, key=len)
+        return len(longest_word)
+    else:
+        ip_address_span = fetch_ip_addresses(url)[0]
+        start, end = ip_address_span
+        ip_address = url[start:end]
+        
+        if re.match(rf"https?://{ip_address}", url):
+            words = ip_address.split('.')
+            longest_octet = max(words, key=len)
+            return len(longest_octet)
     
 def get_longest_word_path(url: str) -> int:
     pass
 
 def get_phish_hints(url: str) -> int:
     pass
+
+# print(get_longest_word_host("https://www.todayshomeowner.com/how-to-make-homemade-insecticidal-soap-for-plants/"))
