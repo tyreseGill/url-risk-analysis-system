@@ -6,6 +6,7 @@ body {
     background-color: whitesmoke;
     width: fit-content;
     margin: auto;
+    margin-top: 30px;
     padding: 15px;
     border-radius: 10px;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -38,6 +39,12 @@ body {
     padding: 20px;
     border-width: 10px;
     border-color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.card {
+    height: 100%;
 }
 
 .row {
