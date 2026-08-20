@@ -5,7 +5,8 @@ import pandas as pd
 import seaborn as sns
 import pickle
 import shap
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score
+import json
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 
 TRAINING_DATA = "../data/Training.parquet"
@@ -233,6 +234,24 @@ def test_model(model, training_data_frame: pd.DataFrame):
     # Test model predictions
     y_train_predicted = model.predict(x_train)
     y_test_predicted = model.predict(x_test)
+
+    # Saves performance metrics to JSON file
+    with open("../data/model_metrics.json", "w") as f:
+        accuracy = accuracy_score(y_test, y_test_predicted)
+        precision = precision_score(y_test, y_test_predicted)
+        recall = recall_score(y_test, y_test_predicted)
+        f1 = f1_score(y_test, y_test_predicted)
+        roc_auc = roc_auc_score(y_test, y_test_predicted)
+
+        metrics = {
+            "Accuracy Score": accuracy,
+            "Precision Score": precision,
+            "Recall Score": recall,
+            "F1-Score": f1,
+            "Roc-Auc Score": roc_auc
+        }
+
+        json.dump(metrics, f)
 
     print("\nTraining Report:")
     print(classification_report(y_train, y_train_predicted))
