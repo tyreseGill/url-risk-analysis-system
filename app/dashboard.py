@@ -21,6 +21,14 @@ metric_titles = {
     "Roc-Auc Score": "RocAuc"
 }
 
+metric_descriptions = {
+    "Accuracy Score": "Overall percentage of URLs correctly classified as phishing or legitimate.",
+    "Precision Score": "Measures how often URLs predicted as phishing were actually phishing, helping assess false positive rates.",
+    "Recall Score": "Measures how many phishing URLs were successfully identified, highlighting detection coverage.",
+    "F1-Score": "Balances precision and recall into a single metric, providing a holistic view of phishing detection performance.",
+    "Roc-Auc Score": "Evaluates how effectively the model distinguishes between phishing and legitimate URLs across classification thresholds."
+}
+
 
 app = dash.Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP]
@@ -44,6 +52,9 @@ for metric_name in metric_titles.keys():
                         className="metric",
                         **{"data-target": metrics[metric_name]}
                     ),
+                    html.P(
+                        metric_descriptions[metric_name]
+                    )
                 ]),
                 color="success",
                 inverse=True,
