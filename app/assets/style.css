@@ -1,0 +1,51 @@
+body {
+    font-family: Verdana, sans-serif;
+}
+
+#title {
+    background-color: whitesmoke;
+    width: fit-content;
+    margin: auto;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#app-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1400px;
+    background: linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #1e293b 50%,
+        #334155 100%
+    );
+    min-height: 100vh;
+}
+
+#performance-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.metric {
+    width: fit-content;
+    padding: 20px;
+    border-width: 10px;
+    border-color: white;
+}
+
+h6 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
