@@ -35,10 +35,13 @@ body {
 }
 
 .metric {
-    width: fit-content;
     padding: 20px;
     border-width: 10px;
     border-color: white;
+}
+
+.row {
+    margin-top: 50px;
 }
 
 h6 {
