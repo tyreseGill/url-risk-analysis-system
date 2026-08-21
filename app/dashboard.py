@@ -1,6 +1,9 @@
 import dash
 import json
+import joblib
 import dash_bootstrap_components as dbc
+import pandas as pd
+import plotly.express as px
 from dash import html, dcc, Input, Output, ClientsideFunction
 
 
@@ -10,6 +13,33 @@ def generate_id(metric_name: str) -> str:
     """
     return f"{metric_name.lower().replace(' ', '-').replace('.', '')}-value"
 
+# Load in machine learning model
+model = joblib.load("models/machine_learning/random_forest.pkl")
+
+# Creates data frame based on the top 15 most important features
+feature_df = (
+    pd.DataFrame({
+        "Feature": model.feature_names_in_,
+        "Importance": model.feature_importances_
+    })
+    .sort_values("Importance", ascending=False)
+    .head(15)
+)
+
+# Creates bar chart showing feature importance
+fig = px.bar(
+    feature_df,
+    x="Importance",
+    y="Feature",
+    title="Top 15 Most Important Features",
+    color="Importance",
+    color_continuous_scale="Viridis"
+)
+
+# Adds spacing between tick labels along y-axis and bar chart
+fig.update_yaxes(
+    ticklabelstandoff=20
+)
 
 cards = []
 
@@ -77,7 +107,15 @@ app.layout = html.Div(
             id="title"
         ),
         # Organizes cards into a row
-        dbc.Row(cards)
+        dbc.Row(cards),
+        # Container holding bar chart for visualizing top feature importance metrics
+        html.Div(
+            id="graph-container",
+            children=dcc.Graph(
+                id="feature_importance_chart",
+                figure=fig,
+            ),
+        ),
     ]
 )
 
