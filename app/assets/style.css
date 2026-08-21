@@ -6,7 +6,6 @@ body {
     background-color: whitesmoke;
     width: fit-content;
     margin: auto;
-    margin-top: 30px;
     padding: 15px;
     border-radius: 10px;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -23,12 +22,16 @@ body {
         #334155 100%
     );
     min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+#app-container > * {
+    margin-top: 50px;
 }
 
 #performance-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
     padding: 20px;
     background-color: whitesmoke;
     border-radius: 10px;
