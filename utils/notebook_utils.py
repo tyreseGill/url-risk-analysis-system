@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import pickle
-import shap
 import json
+import joblib
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 
@@ -252,6 +252,9 @@ def test_model(model, training_data_frame: pd.DataFrame):
         }
 
         json.dump(metrics, f)
+
+    # Save the model as a pickle in a file
+    joblib.dump(model, '../models/machine_learning/random_forest.pkl')
 
     print("\nTraining Report:")
     print(classification_report(y_train, y_train_predicted))
