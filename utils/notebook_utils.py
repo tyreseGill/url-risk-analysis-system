@@ -175,8 +175,13 @@ def save_redundant_features(redundant_features: set):
     """
     Saves redundant features to .pkl file.
     """
-    with open('../utils/redundant_features.pkl', 'wb') as file:
-        pickle.dump(redundant_features, file)
+    try:
+        with open('../utils/redundant_features.pkl', 'wb') as file:
+            pickle.dump(redundant_features, file)
+    finally:
+        file.close()
+    
+
 
 
 def get_redundant_features():
@@ -236,22 +241,25 @@ def test_model(model, training_data_frame: pd.DataFrame):
     y_test_predicted = model.predict(x_test)
 
     # Saves performance metrics to JSON file
-    with open("../data/model_metrics.json", "w") as f:
-        accuracy = accuracy_score(y_test, y_test_predicted)
-        precision = precision_score(y_test, y_test_predicted)
-        recall = recall_score(y_test, y_test_predicted)
-        f1 = f1_score(y_test, y_test_predicted)
-        roc_auc = roc_auc_score(y_test, y_test_predicted)
+    try:
+        with open("../data/model_metrics.json", "w") as f:
+            accuracy = accuracy_score(y_test, y_test_predicted)
+            precision = precision_score(y_test, y_test_predicted)
+            recall = recall_score(y_test, y_test_predicted)
+            f1 = f1_score(y_test, y_test_predicted)
+            roc_auc = roc_auc_score(y_test, y_test_predicted)
 
-        metrics = {
-            "Accuracy Score": accuracy,
-            "Precision Score": precision,
-            "Recall Score": recall,
-            "F1-Score": f1,
-            "Roc-Auc Score": roc_auc
-        }
+            metrics = {
+                "Accuracy Score": accuracy,
+                "Precision Score": precision,
+                "Recall Score": recall,
+                "F1-Score": f1,
+                "Roc-Auc Score": roc_auc
+            }
 
-        json.dump(metrics, f)
+            json.dump(metrics, f)
+    finally:
+        file.close()
 
     # Save the model as a pickle in a file
     joblib.dump(model, '../models/machine_learning/random_forest.pkl')
