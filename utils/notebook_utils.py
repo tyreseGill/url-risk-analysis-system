@@ -6,6 +6,7 @@ import seaborn as sns
 import pickle
 import json
 import joblib
+import os
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 
@@ -176,12 +177,72 @@ def save_redundant_features(redundant_features: set):
     Saves redundant features to .pkl file.
     """
     try:
-        with open('../utils/redundant_features.pkl', 'wb') as file:
+        with open('../data/redundant_features.pkl', 'wb') as file:
             pickle.dump(redundant_features, file)
     finally:
         file.close()
     
 
+def save_stage_metrics(model_name: str, stage_name: str, relevant_features: set, model):
+    """
+    Saves performance metrics for a stage in data analysis process.
+    """
+    training_data_frame = generate_sub_data_frame(
+        relevant_features
+    )
+
+    testing_data_frame = generate_sub_data_frame(
+        cols=training_data_frame.columns,
+        parquet_file=TESTING_DATA
+    )
+    
+    x_train, y_train = get_x_y(training_data_frame)
+    x_test, y_test = get_x_y(testing_data_frame)
+
+    model.fit(x_train, y_train)
+
+    y_pred = model.predict(x_test)
+
+    _, fp, fn, _ = confusion_matrix(y_test, y_pred).ravel()
+    num_misclassifications = fp + fn
+
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    roc_auc = roc_auc_score(y_test, y_pred)
+
+    file_path = "../data/model_metrics.json"
+
+    stage_metrics = {
+        "num_features": len(relevant_features),
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "roc auc": roc_auc,
+        "misclassifications": int(num_misclassifications)
+    }
+
+    if os.path.exists(file_path) and os.path.getsize(file_path) != 0:
+        with open(file_path, "r") as file:
+            metrics = json.load(file)
+            metrics[f"{model_name}"][f"{stage_name}"] = stage_metrics
+            file.close()
+    else:
+        # Creates JSON file 
+        with open(file_path, "w") as file:
+            metrics = {
+                f"{model_name}": {
+                    f"{stage_name}": stage_metrics
+                }
+            }
+
+            file.close()
+
+    with open(file_path, "w") as file:
+        json.dump(metrics, file, indent=4)
+        file.close()
 
 
 def get_redundant_features():
@@ -191,7 +252,7 @@ def get_redundant_features():
     REDUNDANT_FEATURES = set()
     
     try:
-        with open('../utils/redundant_features.pkl', 'rb') as file:
+        with open('../data/redundant_features.pkl', 'rb') as file:
             REDUNDANT_FEATURES = pickle.load(file)
     finally:
         file.close()
@@ -227,7 +288,10 @@ def test_model(model, training_data_frame: pd.DataFrame):
     """
     Trains a model and prints out its training and testing results.
     """
-    testing_data_frame = generate_sub_data_frame(cols=training_data_frame.columns, parquet_file=TESTING_DATA)
+    testing_data_frame = generate_sub_data_frame(
+        cols=training_data_frame.columns,
+        parquet_file=TESTING_DATA
+    )
 
     # Fetch attributes and status of URL
     x_test, y_test = get_x_y(testing_data_frame)
@@ -239,27 +303,6 @@ def test_model(model, training_data_frame: pd.DataFrame):
     # Test model predictions
     y_train_predicted = model.predict(x_train)
     y_test_predicted = model.predict(x_test)
-
-    # Saves performance metrics to JSON file
-    try:
-        with open("../data/model_metrics.json", "w") as f:
-            accuracy = accuracy_score(y_test, y_test_predicted)
-            precision = precision_score(y_test, y_test_predicted)
-            recall = recall_score(y_test, y_test_predicted)
-            f1 = f1_score(y_test, y_test_predicted)
-            roc_auc = roc_auc_score(y_test, y_test_predicted)
-
-            metrics = {
-                "Accuracy Score": accuracy,
-                "Precision Score": precision,
-                "Recall Score": recall,
-                "F1-Score": f1,
-                "Roc-Auc Score": roc_auc
-            }
-
-            json.dump(metrics, f)
-    finally:
-        file.close()
 
     # Save the model as a pickle in a file
     joblib.dump(model, '../models/machine_learning/random_forest.pkl')
