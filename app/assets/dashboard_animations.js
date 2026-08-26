@@ -30,38 +30,53 @@ function animate(elementId, metricValue) {
 window.dash_clientside = Object.assign({}, window.dash_clientside, {
     dashboard_animations: {
 
-        animateAccuracy: function(metrics) {
+        animateAccuracy: function(metrics, selectedModel) {
+            const stages = metrics[selectedModel]
+            const lastStageName = Object.keys(stages).at(-1)
+
             return animate(
                 "accuracy-score-value",
-                metrics["Accuracy Score"]
+                stages[lastStageName]["accuracy"]
             );
         },
 
-        animatePrecision: function(metrics) {
+        animatePrecision: function(metrics, selectedModel) {
+            const stages = metrics[selectedModel]
+            const lastStageName = Object.keys(stages).at(-1)
+
             return animate(
                 "precision-score-value",
-                metrics["Precision Score"]
+                stages[lastStageName]["accuracy"]
             );
         },
 
-        animateRecall: function(metrics) {
+        animateRecall: function(metrics, selectedModel) {
+            const stages = metrics[selectedModel]
+            const lastStageName = Object.keys(stages).at(-1)
+
             return animate(
                 "recall-score-value",
-                metrics["Recall Score"]
+                stages[lastStageName]["recall"]
             );
         },
 
-        animateF1: function(metrics) {
+        animateF1: function(metrics, selectedModel) {
+            const stages = metrics[selectedModel]
+            const lastStageName = Object.keys(stages).at(-1)
+
             return animate(
                 "f1-score-value",
-                metrics["F1-Score"]
+                stages[lastStageName]["f1"]
             );
         },
 
-        animateRocAuc: function(metrics) {
+        animateRocAuc: function(metrics, selectedModel) {
+            const stages = metrics[selectedModel]
+            const lastStageName = Object.keys(stages).at(-1)
+
             return animate(
                 "roc-auc-score-value",
-                metrics["Roc-Auc Score"]
+                stages[lastStageName]["roc auc"]
             );
         }
     }

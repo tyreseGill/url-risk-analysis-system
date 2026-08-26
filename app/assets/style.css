@@ -2,6 +2,11 @@ body {
     font-family: Verdana, sans-serif;
 }
 
+.dash-dropdown-wrapper {
+    margin: 0 auto;
+    width: 25%;
+}
+
 #title {
     background-color: whitesmoke;
     width: fit-content;

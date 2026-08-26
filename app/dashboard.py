@@ -53,7 +53,7 @@ metric_titles = {
 
 metric_descriptions = {
     "Accuracy Score": "Overall percentage of URLs correctly classified as phishing or legitimate.",
-    "Precision Score": "Measures how often URLs predicted as phishing were actually phishing, helping assess false positive rates.",
+    "Precision Score": "Measures how often URLs predicted as phishing were actually phishing.",
     "Recall Score": "Measures how many phishing URLs were successfully identified, highlighting detection coverage.",
     "F1-Score": "Balances precision and recall into a single metric, providing a holistic view of phishing detection performance.",
     "Roc-Auc Score": "Evaluates how effectively the model distinguishes between phishing and legitimate URLs across classification thresholds."
@@ -80,7 +80,7 @@ for metric_name in metric_titles.keys():
                         "0.00%",
                         id=generate_id(metric_name),
                         className="metric",
-                        **{"data-target": metrics[metric_name]}
+                        **{"data-target": metrics["Random Forest w/ All Features"]["Remove Redundant Correlated Features"][metric_name.lower().replace("-score", "").replace(" score", "").replace("-", " ")]}
                     ),
                     html.P(
                         metric_descriptions[metric_name]
@@ -106,6 +106,15 @@ app.layout = html.Div(
             "Model Performance Dashboard",
             id="title"
         ),
+        dcc.Dropdown(
+            [ model for model in metrics.keys() ],
+            placeholder="Select a model",
+            value=max(
+                metrics,
+                key=lambda model: list(metrics[model].values())[-1]["accuracy"]
+            ),
+            id="model-dropdown"
+        ),
         # Organizes cards into a row
         dbc.Row(cards),
         # Container holding bar chart for visualizing top feature importance metrics
@@ -127,7 +136,8 @@ for title, metric in metric_titles.items():
             function_name=f"animate{metric}"
         ),
         Output(generate_id(title), "children"),
-        Input("metrics-store", "data")
+        Input("metrics-store", "data"),
+        Input("model-dropdown", "value")
     )
 
 
