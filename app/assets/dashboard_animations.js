@@ -46,7 +46,7 @@ window.dash_clientside = Object.assign({}, window.dash_clientside, {
 
             return animate(
                 "precision-score-value",
-                stages[lastStageName]["accuracy"]
+                stages[lastStageName]["precision"]
             );
         },
 
