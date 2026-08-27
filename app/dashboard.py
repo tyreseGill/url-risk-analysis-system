@@ -13,7 +13,8 @@ def generate_id(metric_name: str) -> str:
     """
     return f"{metric_name.lower().replace(' ', '-').replace('.', '')}-value"
 
-cards = []
+metric_cards = []
+profile_cards = []
 
 metric_titles = {
     "Accuracy Score": "Accuracy",
@@ -37,13 +38,19 @@ app = dash.Dash(
 )
 app.title = "URL Phishing Analytics Dashboard"
 
-# Loads in metrics from JSON file
-with open("data/model_metrics.json", "r") as f:
-    metrics = json.load(f)
+# Loads in model metrics on performance
+with open("data/model_metrics.json", "r") as file:
+    metrics = json.load(file)
+    file.close()
+
+# Loads in profile breakdown of typical phishing/legitimate URLs
+with open("data/url_profile.json", "r") as file:
+    profile = json.load(file)
+    file.close()
 
 # Generates KPI card for each metric
 for metric_name in metric_titles.keys():
-    cards.append(
+    metric_cards.append(
         dbc.Col(
             dbc.Card(
                 dbc.CardBody([
@@ -51,7 +58,8 @@ for metric_name in metric_titles.keys():
                     html.H2(
                         "0.00%",
                         id=generate_id(metric_name),
-                        className="metric"                    ),
+                        className="metric"
+                    ),
                     html.P(
                         metric_descriptions[metric_name]
                     )
@@ -61,6 +69,30 @@ for metric_name in metric_titles.keys():
             )
         )
     )
+
+# Adds cards describing analytics of a typical phishing and legit URL
+for status in profile:
+    # Lists a bullet for each feature
+    for feature in profile[status]:
+        characteristics = [
+            html.Li(f"{feature}: {value}")
+            for feature, value in profile[status].items()
+        ]
+    
+    # Defines HTML Element
+    profile_cards.append(
+        dbc.Col(
+            dbc.Card(
+                dbc.CardBody([
+                    html.H6(f"Typical {status.capitalize()} URL"),
+                    html.Ul(characteristics)
+                ]),
+                color="lightblue" if status == "legitimate" else "salmon",
+                className="profile-card"
+            )
+        )
+    )
+
 
 # Sets up HTML layout to render
 app.layout = html.Div(
@@ -85,22 +117,24 @@ app.layout = html.Div(
             ),
             id="model-dropdown"
         ),
-        # Organizes cards into a row
-        dbc.Row(cards),
+        # Organizes metric cards into a row
+        dbc.Row(metric_cards),
+        dbc.Row(profile_cards),
         # Container holding bar chart for visualizing top feature importance metrics
         html.Div(
             id="graph-container",
             children=dcc.Graph(
                 id="feature-importance-chart",
-                # figure=fig
             ),
         ),
     ]
 )
 
+
+# Feature Importance 
 @app.callback(
     Output("feature-importance-chart", "figure"),
-    Input("model-dropdown", "value")
+    Input("model-dropdown", "value"),
 )
 
 def update_model_graphs(selected_model):
@@ -137,6 +171,7 @@ def update_model_graphs(selected_model):
     )
 
     return fig
+
 
 # Refers to JS file to run animation for each metric
 for title, metric in metric_titles.items():

@@ -51,6 +51,23 @@ body {
     border-radius: 10px;
 }
 
+.profile-card h6 {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+}
+
+.profile-card ul {
+    justify-content: center;
+    background-color: white;
+    width: 90%;
+    border-radius: 10px;
+    margin: auto;
+    padding: 30px;
+}
+
 .card {
     height: 100%;
     border-width: 3px;
