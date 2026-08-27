@@ -111,7 +111,7 @@ def update_model_graphs(selected_model):
     path = metrics[selected_model][last_stage]["model_path"]
     model = joblib.load(path)
 
-    # Creates data frame based on the top 15 most important features
+    # Creates data frame based on the top most important features
     feature_df = (
         pd.DataFrame({
             "Feature": model.feature_names_in_,
@@ -126,7 +126,7 @@ def update_model_graphs(selected_model):
         feature_df,
         x="Importance",
         y="Feature",
-        title="Top 15 Most Important Features",
+        title=f"Top {min(len(model.feature_names_in_), 15)} Most Important Features",
         color="Importance",
         color_continuous_scale="Viridis"
     )
