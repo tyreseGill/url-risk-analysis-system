@@ -1,8 +1,9 @@
 import pandas as pd
+import json
 
 TRAINING_DATA = "data/Training.parquet"
 TESTING_DATA = "data/Testing.parquet"
-TARGET = "status"
+FILE_PATH = "data/url_profile.json"
 
 training_data_frame = pd.read_parquet(TRAINING_DATA, engine="pyarrow")
 testing_data_frame = pd.read_parquet(TESTING_DATA, engine="pyarrow")
@@ -43,4 +44,6 @@ for feature in boolean_features:
     profile["phishing"][f"has_{feature}"] = phishing_urls[feature].mean()
     profile["legitimate"][f"has_{feature}"] = phishing_urls[feature].mean()
 
-print(profile)
+with open(FILE_PATH, "w") as file:
+    json.dump(profile, file, indent=4)
+    file.close()
