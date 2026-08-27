@@ -37,12 +37,12 @@ profile = {
 # Calculates the average value for a numeric feature
 for feature in numeric_features:
     profile["phishing"][f"{feature}_mean"] = phishing_urls[feature].mean()
-    profile["legitimate"][f"{feature}_mean"] = phishing_urls[feature].mean()
+    profile["legitimate"][f"{feature}_mean"] = legitimate_urls[feature].mean()
     
 # Calculates percentage of URLs where the boolean feature is true
 for feature in boolean_features:
     profile["phishing"][f"has_{feature}"] = phishing_urls[feature].mean()
-    profile["legitimate"][f"has_{feature}"] = phishing_urls[feature].mean()
+    profile["legitimate"][f"has_{feature}"] = legitimate_urls[feature].mean()
 
 with open(FILE_PATH, "w") as file:
     json.dump(profile, file, indent=4)
