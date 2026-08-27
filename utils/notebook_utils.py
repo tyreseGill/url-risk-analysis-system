@@ -256,14 +256,16 @@ def save_stage_metrics(model_name: str, stage_name: str, model_path: str, releva
             file.close()
 
 
-def get_redundant_features():
+def get_redundant_features(use_parent_directory: bool=True):
     """
     Fetches redundant features from .pkl file.
     """
     REDUNDANT_FEATURES = set()
+
+    PKL_FILE_PATH = "../data/redundant_features.pkl" if use_parent_directory else "data/redundant_features.pkl"
     
     try:
-        with open('../data/redundant_features.pkl', 'rb') as file:
+        with open(PKL_FILE_PATH, 'rb') as file:
             REDUNDANT_FEATURES = pickle.load(file)
     finally:
         file.close()
@@ -271,11 +273,11 @@ def get_redundant_features():
     return REDUNDANT_FEATURES
 
 
-def get_relevant_features(data_frame: pd.DataFrame):
+def get_relevant_features(data_frame: pd.DataFrame, use_parent_directory: bool=True):
     """
     Returns set of relevant features.
     """
-    REDUNDANT_FEATURES = get_redundant_features()
+    REDUNDANT_FEATURES = get_redundant_features(use_parent_directory)
     
     RELEVANT_FEATURES = {
         col for col in data_frame.columns
