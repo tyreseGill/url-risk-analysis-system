@@ -77,7 +77,10 @@ for status in profile:
         characteristics = [
             html.Li([
                 html.Strong(f"{feature}: "),
-                html.Span(f"{value:.1%}" if feature.startswith("has_") else f"{value:.2f}")
+                html.Span(f"{value:.1%}" if feature.startswith("Has ") else f"{value:.2f}"),
+                # html.Span(
+                #     "characters" if 
+                #     )
             ])
             for feature, value in profile[status].items()
         ]
