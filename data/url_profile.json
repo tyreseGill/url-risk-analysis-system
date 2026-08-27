@@ -66,10 +66,10 @@
         "has_punycode": 0.0006999125109361329,
         "has_random_domain": 0.08871391076115485,
         "has_shortening_service": 0.15835520559930008,
-        "has_suspecious_tld": 0.03254593175853018,
         "has_tld_in_path": 0.0852143482064742,
         "has_tld_in_subdomain": 0.09571303587051619,
-        "has_whois_registered_domain": 0.09028871391076115
+        "has_whois_registered_domain": 0.09028871391076115,
+        "has_suspicious_tld": 0.03254593175853018
     },
     "legitimate": {
         "avg_word_path_mean": 3.6826871548687667,
@@ -138,9 +138,9 @@
         "has_punycode": 0.0,
         "has_random_domain": 0.0778652668416448,
         "has_shortening_service": 0.08853893263342082,
-        "has_suspecious_tld": 0.0033245844269466315,
         "has_tld_in_path": 0.046019247594050745,
         "has_tld_in_subdomain": 0.004549431321084864,
-        "has_whois_registered_domain": 0.05546806649168854
+        "has_whois_registered_domain": 0.05546806649168854,
+        "has_suspicious_tld": 0.0033245844269466315
     }
 }

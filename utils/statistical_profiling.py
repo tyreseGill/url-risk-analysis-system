@@ -49,6 +49,10 @@ for feature in boolean_features:
     profile["phishing"][f"has_{feature}"] = phishing_urls[feature].mean()
     profile["legitimate"][f"has_{feature}"] = legitimate_urls[feature].mean()
 
+# Correct grammar error in initial feature naming
+profile["phishing"]["has_suspicious_tld"] = profile["phishing"].pop("has_suspecious_tld")
+profile["legitimate"]["has_suspicious_tld"] = profile["legitimate"].pop("has_suspecious_tld")
+
 with open(FILE_PATH, "w") as file:
     json.dump(profile, file, indent=4)
     file.close()
