@@ -1,21 +1,27 @@
 import pandas as pd
 import json
+from notebook_utils import get_relevant_features, generate_sub_data_frame
 
 TRAINING_DATA = "data/Training.parquet"
 TESTING_DATA = "data/Testing.parquet"
 FILE_PATH = "data/url_profile.json"
 
+# Combines data from training and testing files
 training_data_frame = pd.read_parquet(TRAINING_DATA, engine="pyarrow")
 testing_data_frame = pd.read_parquet(TESTING_DATA, engine="pyarrow")
 combined_data_frame = pd.concat([training_data_frame, testing_data_frame])
 
+# Collect URLS based on status
 phishing_urls = combined_data_frame[
     combined_data_frame["status"] == "phishing"
 ]
-
 legitimate_urls = combined_data_frame[
     combined_data_frame["status"] == "legitimate"
 ]
+
+# Redefine data frame based on relevant features
+RELEVANT_FEATURES = get_relevant_features(combined_data_frame, use_parent_directory=False)
+combined_data_frame = combined_data_frame.reindex(sorted(RELEVANT_FEATURES), axis=1)
 
 # Feature collection
 boolean_features = list(
@@ -26,7 +32,6 @@ numeric_features = list(
 )
 
 # Removes string-type features
-boolean_features.remove("status")
 numeric_features.remove("url")
 
 profile = {
