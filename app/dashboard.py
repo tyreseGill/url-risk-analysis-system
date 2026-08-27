@@ -75,7 +75,10 @@ for status in profile:
     # Lists a bullet for each feature
     for feature in profile[status]:
         characteristics = [
-            html.Li(f"{feature}: {value}")
+            html.Li([
+                html.Strong(f"{feature}: "),
+                html.Span(f"{value:.1%}" if feature.startswith("has_") else f"{value:.2f}")
+            ])
             for feature, value in profile[status].items()
         ]
     
