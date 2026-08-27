@@ -39,19 +39,77 @@ profile = {
     "legitimate": {}
 }
 
+ALL_UPPERCASED = ["tld","whois", "http", "https", "dns", "ip", "url", "css"]
+
+shorthand_to_normal = {
+    "nb": "number of",
+    " at": ' "@" symbols',
+    "colon": '":" symbols',
+    "comma": '"," symbols',
+    "dollar": '"$" symbols',
+    "dots": '"." symbols',
+    "eq": '"=" symbols',
+    "hyphens": '"-" symbols',
+    "percent": '"%" symbols',
+    "qm": '“ ” symbols',
+    "semicolumn": '"%" symbols',
+    " slash": ' "/" symbols',
+    "underscore": '"_" symbols',
+    "star": '"*" symbols',
+    "tilde": '"~" symbols',
+    "char": "characters",
+    "ext": "external ",
+}
+
 # Calculates the average value for a numeric feature
 for feature in numeric_features:
-    profile["phishing"][f"{feature}_mean"] = phishing_urls[feature].mean()
-    profile["legitimate"][f"{feature}_mean"] = legitimate_urls[feature].mean()
+    feature_name = feature.replace("_", " ")
+    feature_name = feature_name.replace("avg", "")
+
+    for shorthand, normal in shorthand_to_normal.items():
+        feature_name = feature_name.replace(shorthand, normal)
+
+    feature_name = feature_name.title()
+
+    feature_name = feature_name.replace("Ernal", "")
+    feature_name = feature_name.replace("Int", "Internal ")
+    feature_name = feature_name.title()  # To capitalize newly split words
+
+    feature_name = feature_name.replace("Www", '"WWW"s\'')
+    feature_name = feature_name.replace("Com", '".com"s\'')
+
+    for word in ALL_UPPERCASED:
+        feature_name = feature_name.replace(word.title(), word.upper())
+
+    profile["phishing"][f"Average {feature_name}?".replace("  ", " ")] = phishing_urls[feature].mean()
+    profile["legitimate"][f"Average {feature_name}?".replace("  ", " ")] = legitimate_urls[feature].mean()
     
 # Calculates percentage of URLs where the boolean feature is true
 for feature in boolean_features:
-    profile["phishing"][f"has_{feature}"] = phishing_urls[feature].mean()
-    profile["legitimate"][f"has_{feature}"] = legitimate_urls[feature].mean()
+    feature_name = feature.replace("_", " ")
+    feature_name = feature_name.replace("nb", "")
+    feature_name = feature_name.replace("  ", " ")
+
+    for shorthand, normal in shorthand_to_normal.items():
+        feature_name = feature_name.replace(shorthand, normal)
+
+    feature_name = feature_name.title()
+
+    feature_name = feature_name.replace("Ernal", "")
+    feature_name = feature_name.replace("Int", "Internal ")
+
+    for word in ALL_UPPERCASED:
+        feature_name = feature_name.replace(word.title(), word.upper())
+
+    profile["phishing"][f"Has {feature_name}?".replace("  ", " ")] = phishing_urls[feature].mean()
+    profile["legitimate"][f"Has {feature_name}?".replace("  ", " ")] = legitimate_urls[feature].mean()
 
 # Correct grammar error in initial feature naming
-profile["phishing"]["has_suspicious_tld"] = profile["phishing"].pop("has_suspecious_tld")
-profile["legitimate"]["has_suspicious_tld"] = profile["legitimate"].pop("has_suspecious_tld")
+try:
+    profile["phishing"]["Has Suspicious TLD?"] = profile["phishing"].pop("Has Suspecious TLD?")
+    profile["legitimate"]["Has Suspicious TLD?"] = profile["legitimate"].pop("Has Suspecious TLD?")
+except KeyError:
+    pass
 
 with open(FILE_PATH, "w") as file:
     json.dump(profile, file, indent=4)
