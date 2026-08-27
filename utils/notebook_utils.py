@@ -183,7 +183,7 @@ def save_redundant_features(redundant_features: set):
         file.close()
     
 
-def save_stage_metrics(model_name: str, stage_name: str, relevant_features: set, model):
+def save_stage_metrics(model_name: str, stage_name: str, model_path: str, relevant_features: set, model):
     """
     Saves performance metrics for a stage in data analysis process.
     """
@@ -215,6 +215,7 @@ def save_stage_metrics(model_name: str, stage_name: str, relevant_features: set,
     file_path = "../data/model_metrics.json"
 
     stage_metrics = {
+        "model_path": f"models/machine_learning/{model_path}.pkl",
         "num_features": len(relevant_features),
         "accuracy": accuracy,
         "precision": precision,
@@ -224,25 +225,35 @@ def save_stage_metrics(model_name: str, stage_name: str, relevant_features: set,
         "misclassifications": int(num_misclassifications)
     }
 
+    # Loads in and adds to JSON file if it already exists
     if os.path.exists(file_path) and os.path.getsize(file_path) != 0:
+        # Loads JSON entries
         with open(file_path, "r") as file:
             metrics = json.load(file)
-            metrics[f"{model_name}"][f"{stage_name}"] = stage_metrics
-            file.close()
+
+        # Creates model entry if not available
+        if model_name not in metrics:
+            metrics[model_name] = {}
+
+        metrics[f"{model_name}"][f"{stage_name}"] = stage_metrics
+
+        # Saves updates model entry
+        with open(file_path, "w") as file:
+            json.dump(metrics, file, indent=4)
+            
+        file.close()
+
+    # Creates JSON file from scratch and adds first entry
     else:
-        # Creates JSON file 
         with open(file_path, "w") as file:
             metrics = {
                 f"{model_name}": {
                     f"{stage_name}": stage_metrics
                 }
             }
+            json.dump(metrics, file, indent=4)
 
             file.close()
-
-    with open(file_path, "w") as file:
-        json.dump(metrics, file, indent=4)
-        file.close()
 
 
 def get_redundant_features():
@@ -279,12 +290,18 @@ def get_x_y(data_frame: pd.DataFrame):
     """
     Obtains the features (x) and status (y) of a URL.
     """
-    x = data_frame.drop(columns=[TARGET, "url"])
+    columns_to_drop = [TARGET]
+
+    if "url" in data_frame.columns:
+        columns_to_drop.append("url")
+
+    x = data_frame.drop(columns=columns_to_drop)
     y = data_frame[TARGET]
+
     return x, y
 
 
-def test_model(model, training_data_frame: pd.DataFrame):
+def test_model(model, model_file_name: str, training_data_frame: pd.DataFrame):
     """
     Trains a model and prints out its training and testing results.
     """
@@ -305,7 +322,8 @@ def test_model(model, training_data_frame: pd.DataFrame):
     y_test_predicted = model.predict(x_test)
 
     # Save the model as a pickle in a file
-    joblib.dump(model, '../models/machine_learning/random_forest.pkl')
+    MODEL_PATH = f"../models/machine_learning/{model_file_name}.pkl"
+    joblib.dump(model, MODEL_PATH)
 
     print("\nTraining Report:")
     print(classification_report(y_train, y_train_predicted))

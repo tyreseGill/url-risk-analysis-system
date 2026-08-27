@@ -13,34 +13,6 @@ def generate_id(metric_name: str) -> str:
     """
     return f"{metric_name.lower().replace(' ', '-').replace('.', '')}-value"
 
-# Load in machine learning model
-model = joblib.load("models/machine_learning/random_forest.pkl")
-
-# Creates data frame based on the top 15 most important features
-feature_df = (
-    pd.DataFrame({
-        "Feature": model.feature_names_in_,
-        "Importance": model.feature_importances_
-    })
-    .sort_values("Importance", ascending=False)
-    .head(15)
-)
-
-# Creates bar chart showing feature importance
-fig = px.bar(
-    feature_df,
-    x="Importance",
-    y="Feature",
-    title="Top 15 Most Important Features",
-    color="Importance",
-    color_continuous_scale="Viridis"
-)
-
-# Adds spacing between tick labels along y-axis and bar chart
-fig.update_yaxes(
-    ticklabelstandoff=20
-)
-
 cards = []
 
 metric_titles = {
@@ -79,9 +51,7 @@ for metric_name in metric_titles.keys():
                     html.H2(
                         "0.00%",
                         id=generate_id(metric_name),
-                        className="metric",
-                        **{"data-target": metrics["Random Forest w/ All Features"]["Remove Redundant Correlated Features"][metric_name.lower().replace("-score", "").replace(" score", "").replace("-", " ")]}
-                    ),
+                        className="metric"                    ),
                     html.P(
                         metric_descriptions[metric_name]
                     )
@@ -121,12 +91,52 @@ app.layout = html.Div(
         html.Div(
             id="graph-container",
             children=dcc.Graph(
-                id="feature_importance_chart",
-                figure=fig,
+                id="feature-importance-chart",
+                # figure=fig
             ),
         ),
     ]
 )
+
+@app.callback(
+    Output("feature-importance-chart", "figure"),
+    Input("model-dropdown", "value")
+)
+
+def update_model_graphs(selected_model):
+    last_stage = list(
+        metrics[selected_model].keys()
+    )[-1]
+
+    path = metrics[selected_model][last_stage]["model_path"]
+    model = joblib.load(path)
+
+    # Creates data frame based on the top 15 most important features
+    feature_df = (
+        pd.DataFrame({
+            "Feature": model.feature_names_in_,
+            "Importance": model.feature_importances_
+        })
+        .sort_values("Importance", ascending=False)
+        .head(15)
+    )
+
+    # Creates bar chart showing feature importance
+    fig = px.bar(
+        feature_df,
+        x="Importance",
+        y="Feature",
+        title="Top 15 Most Important Features",
+        color="Importance",
+        color_continuous_scale="Viridis"
+    )
+
+    # Adds spacing between tick labels along y-axis and bar chart
+    fig.update_yaxes(
+        ticklabelstandoff=20
+    )
+
+    return fig
 
 # Refers to JS file to run animation for each metric
 for title, metric in metric_titles.items():
