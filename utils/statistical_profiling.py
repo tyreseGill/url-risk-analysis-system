@@ -114,13 +114,13 @@ for feature in boolean_features:
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
 
-    profile["phishing"][f"URLs with {feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
-    profile["legitimate"][f"URLs with {feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
+    profile["phishing"][f"{feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
+    profile["legitimate"][f"{feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
 
 # Correct grammar error in initial feature naming
 try:
-    profile["phishing"]["URLs with Suspicious TLD"] = profile["phishing"].pop("URLs with Suspecious TLD")
-    profile["legitimate"]["URLs with Suspicious TLD"] = profile["legitimate"].pop("URLs with Suspecious TLD")
+    profile["phishing"]["Suspicious TLD"] = profile["phishing"].pop("Suspecious TLD")
+    profile["legitimate"]["Suspicious TLD"] = profile["legitimate"].pop("Suspecious TLD")
 except KeyError:
     pass
 

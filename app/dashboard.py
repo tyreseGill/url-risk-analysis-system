@@ -108,9 +108,9 @@ for status in profile:
         
         integer_value = int(value)
 
-        if feature.startswith("URLs with ") or "Ratio" in feature:
-            display_value = f"{value:.1%}"
-        elif symbol_found:
+        # if feature.startswith("") or "Ratio" in feature:
+        #     display_value = f"{value:.1%}"
+        if symbol_found:
             display_value = f"{integer_value} {symbol_units[symbol_used]}{"s" if integer_value != 1 else ""}"
         elif feature in features_using_daily_units:
             num_years = int(value / 365)
@@ -144,8 +144,9 @@ for status in profile:
             display_value = f"{integer_value} external CSS file{"s" if integer_value != 1 else ""}"
         elif feature == "Number of Hyperlinks":
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
+        # Fallback: Represent as a percentage
         else:
-            display_value = f"{value:.2f}"
+            display_value = f"{value:.1%}"
 
         characteristics.append(
             html.Li([
