@@ -87,9 +87,12 @@ for feature in numeric_features:
     if feature_name.startswith("Length "):
         feature_name = feature_name.replace("Length ", "")
         feature_name += " Length"
+    
+    # Removes trailing whitespace
+    feature_name = feature_name.strip()
 
-    profile["phishing"][f"Average {feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
-    profile["legitimate"][f"Average {feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
+    profile["phishing"][f"{feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
+    profile["legitimate"][f"{feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
     
 # Calculates percentage of URLs where the boolean feature is true
 for feature in boolean_features:

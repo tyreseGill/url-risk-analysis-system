@@ -87,9 +87,9 @@ symbol_units = {
     '"~"': "tilde",
 }
 
-features_using_daily_units = ["Average Domain Age", "Average Domain Registration Length"]
-features_using_char_units = ["Average Word Path", "Average Words Raw", "Average Hostname Length", "Average URL Length", "Average Shortest Word Host", "Average Shortest Word Path", "Average Shortest Words Raw", "Average Longest Word Path"]
-features_using_occurences_units = ["Average Number of \"WWW\"s'", "Average HTTP in Path", "Average Number of Redirection", "Average Number of Subdomains", "Average Number of \".com\"s'"]
+features_using_daily_units = ["Domain Age", "Domain Registration Length"]
+features_using_char_units = ["Word Path", "Words Raw", "Hostname Length", "URL Length", "Shortest Word Host", "Shortest Word Path", "Shortest Words Raw", "Longest Word Path"]
+features_using_occurences_units = ["Number of \"WWW\"s'", "HTTP in Path", "Number of Redirection", "Number of Subdomains", "Number of \".com\"s'"]
 
 # Adds cards describing analytics of a typical phishing and legit URL
 for status in profile:
@@ -120,7 +120,7 @@ for status in profile:
                 display_value = f"{num_years} year{"s" if num_years != 1 else ""}"
         elif feature in features_using_char_units:
             display_value = f"{integer_value} character{"s" if integer_value != 1 else ""}"
-        elif feature == "Average Page Rank":
+        elif feature == "Page Rank":
             rank_num = integer_value
             if rank_num == 1:
                 display_value = "1st place"
@@ -130,19 +130,19 @@ for status in profile:
                 display_value = "3rd place"
             else:
                 display_value = f"{rank_num}th place"
-        elif feature == "Average Web Traffic":
+        elif feature == "Web Traffic":
             display_value = f"{integer_value:,} visitor{"s" if integer_value != 1 else ""}"
         elif feature in features_using_occurences_units:
             display_value = f"{integer_value} occurence{"s" if integer_value != 1 else ""}"
-        elif feature == "Average Phish Hints":
+        elif feature == "Phish Hints":
             display_value = f"{integer_value} phishing keyword{"s" if integer_value != 1 else ""}"
-        elif feature == "Average Statistical Report":
+        elif feature == "Statistical Report":
             display_value = f"{value:.1%} of URLs flagged by statistical report indicator"
-        elif feature == "Average Characters Repeat":
+        elif feature == "Characters Repeat":
             display_value = f"{integer_value} repeated character{"s" if integer_value != 1 else ""}"
-        elif feature == "Average Number of External CSS":
+        elif feature == "Number of External CSS":
             display_value = f"{integer_value} external CSS file{"s" if integer_value != 1 else ""}"
-        elif feature == "Average Number of Hyperlinks":
+        elif feature == "Number of Hyperlinks":
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
         else:
             display_value = f"{value:.2f}"
