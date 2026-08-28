@@ -140,9 +140,6 @@ for status in profile:
             display_value = f"{integer_value} external CSS file{"s" if integer_value != 1 else ""}"
         elif feature == "Number of Hyperlinks":
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
-        # elif "Percentage" in feature:
-        #     display_value = f"{value:.1%}"
-        # Fallback: Represent as a percentage
         else:
             if "Percentage" in feature:
                 display_value = (
@@ -174,11 +171,23 @@ for status in profile:
                     else f"{frequency_str} ({value:.1%})"
                 )
 
+        # Generates a useable data-metric attribute based on feature name
+        metric_name = feature.lower().replace(" ", "-")
+
+        for symbol in symbol_units:
+            metric_name = metric_name.replace(symbol, symbol_units[symbol])
+
+        metric_name = feature.lower().replace("\"", "")
+
+        # Creates new HTML bullet
         characteristics.append(
             html.Li([
                 html.Strong(f"{feature}: "),
                 html.Span(display_value)
-            ])
+            ],
+            # Uniquely identifies a characteristic to be highlighted
+            **{"data-metric": metric_name}
+            )
         )
     
     # Defines HTML Element

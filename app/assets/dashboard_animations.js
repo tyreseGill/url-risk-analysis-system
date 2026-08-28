@@ -81,3 +81,28 @@ window.dash_clientside = Object.assign({}, window.dash_clientside, {
         }
     }
 });
+
+// Highlights corresponding characteristics on hover for easier readability and examination
+document.addEventListener("mouseover", event => {
+    const element = event.target.closest("[data-metric]");
+    if (!element) return;
+
+    const metric = element.dataset.metric;
+
+    document
+        .querySelectorAll(`[data-metric="${metric}"]`)
+        .forEach(match => match.classList.add("highlight"));
+});
+
+// Removes highlight of the characteristics when user moves cursor off
+document.addEventListener("mouseout", event => {
+    const element = event.target.closest("[data-metric]");
+    if (!element) return;
+
+    const metric = element.dataset.metric;
+
+    document
+        .querySelectorAll(`[data-metric="${metric}"]`)
+        .forEach(match => match.classList.remove("highlight"))
+    }
+)

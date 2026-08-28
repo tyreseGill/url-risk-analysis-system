@@ -82,6 +82,10 @@ body {
     margin-top: 50px;
 }
 
+.highlight {
+    background-color: yellow;
+}
+
 h6 {
     font-size: 20px;
     font-weight: bold;
