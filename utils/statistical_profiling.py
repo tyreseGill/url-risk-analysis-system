@@ -78,7 +78,7 @@ for feature in numeric_features:
     feature_name = feature_name.replace("Www", '"WWW"s\'')
     feature_name = feature_name.replace("Com", '".com"s\'')
     feature_name = feature_name.replace("Of", "of")
-    feature_name = feature_name.replace("In", "in")
+    feature_name = feature_name.replace(" In ", " in ")
 
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
@@ -104,6 +104,8 @@ for feature in boolean_features:
 
     feature_name = feature_name.replace("Ernal", "")
     feature_name = feature_name.replace("Int", "Internal ")
+    feature_name = feature_name.title()  # To capitalize newly split words
+
     feature_name = feature_name.replace("In", "in")
 
     for word in ALL_UPPERCASED:
