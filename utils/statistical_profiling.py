@@ -59,6 +59,7 @@ shorthand_to_normal = {
     "tilde": '"~" symbols',
     "char": "characters",
     "ext": "external ",
+    "tld": "top-level domain"
 }
 
 # Calculates the average value for a numeric feature
@@ -83,13 +84,28 @@ for feature in numeric_features:
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
 
+    # Removes trailing whitespace
+    feature_name = feature_name.strip()
+
     # Average Length Hostname -> Average Hostname Length
     if feature_name.startswith("Length "):
         feature_name = feature_name.replace("Length ", "")
         feature_name += " Length"
-    
-    # Removes trailing whitespace
-    feature_name = feature_name.strip()
+
+    # Provided more descriptive name for certain features
+    if feature_name == "Statistical Report":
+        feature_name = "Flagged in Statistical Report"
+    elif feature_name == "Phish Hints":
+        feature_name = "Number of Phish Hints"
+    elif feature_name == "Ratio Digits Host":
+        feature_name = "Percentage of Digits in Hostname"
+    elif feature_name == "Ratio Digits URL":
+        feature_name = "Percentage of Digits in URL"
+    elif feature_name == "Number of Redirection":
+        feature_name = "Number of Redirections"
+
+    if "Ratio" in feature_name:
+        feature_name = feature_name.replace("Ratio", "Percentage of")
 
     profile["phishing"][f"{feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
     profile["legitimate"][f"{feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
@@ -109,20 +125,24 @@ for feature in boolean_features:
     feature_name = feature_name.replace("Int", "Internal ")
     feature_name = feature_name.title()  # To capitalize newly split words
 
-    feature_name = feature_name.replace("In", "in")
+    feature_name = feature_name.replace("In ", "in ")
+    feature_name = feature_name.replace(" With ", " with ")
 
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
+    
+    # Removes trailing whitespace
+    feature_name = feature_name.strip()
+
+    # Provided more descriptive name for certain features
+    if feature_name == "IP":
+        feature_name = "IP Address"   
+
+    if "Suspecious" in feature_name:
+        feature_name = feature_name.replace("Suspecious", "Suspicious")
 
     profile["phishing"][f"{feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
     profile["legitimate"][f"{feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
-
-# Correct grammar error in initial feature naming
-try:
-    profile["phishing"]["Suspicious TLD"] = profile["phishing"].pop("Suspecious TLD")
-    profile["legitimate"]["Suspicious TLD"] = profile["legitimate"].pop("Suspecious TLD")
-except KeyError:
-    pass
 
 with open(FILE_PATH, "w") as file:
     json.dump(profile, file, indent=4)

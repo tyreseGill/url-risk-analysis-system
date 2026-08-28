@@ -78,7 +78,7 @@ symbol_units = {
     '"."': "dot",
     '"="': "equal sign",
     '"-"': "hyphen",
-    '"%"': "percentage",
+    '"%"': "percentage sign",
     '"?"': "question mark",
     '";"': "semicolon",
     '"/"': "slash",
@@ -89,7 +89,7 @@ symbol_units = {
 
 features_using_daily_units = ["Domain Age", "Domain Registration Length"]
 features_using_char_units = ["Word Path", "Words Raw", "Hostname Length", "URL Length", "Shortest Word Host", "Shortest Word Path", "Shortest Words Raw", "Longest Word Path"]
-features_using_occurences_units = ["Number of \"WWW\"s'", "HTTP in Path", "Number of Redirection", "Number of Subdomains", "Number of \".com\"s'"]
+features_using_occurences_units = ["Number of \"WWW\"s'", "HTTP in Path", "Number of Redirections", "Number of Subdomains", "Number of \".com\"s'"]
 
 # Adds cards describing analytics of a typical phishing and legit URL
 for status in profile:
@@ -132,39 +132,47 @@ for status in profile:
             display_value = f"{integer_value:,} visitor{"s" if integer_value != 1 else ""}"
         elif feature in features_using_occurences_units:
             display_value = f"{integer_value} occurence{"s" if integer_value != 1 else ""}"
-        elif feature == "Phish Hints":
+        elif feature == "Number of Phish Hints":
             display_value = f"{integer_value} phishing keyword{"s" if integer_value != 1 else ""}"
-        elif feature == "Statistical Report":
-            display_value = f"{value:.1%} of URLs flagged by statistical report indicator"
         elif feature == "Characters Repeat":
             display_value = f"{integer_value} repeated character{"s" if integer_value != 1 else ""}"
         elif feature == "Number of External CSS":
             display_value = f"{integer_value} external CSS file{"s" if integer_value != 1 else ""}"
         elif feature == "Number of Hyperlinks":
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
+        # elif "Percentage" in feature:
+        #     display_value = f"{value:.1%}"
         # Fallback: Represent as a percentage
         else:
-            percentile_value = round(value, 1) if 1 <= value <= 100 else round(value * 100, 1)
-
-            # Assigns string describing frequency of characteristic
-            if 0 <= percentile_value <= 5:
-                frequency_str = "Very uncommon"
-            elif percentile_value <= 25:
-                frequency_str = "Uncommon"
-            elif percentile_value <= 50:
-                frequency_str = "Moderately common"
-            elif percentile_value <= 75:
-                frequency_str = "Common"
-            elif percentile_value <= 90:
-                frequency_str = "Very common"
+            if "Percentage" in feature:
+                display_value = (
+                    f"{value:.1f}%" 
+                    if 1 <= value <= 100 
+                    else f"{value:.1%}"
+                )
+            
             else:
-                frequency_str = "Nearly universal" 
+                percentile_value = round(value, 1) if 1 <= value <= 100 else round(value * 100, 1)
 
-            display_value = (
-                f"{frequency_str} ({value:.1f}%)" 
-                if 1 <= value <= 100 
-                else f"{frequency_str} ({value:.1%})"
-            )
+                # Assigns string describing frequency of characteristic
+                if 0 <= percentile_value <= 5:
+                    frequency_str = "Very uncommon"
+                elif percentile_value <= 25:
+                    frequency_str = "Uncommon"
+                elif percentile_value <= 50:
+                    frequency_str = "Moderately common"
+                elif percentile_value <= 75:
+                    frequency_str = "Common"
+                elif percentile_value <= 90:
+                    frequency_str = "Very common"
+                else:
+                    frequency_str = "Nearly universal" 
+
+                display_value = (
+                    f"{frequency_str} ({value:.1f}%)" 
+                    if 1 <= value <= 100 
+                    else f"{frequency_str} ({value:.1%})"
+                )
 
         characteristics.append(
             html.Li([
