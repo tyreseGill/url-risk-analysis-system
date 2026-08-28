@@ -107,9 +107,7 @@ for status in profile:
                 break
         
         integer_value = int(value)
-
-        # if feature.startswith("") or "Ratio" in feature:
-        #     display_value = f"{value:.1%}"
+        
         if symbol_found:
             display_value = f"{integer_value} {symbol_units[symbol_used]}{"s" if integer_value != 1 else ""}"
         elif feature in features_using_daily_units:
@@ -146,7 +144,7 @@ for status in profile:
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
         # Fallback: Represent as a percentage
         else:
-            display_value = f"{value:.1%}"
+            display_value = f"{value:.1f}%" if 1 <= value <= 100 else f"{value:.1%}"
 
         characteristics.append(
             html.Li([
