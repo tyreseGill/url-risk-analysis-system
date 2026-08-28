@@ -70,20 +70,89 @@ for metric_name in metric_titles.keys():
         )
     )
 
+symbol_units = {
+    '"@"': "at sign",
+    '":"': "colon",
+    '","': "comma",
+    '"$"': "dollar sign",
+    '"."': "dot",
+    '"="': "equal sign",
+    '"-"': "hyphen",
+    '"%"': "percentage",
+    '"?"': "question mark",
+    '";"': "semicolon",
+    '"/"': "slash",
+    '"_"': "underscore",
+    '"*"': "star",
+    '"~"': "tilde",
+}
+
+features_using_daily_units = ["Average Domain Age", "Average Domain Registration Length"]
+features_using_char_units = ["Average Word Path", "Average Words Raw", "Average Hostname Length", "Average URL Length", "Average Shortest Word Host", "Average Shortest Word Path", "Average Shortest Words Raw", "Average Longest Word Path"]
+features_using_occurences_units = ["Average Number of \"WWW\"s'", "Average HTTP in Path", "Average Number of Redirection", "Average Number of Subdomains", "Average Number of \".com\"s'"]
+
 # Adds cards describing analytics of a typical phishing and legit URL
 for status in profile:
+    characteristics = []
+
     # Lists a bullet for each feature
-    for feature in profile[status]:
-        characteristics = [
+    for feature, value in profile[status].items():
+        symbol_used = None
+        symbol_found = False
+
+        for symbol in symbol_units.keys():
+            if symbol in feature:
+                symbol_used = symbol
+                symbol_found = True
+                break
+        
+        integer_value = int(value)
+
+        if feature.startswith("Has ") or "Ratio" in feature:
+            display_value = f"{value:.1%}"
+        elif symbol_found:
+            display_value = f"{integer_value} {symbol_units[symbol_used]}{"s" if integer_value != 1 else ""}"
+        elif feature in features_using_daily_units:
+            num_years = int(value / 365)
+            if num_years == 0:
+                display_value = f"{integer_value} days"
+            else:
+                display_value = f"{num_years} year{"s" if num_years != 1 else ""}"
+        elif feature in features_using_char_units:
+            display_value = f"{integer_value} character{"s" if integer_value != 1 else ""}"
+        elif feature == "Average Page Rank":
+            rank_num = integer_value
+            if rank_num == 1:
+                display_value = "1st place"
+            elif rank_num == 2:
+                display_value = "2nd place"
+            elif rank_num == 3:
+                display_value = "3rd place"
+            else:
+                display_value = f"{rank_num}th place"
+        elif feature == "Average Web Traffic":
+            display_value = f"{integer_value:,} visitor{"s" if integer_value != 1 else ""}"
+        elif feature in features_using_occurences_units:
+            display_value = f"{integer_value} occurence{"s" if integer_value != 1 else ""}"
+        elif feature == "Average Phish Hints":
+            display_value = f"{integer_value} phishing keyword{"s" if integer_value != 1 else ""}"
+        elif feature == "Average Statistical Report":
+            display_value = f"{value:.1%} of URLs flagged by statistical report indicator"
+        elif feature == "Average Characters Repeat":
+            display_value = f"{integer_value} repeated character{"s" if integer_value != 1 else ""}"
+        elif feature == "Average Number of External CSS":
+            display_value = f"{integer_value} external CSS file{"s" if integer_value != 1 else ""}"
+        elif feature == "Average Number of Hyperlinks":
+            display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
+        else:
+            display_value = f"{value:.2f}"
+
+        characteristics.append(
             html.Li([
                 html.Strong(f"{feature}: "),
-                html.Span(f"{value:.1%}" if feature.startswith("Has ") else f"{value:.2f}"),
-                # html.Span(
-                #     "characters" if 
-                #     )
+                html.Span(display_value)
             ])
-            for feature, value in profile[status].items()
-        ]
+        )
     
     # Defines HTML Element
     profile_cards.append(
