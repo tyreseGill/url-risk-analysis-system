@@ -144,7 +144,27 @@ for status in profile:
             display_value = f"{integer_value} hyperlink{"s" if integer_value != 1 else ""}"
         # Fallback: Represent as a percentage
         else:
-            display_value = f"{value:.1f}%" if 1 <= value <= 100 else f"{value:.1%}"
+            percentile_value = round(value, 1) if 1 <= value <= 100 else round(value * 100, 1)
+
+            # Assigns string describing frequency of characteristic
+            if 0 <= percentile_value <= 5:
+                frequency_str = "Very uncommon"
+            elif percentile_value <= 25:
+                frequency_str = "Uncommon"
+            elif percentile_value <= 50:
+                frequency_str = "Moderately common"
+            elif percentile_value <= 75:
+                frequency_str = "Common"
+            elif percentile_value <= 90:
+                frequency_str = "Very common"
+            else:
+                frequency_str = "Nearly universal" 
+
+            display_value = (
+                f"{frequency_str} ({value:.1f}%)" 
+                if 1 <= value <= 100 
+                else f"{frequency_str} ({value:.1%})"
+            )
 
         characteristics.append(
             html.Li([
