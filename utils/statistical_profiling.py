@@ -83,7 +83,7 @@ for feature in numeric_features:
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
 
-    # Average Length Hostname? -> Average Hostname Length
+    # Average Length Hostname -> Average Hostname Length
     if feature_name.startswith("Length "):
         feature_name = feature_name.replace("Length ", "")
         feature_name += " Length"
@@ -111,13 +111,13 @@ for feature in boolean_features:
     for word in ALL_UPPERCASED:
         feature_name = feature_name.replace(word.title(), word.upper())
 
-    profile["phishing"][f"Has {feature_name}?".replace("  ", " ")] = phishing_urls[feature].mean()
-    profile["legitimate"][f"Has {feature_name}?".replace("  ", " ")] = legitimate_urls[feature].mean()
+    profile["phishing"][f"URLs with {feature_name}".replace("  ", " ")] = phishing_urls[feature].mean()
+    profile["legitimate"][f"URLs with {feature_name}".replace("  ", " ")] = legitimate_urls[feature].mean()
 
 # Correct grammar error in initial feature naming
 try:
-    profile["phishing"]["Has Suspicious TLD?"] = profile["phishing"].pop("Has Suspecious TLD?")
-    profile["legitimate"]["Has Suspicious TLD?"] = profile["legitimate"].pop("Has Suspecious TLD?")
+    profile["phishing"]["URLs with Suspicious TLD"] = profile["phishing"].pop("URLs with Suspecious TLD")
+    profile["legitimate"]["URLs with Suspicious TLD"] = profile["legitimate"].pop("URLs with Suspecious TLD")
 except KeyError:
     pass
 

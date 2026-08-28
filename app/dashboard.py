@@ -108,7 +108,7 @@ for status in profile:
         
         integer_value = int(value)
 
-        if feature.startswith("Has ") or "Ratio" in feature:
+        if feature.startswith("URLs with ") or "Ratio" in feature:
             display_value = f"{value:.1%}"
         elif symbol_found:
             display_value = f"{integer_value} {symbol_units[symbol_used]}{"s" if integer_value != 1 else ""}"
