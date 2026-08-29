@@ -71,6 +71,8 @@ def categorize_features(data_frame: pd.DataFrame) -> (list, list):
     # Removes string-type features
     if "url" in numeric_features:
         numeric_features.remove("url")
+    if "status" in boolean_features:
+        boolean_features.remove("status")
 
     return boolean_features, numeric_features
 
@@ -153,6 +155,8 @@ def generate_boolean_feature_title(feature_name: str) -> str:
     feature_name = feature_name.title()
 
     feature_name = feature_name.replace("Ernal", "")
+    feature_name = feature_name.replace("External Ension", "Extension")
+    feature_name = feature_name.replace("Right Clic", "Right Click")
     feature_name = feature_name.replace("Int", "Internal ")
     feature_name = feature_name.title()  # To capitalize newly split words
 
