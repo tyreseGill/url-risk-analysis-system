@@ -4,6 +4,7 @@ import joblib
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from dash import html, dcc, Input, Output, ClientsideFunction
 from utils.statistical_profiling import generate_boolean_feature_title, generate_numeric_feature_title, categorize_features, generate_profiles
 
@@ -295,7 +296,7 @@ def build_profile_cards(profile: dict) -> list:
     return profile_cards
 
 
-def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Dash:
+def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: list) -> dash.Dash:
     """
     Constructs the HTML layout.
 
@@ -337,13 +338,23 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
             ),
             # Organizes metric cards into a row
             dbc.Row(metric_cards),
+            # Organizes profile cards into a row
             dbc.Row(profile_cards),
-            # Container holding bar chart for visualizing top feature importance metrics
+            # Visualizes difference between Phishing URL Profile and a Legitimate URL Profile
+            html.Div(
+                id="radar-chart-container",
+                children=dcc.Graph(
+                    id="profile-radar-chart",
+                ),
+                style={"margin": "20px auto", "width": "60%"}
+            ),
+            # Visualizes top feature importance metrics
             html.Div(
                 id="graph-container",
                 children=dcc.Graph(
                     id="feature-importance-chart",
                 ),
+                style={"margin": "20px auto", "width": "90%"}
             ),
         ]
     )
@@ -351,6 +362,7 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
     # Updates model graphs in response to the user selecting a model from dropdown
     @app.callback(
         Output("feature-importance-chart", "figure"),
+        Output("profile-radar-chart", "figure"),
         Input("model-dropdown", "value"),
     )
 
@@ -377,8 +389,12 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
 
         boolean_features, numeric_features = categorize_features(data_frame)
 
+        phishing_profile_values = []
+        legitimate_profile_values = []
+
         # Renames tick labels for each feature to be more readable
         for feature_name in model.feature_names_in_:
+
             if feature_name in boolean_features:
                 model_features.append(
                     generate_boolean_feature_title(feature_name)
@@ -400,8 +416,31 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
             .head(15)
         )
 
+        feature_df_2 = (
+            pd.DataFrame({
+                "Feature": model_features,
+                "Importance": model.feature_importances_
+            })
+            .sort_values("Importance", ascending=False)
+            .head(5)
+        )
+
+        top_features = feature_df_2["Feature"].tolist()
+
+        phishing_normalized = []
+        legitimate_normalized = []
+
+        for feature in top_features:
+            p = profile["phishing"][feature]
+            l = profile["legitimate"][feature]
+
+            max_val = max(p, l)
+
+            phishing_normalized.append(p / max_val if max_val else 0)
+            legitimate_normalized.append(l / max_val if max_val else 0)
+
         # Creates bar chart showing feature importance
-        fig = px.bar(
+        feature_importance_graph = px.bar(
             feature_df,
             x="Importance",
             y="Feature",
@@ -410,12 +449,50 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
             color_continuous_scale="Viridis"
         )
 
+        feature_importance_graph.update_layout(
+            title_x=0.5
+        )
+
         # Adds spacing between tick labels along y-axis and bar chart
-        fig.update_yaxes(
+        feature_importance_graph.update_yaxes(
             ticklabelstandoff=20
         )
 
-        return fig
+
+        radar_chart = go.Figure()
+
+        radar_chart.add_trace(go.Scatterpolar(
+            r=phishing_normalized,
+            theta=top_features,
+            fill="toself",
+            line=dict(color="red"),
+            name="Phishing"
+        ))
+
+        radar_chart.add_trace(go.Scatterpolar(
+            r=legitimate_normalized,
+            theta=top_features,
+            fill="toself",
+            line=dict(color="blue"),
+            name="Legitimate"
+        ))
+
+        radar_chart.update_layout(
+            title="Profile Comparison w/ Top 5 Most Important Features",
+            title_x=0.5,
+            polar=dict(
+                radialaxis=dict(
+                    visible=True,
+                    range=[0, 1]
+                ),
+                angularaxis=dict(
+                    tickfont=dict(size=14)
+                )
+            ),
+            showlegend=True
+        )
+
+        return feature_importance_graph, radar_chart
 
     
     # Updates profile cards in response to the user selecting a model from dropdown
@@ -489,7 +566,7 @@ def main():
     metrics, profile = load_json_data()
     metric_cards = build_metric_cards()
     profile_cards = build_profile_cards(profile)
-    app = build_app(metrics, metric_cards, profile_cards)
+    app = build_app(metrics, profile, metric_cards, profile_cards)
     app.run(debug=True)
 
 
