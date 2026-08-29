@@ -338,6 +338,14 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
             ),
             # Organizes metric cards into a row
             dbc.Row(metric_cards),
+            # Visualizes top feature importance metrics
+            html.Div(
+                id="graph-container",
+                children=dcc.Graph(
+                    id="feature-importance-chart",
+                ),
+                style={"margin": "20px auto", "width": "90%"}
+            ),
             # Organizes profile cards into a row
             dbc.Row(profile_cards),
             # Visualizes difference between Phishing URL Profile and a Legitimate URL Profile
@@ -347,14 +355,6 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
                     id="profile-radar-chart",
                 ),
                 style={"margin": "20px auto", "width": "60%"}
-            ),
-            # Visualizes top feature importance metrics
-            html.Div(
-                id="graph-container",
-                children=dcc.Graph(
-                    id="feature-importance-chart",
-                ),
-                style={"margin": "20px auto", "width": "90%"}
             ),
         ]
     )
