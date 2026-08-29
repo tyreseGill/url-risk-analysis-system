@@ -106,3 +106,30 @@ document.addEventListener("mouseout", event => {
         .forEach(match => match.classList.remove("highlight"))
     }
 )
+
+// Removes identical features from profiles when there exist too many features
+setTimeout(() => {
+    // Collects all bullet points associated with a Profile Card
+    const bullets = document.querySelectorAll("li[data-metric]");
+
+    // Prevents feature removal if there are only 5 or less features
+    if (bullets.length <= 10) {
+        return;
+    }
+
+    const counts = {};
+
+    // Tallies up the number of text instances in bullet points
+    bullets.forEach(li => {
+        const text = li.textContent;
+        counts[text] = (counts[text] || 0) + 1;
+    })
+
+    // Removes the bullet points that don't distinguish between profiles
+    bullets.forEach(li => {
+        const text = li.textContent;
+        if (counts[text] > 1) {
+            li.remove();
+        }
+    })
+}, 3_000)();
