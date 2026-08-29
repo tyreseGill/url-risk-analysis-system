@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from dash import html, dcc, Input, Output, ClientsideFunction
-from utils.statistical_profiling import generate_boolean_feature_title, generate_numeric_feature_title, categorize_features
+from utils.statistical_profiling import generate_boolean_feature_title, generate_numeric_feature_title, categorize_features, generate_profiles
 
 
 metric_titles = {
@@ -277,8 +277,17 @@ def build_profile_cards(profile: dict) -> list:
                         html.H6(f"{status.capitalize()} URL Profile"),
                         html.Ul(list_of_feature_measurements)
                     ]),
-                    color="lightblue" if status == "legitimate" else "salmon",
-                    className="profile-card"
+                    color=(
+                        "lightblue" 
+                        if status == "legitimate" 
+                        else "salmon"
+                    ),
+                    className="profile-card",
+                    id=(
+                        "phishing-url-profile-card" 
+                        if status == "phishing" 
+                        else "legitimate-url-profile-card"
+                    )
                 )
             )
         )
@@ -339,7 +348,7 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
         ]
     )
 
-    # Runs update_model_graphs in response to the user selecting a model from dropdown
+    # Updates model graphs in response to the user selecting a model from dropdown
     @app.callback(
         Output("feature-importance-chart", "figure"),
         Input("model-dropdown", "value"),
@@ -407,6 +416,58 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
         )
 
         return fig
+
+    
+    # Updates profile cards in response to the user selecting a model from dropdown
+    @app.callback(
+        Output("phishing-url-profile-card", "children"),
+        Output("legitimate-url-profile-card", "children"),
+        Input("model-dropdown", "value")
+    )
+
+    def update_profile_cards(selected_model: str) -> tuple:
+        """
+        Updates any profile cards associated with the selected model.
+
+        Args:
+            selected_model: The name of the model selected from dropdown.
+        
+        Returns:
+            tuple: Updated phishing and legitimate profile card contents.
+        """
+        model_features = []
+        last_stage = list(metrics[selected_model].keys())[-1]
+        path = metrics[selected_model][last_stage]["model_path"]
+        model = joblib.load(path)
+
+        # Creates data frame consisting of the columns the model trained on
+        data_frame = pd.read_parquet("data/Training.parquet")
+        data_frame = data_frame[
+            list(model.feature_names_in_) + ["status"]
+        ]
+
+        feature_df = data_frame.drop(columns=["status"])
+
+        boolean_features, numeric_features = categorize_features(feature_df)
+
+        # Renames tick labels for each feature to be more readable
+        for feature_name in model.feature_names_in_:
+            if feature_name in boolean_features:
+                model_features.append(
+                    generate_boolean_feature_title(feature_name)
+                )
+            elif feature_name in numeric_features:
+                model_features.append(
+                    generate_numeric_feature_title(feature_name)
+                )
+            else:
+                raise Exception(f"The feature \"{feature_name}\" could not be categorized as neither a boolean nor as numeric.")
+        
+        profile = generate_profiles(data_frame, numeric_features, boolean_features)
+
+        phishing_card, legitimate_card = build_profile_cards(profile)
+
+        return phishing_card, legitimate_card
 
 
     # Refers to JS file to run animation for each metric

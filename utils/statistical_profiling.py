@@ -56,8 +56,9 @@ def categorize_features(data_frame: pd.DataFrame) -> (list, list):
         tuple: Two lists representative of boolean and numeric features respectively.
     """
     # Redefine data frame based on relevant features
-    RELEVANT_FEATURES = get_relevant_features(data_frame, use_parent_directory=False)
-    data_frame = data_frame.reindex(sorted(RELEVANT_FEATURES), axis=1)
+    if len(data_frame.columns) <= 5:
+        RELEVANT_FEATURES = get_relevant_features(data_frame, use_parent_directory=False)
+        data_frame = data_frame.reindex(sorted(RELEVANT_FEATURES), axis=1)
 
     # Feature collection
     boolean_features = list(
