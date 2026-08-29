@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 from dash import html, dcc, Input, Output, ClientsideFunction
+from utils.statistical_profiling import generate_boolean_feature_title, generate_numeric_feature_title, categorize_features
 
 
 metric_titles = {
@@ -185,10 +186,11 @@ def build_profile_cards(profile: dict) -> list:
     FEATURES_USING_CHAR_UNITS = ["Word Path", "Words Raw", "Hostname Length", "URL Length", "Shortest Word Host", "Shortest Word Path", "Shortest Words Raw", "Longest Word Path"]
     FEATURES_USING_OCCURENCES_UNITS = ["Number of \"WWW\"s'", "HTTP in Path", "Number of Redirections", "Number of Subdomains", "Number of \".com\"s'"]
 
+    # Runs for Phishing and Legitimate Profile
     for status in profile:
         list_of_feature_measurements = []
 
-        # Lists a bullet for each feature
+        # Generates a bullet for across feature for each profile
         for feature, decimal_value in profile[status].items():
             symbol_used: str = None
             INTEGER_VALUE = int(decimal_value)
@@ -353,14 +355,36 @@ def build_app(metrics: dict, metric_cards: list, profile_cards: list) -> dash.Da
         Returns:
             plotly.Figure: The graphic to be updated onscreen.
         """
+        model_features = []
         last_stage = list(metrics[selected_model].keys())[-1]
         path = metrics[selected_model][last_stage]["model_path"]
         model = joblib.load(path)
 
+        # Creates data frame consisting of the columns the model trained on
+        data_frame = pd.read_parquet("data/Training.parquet")
+        data_frame = data_frame[
+            list(model.feature_names_in_) + ["status"]
+        ]
+
+        boolean_features, numeric_features = categorize_features(data_frame)
+
+        # Renames tick labels for each feature to be more readable
+        for feature_name in model.feature_names_in_:
+            if feature_name in boolean_features:
+                model_features.append(
+                    generate_boolean_feature_title(feature_name)
+                )
+            elif feature_name in numeric_features:
+                model_features.append(
+                    generate_numeric_feature_title(feature_name)
+                )
+            else:
+                raise Exception(f"The feature \"{feature_name}\" could not be categorized as neither a boolean nor as numeric.")
+
         # Creates data frame based on the top most important features
         feature_df = (
             pd.DataFrame({
-                "Feature": model.feature_names_in_,
+                "Feature": model_features,
                 "Importance": model.feature_importances_
             })
             .sort_values("Importance", ascending=False)
