@@ -503,7 +503,7 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
         ))
 
         radar_chart.update_layout(
-            title="Profile Comparison w/ Top 5 Most Important Features",
+            title="URL Profile Comparison by Top Features",
             title_x=0.5,
             polar=dict(
                 radialaxis=dict(
