@@ -129,7 +129,7 @@ setTimeout(() => {
     bullets.forEach(li => {
         const text = li.textContent;
         if (counts[text] > 1) {
-            li.remove();
+            li.style.display = "none";
         }
     })
 }, 3_000)();
