@@ -171,17 +171,22 @@ def build_metric_cards() -> list:
     return metric_cards
 
 
-def build_profile_cards(profile: dict, feature_order: list = None) -> list:
+def build_profile_cards(profile: dict, feature_order: list = None, build_cards: bool = True) -> list:
     """
     Creates HTML cards describing analytics of a typical phishing and legit URL.
 
     Args:
         profile: Dictionary storing quantitative info on key features of a typical URL profile.
+        feature_order: The list of features to be displayed (sorted in order of most to 
+            least important).
+        build_cards: Flag that determines whether to create profile cards from scratch or 
+            rewrite the profile details for an existing card.
 
     Returns:
-        list: Cards displaying profile characteristics of typical phishing and legitimate URLs.
+        list: HTML Cards or HTML Li elements displaying profile characteristics.
     """
     profile_cards = []
+    profile_measurement_lists = []
 
     FEATURES_USING_DAILY_UNITS = ["Domain Age", "Domain Registration Length"]
     FEATURES_USING_CHAR_UNITS = ["Word Path", "Words Raw", "Hostname Length", "URL Length", "Shortest Word Host", "Shortest Word Path", "Shortest Words Raw", "Longest Word Path"]
@@ -189,7 +194,7 @@ def build_profile_cards(profile: dict, feature_order: list = None) -> list:
 
     # Runs for Phishing and Legitimate Profile
     for status in profile:
-        list_of_feature_measurements = []
+        feature_measurements = []
 
         features = (
             feature_order
@@ -271,7 +276,7 @@ def build_profile_cards(profile: dict, feature_order: list = None) -> list:
                     display_value = generate_frequency_string(decimal_value)
 
             # Adds new HTML bullet to list of bulletpoints
-            list_of_feature_measurements.append(
+            feature_measurements.append(
                 html.Li([
                     html.Strong(f"{feature}: "),
                     html.Span(display_value)
@@ -281,30 +286,39 @@ def build_profile_cards(profile: dict, feature_order: list = None) -> list:
                 )
             )
 
-        # Defines HTML composition of new Profile Card
-        profile_cards.append(
-            dbc.Col(
-                dbc.Card(
-                    dbc.CardBody([
-                        html.H6(f"{status.capitalize()} URL Profile"),
-                        html.Ul(list_of_feature_measurements)
-                    ]),
-                    color=(
-                        "lightblue" 
-                        if status == "legitimate" 
-                        else "salmon"
-                    ),
-                    className="profile-card",
-                    id=(
-                        "phishing-url-profile-card" 
-                        if status == "phishing" 
-                        else "legitimate-url-profile-card"
+        # Creates cards from scratch
+        if build_cards:
+            # Defines HTML composition of new Profile Card
+            profile_cards.append(
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody([
+                            html.H6(f"{status.capitalize()} URL Profile"),
+                            html.Ul(
+                                feature_measurements,
+                                id=f"ul-{status}-url-profile-card"
+                            )
+                        ]),
+                        color=(
+                            "lightblue" 
+                            if status == "legitimate" 
+                            else "salmon"
+                        ),
+                        className="profile-card",
+                        id=f"{status}-url-profile-card"
                     )
                 )
             )
-        )
+        # Cards have already been initialized
+        else:
+            profile_measurement_lists.append(feature_measurements)
     
-    return profile_cards
+    # Returns entire HTML cards when application initially runs
+    if build_cards:
+        return profile_cards
+    # Otherwise, returns just the list elements to prevent duplication and curb processing
+    else:
+        return profile_measurement_lists
 
 
 def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: list) -> dash.Dash:
@@ -508,8 +522,8 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
     
     # Updates profile cards in response to the user selecting a model from dropdown
     @app.callback(
-        Output("phishing-url-profile-card", "children"),
-        Output("legitimate-url-profile-card", "children"),
+        Output("ul-phishing-url-profile-card", "children"),
+        Output("ul-legitimate-url-profile-card", "children"),
         Input("model-dropdown", "value")
     )
 
@@ -565,12 +579,13 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
         # Obtains list of features ordered by importance
         feature_order = importance_df["Feature"].tolist()
 
-        phishing_card, legitimate_card = build_profile_cards(
+        phishing_measurements, legitimate_measurements = build_profile_cards(
             profile,
-            feature_order
+            feature_order,
+            build_cards=False
         )
 
-        return phishing_card, legitimate_card
+        return phishing_measurements, legitimate_measurements
 
 
     # Refers to JS file to run animation for each metric
