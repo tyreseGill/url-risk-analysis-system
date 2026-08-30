@@ -171,7 +171,7 @@ def build_metric_cards() -> list:
     return metric_cards
 
 
-def build_profile_cards(profile: dict) -> list:
+def build_profile_cards(profile: dict, feature_order: list = None) -> list:
     """
     Creates HTML cards describing analytics of a typical phishing and legit URL.
 
@@ -191,9 +191,20 @@ def build_profile_cards(profile: dict) -> list:
     for status in profile:
         list_of_feature_measurements = []
 
+        features = (
+            feature_order
+            if feature_order is not None
+            else profile[status].keys()
+        )
+
         # Generates a bullet for across feature for each profile
-        for feature, decimal_value in profile[status].items():
+        for feature in features:
+            if feature not in profile[status]:
+                continue
+
             symbol_used: str = None
+
+            decimal_value = profile[status][feature]
             INTEGER_VALUE = int(decimal_value)
 
             # Parses feature title for symbols with an associated unit
@@ -269,7 +280,7 @@ def build_profile_cards(profile: dict) -> list:
                 **{"data-metric": generate_data_metric(feature)}
                 )
             )
-        
+
         # Defines HTML composition of new Profile Card
         profile_cards.append(
             dbc.Col(
@@ -542,7 +553,22 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
         
         profile = generate_profiles(data_frame, numeric_features, boolean_features)
 
-        phishing_card, legitimate_card = build_profile_cards(profile)
+        # Data frame that sorts features based on importance
+        importance_df = (
+            pd.DataFrame({
+                "Feature": model_features,
+                "Importance": model.feature_importances_
+            })
+            .sort_values("Importance", ascending=False)
+        )
+
+        # Obtains list of features ordered by importance
+        feature_order = importance_df["Feature"].tolist()
+
+        phishing_card, legitimate_card = build_profile_cards(
+            profile,
+            feature_order
+        )
 
         return phishing_card, legitimate_card
 
