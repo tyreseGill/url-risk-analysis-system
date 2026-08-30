@@ -5,7 +5,19 @@ def add_positional_options(parser: SafeArgumentParser) -> SafeArgumentParser:
     parser.add_argument(
         "url",
         type=str,
+        nargs="?",
         help="Target URL to analyze"
+    )
+    parser.add_argument(
+        "--multi_analysis",
+        "--batch_analysis",
+        action="store_true",
+        help='Analyzes urls stored in "url.txt"'
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        help="File to be parsed for URLs to analyze for batch analysis."
     )
 
     return parser

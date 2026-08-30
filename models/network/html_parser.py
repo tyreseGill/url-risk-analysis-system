@@ -59,3 +59,20 @@ def fetch_absolute_links(soup: BeautifulSoup) -> list:
         and link.get('href').startswith('http')  # Prevents collection of relative links on same domain
     ]
     return links
+
+
+def convert_html_to_soup(html_file: str) -> BeautifulSoup:
+    """
+    Takes in an HTML file, reads it, and obtain a BeautifulSoup object.
+
+    Args:
+        html_file (str): The path to the HTML file.
+
+    Returns:
+        BeautifulSoup: Parsed HTML.
+    """
+    with open(html_file, "r") as file:
+        html_content = file.read()
+
+    soup = BeautifulSoup(html_content, "html.parser")
+    return soup

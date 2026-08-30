@@ -10,6 +10,7 @@ def parse_args() -> argparse.Namespace:
     Manages and defines expected arguments and behavior for the command-line interface.
 
     Returns:
+        SafeArgumentParser: Subclass of ArgumentParser designed to handle errors gracefully.
         Namespace: Collection of arguments and the associated input values provided by the user.
     """
     parser = SafeArgumentParser(
@@ -27,7 +28,7 @@ def parse_args() -> argparse.Namespace:
     # Extracts the data associated from the aforementioned arguments
     params = parser.parse_args()
 
-    return params
+    return parser, params
 
 
 def resolve_analysis_flags(params: argparse.Namespace) -> argparse.Namespace:

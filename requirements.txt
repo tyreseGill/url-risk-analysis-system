@@ -1,4 +1,6 @@
 beautifulsoup4
+dash
+dash-bootstrap-components
 python-whois
 requests
 tldextract
