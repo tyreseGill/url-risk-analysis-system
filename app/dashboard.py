@@ -379,7 +379,7 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
                 children=dcc.Graph(
                     id="profile-radar-chart",
                 ),
-                style={"margin": "20px auto", "width": "60%"}
+                style={"margin": "20px auto", "width": "70%"}
             ),
         ]
     )
