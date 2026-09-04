@@ -1,10 +1,13 @@
 # URL Risk Analysis System
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-![beautifulsoup4](https://img.shields.io/pypi/v/beautifulsoup4?label=BeautifulSoup&logo=python&logoColor=white)
-![python-whois](https://img.shields.io/pypi/v/python-whois?label=Python-Whois&logo=python&logoColor=white)
-![requests](https://img.shields.io/pypi/v/requests?label=Requests&logo=python&logoColor=white)
-![tldextract](https://img.shields.io/pypi/v/tldextract?label=tldextract&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![Dash](https://img.shields.io/badge/Dash-Framework-blue?logo=plotly&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Dash_Bootstrap_Components-7952Brap&logoColor=white)
+![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-Web_Scraping-green)
+![Requests](https://img.shields.io/badge/Requests-HTTP_Client-orange)
+![Python-Whois](https://img.shields.io/badge/Python--Whois-Domain_Analysis-red)
+![tldextract](https://img.shields.io/badge/tldextract-URL_Parsing-yellow)
+![Cryptography](https://img.shields.io/badge/Cryptography-Security-darkgreen)
 
 ## Table of Contents
 - [Overview](#overview)
