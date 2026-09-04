@@ -33,6 +33,9 @@ The tool aggregates low-level signals (e.g., domain age, mismatched links, hidde
 ## Dashboard
 The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites.
 
+### Dashboard Preview
+![Dashboard Preview](img/dashboard.gif)
+
 ### Features
 - 📈 Model Performance Metrics
     - Accuracy
@@ -48,9 +51,6 @@ The dashboard enables users to explore model performance, visualize feature impo
 - 𖣠 Radar Chart
     - Compares phishing and legitimate URL profiles across the model's five most important features
     - Enables quick visual identification of distinguishing characteristics
-
-### Dashboard Preview
-![Dashboard Preview](img/dashboard.gif)
 
 ## Command Line Interface
 A detailed URL inspection tool that analyzes domain, certificate, transport, structural URL, and webpage characteristics to identify potential phishing indicators and provide explainable security insights.
