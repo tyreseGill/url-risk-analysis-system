@@ -140,6 +140,26 @@ def generate_frequency_string(decimal_value: float) -> str:
     return display_value
 
 
+def format_count(value: float, singular: str, plural: str | None = None, *, use_commas: bool = False) -> str:
+    """
+    Return a count string with correct singular/plural form.
+
+    Args:
+        value: The numeric value to be formatted.
+        singular: The singular form of the noun.
+        plural: The plural form of the noun. If None, 's' will be appended to the singular form.
+        use_commas: Whether to format the number with commas.
+
+    Returns:
+        str: A formatted string representing the count and the appropriate noun form.
+    """
+    plural = plural or f"{singular}s"
+    count = int(value)
+    noun = singular if count == 1 else plural
+    prefix = f"{count:,}" if use_commas else str(count)
+    return f"{prefix} {noun}"
+
+
 def generate_data_metric(feature_name: str) -> str:
     """
     Generates a useable data-metric attribute based on feature name.
@@ -274,19 +294,19 @@ def build_profile_cards(profile: dict, feature_order: list = None, build_cards: 
             
             # Features using symbols as a measurement
             if symbol_used:
-                display_value = (
-                    f"{INTEGER_VALUE} {symbol_units[symbol_used]}{"s" if INTEGER_VALUE != 1 else ""}"
-                )
+                singular = symbol_units[symbol_used]
+                plural = f"{singular}s"
+                display_value = format_count(INTEGER_VALUE, singular, plural)
             # Features using days as a measurement
             elif feature in FEATURES_USING_DAILY_UNITS:
-                NUM_YEARS = int(decimal_value / 365)
-                if NUM_YEARS == 0:
-                    display_value = f"{INTEGER_VALUE} days"
+                num_years = int(decimal_value / 365)
+                if num_years == 0:
+                    display_value = format_count(INTEGER_VALUE, "day", "days")
                 else:
-                    display_value = f"{NUM_YEARS} year{"s" if NUM_YEARS != 1 else ""}"
+                    display_value = format_count(num_years, "year", "years")
             # Features using characters as a measurement
             elif feature in FEATURES_USING_CHAR_UNITS:
-                display_value = f"{INTEGER_VALUE} character{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "character", "characters")
             # Features using ranking as a measurement
             elif feature == "Page Rank":
                 rank_num: int = INTEGER_VALUE
@@ -300,22 +320,22 @@ def build_profile_cards(profile: dict, feature_order: list = None, build_cards: 
                     display_value = f"{rank_num}th place"
             # Features using visitors as a measurement
             elif feature == "Web Traffic":
-                display_value = f"{INTEGER_VALUE:,} visitor{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "visitor", "visitors", use_commas=True)
             # Features using generic "occurences" as a measurement
             elif feature in FEATURES_USING_OCCURENCES_UNITS:
-                display_value = f"{INTEGER_VALUE} occurence{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "occurence", "occurences")
             # Features using keywords as a measurement
             elif feature == "Number of Phish Hints":
-                display_value = f"{INTEGER_VALUE} phishing keyword{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "phishing keyword", "phishing keywords")
             # Features using repeated characters as a measurement
             elif feature == "Characters Repeat":
-                display_value = f"{INTEGER_VALUE} repeated character{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "repeated character", "repeated characters")
             # Features using external CSS as a measurement
             elif feature == "Number of External CSS":
-                display_value = f"{INTEGER_VALUE} external CSS file{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "external CSS file", "external CSS files")
             # Features using hyperlinks as a measurement
             elif feature == "Number of Hyperlinks":
-                display_value = f"{INTEGER_VALUE} hyperlink{"s" if INTEGER_VALUE != 1 else ""}"
+                display_value = format_count(INTEGER_VALUE, "hyperlink", "hyperlinks")
             # Features representative of a percentage value
             else:
                 if "Percentage" in feature:
