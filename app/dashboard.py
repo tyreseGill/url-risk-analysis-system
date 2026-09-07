@@ -523,13 +523,26 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
                     "Importance": model.feature_importances_
                 })
                 .sort_values("Importance", ascending=False)
-                .head(num_features)
             )
 
-            top_features = feature_df["Feature"].tolist()
+            # Determines the threshold for feature importance based on the number of features requested
+            avg_feature_importance_threshold = 1 / len(feature_df)
+
+            # Obtains the list of features that meet the threshold for importance
+            top_features = feature_df.loc[
+                feature_df["Importance"] >= avg_feature_importance_threshold,
+                "Feature"
+            ].tolist()
+
+            # Ensures that the number of features returned is at least 3 and at most the number of features requested
+            if len(top_features) < 3:
+                top_features = feature_df.head(3)["Feature"].tolist()
+            elif len(top_features) > num_features:
+                top_features = feature_df.head(num_features)["Feature"].tolist()
+
             return top_features
 
-        # Obtains top 5 most important features
+        # Obtains top most important features
         top_features = get_top_features(feature_df, 5)
 
         def normalize_features(features: list) -> tuple[list, list]:
