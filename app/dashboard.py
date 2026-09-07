@@ -182,6 +182,26 @@ def generate_data_metric(feature_name: str) -> str:
     return metric_name
 
 
+def generate_title(feature_name: str, boolean_features: list, numeric_features: list) -> str:
+    """
+    Generates a more readable title for a feature based on its type.
+
+    Args:
+        feature_name: The name of the feature to be renamed.
+        boolean_features: List of boolean features.
+        numeric_features: List of numeric features.
+
+    Returns:
+        str: A more readable title for the feature.
+    """
+    if feature_name in boolean_features:
+        return generate_boolean_feature_title(feature_name)
+    elif feature_name in numeric_features:
+        return generate_numeric_feature_title(feature_name)
+    else:
+        raise Exception(f"The feature \"{feature_name}\" could not be categorized as neither a boolean nor as numeric.")
+
+
 def load_json_data() -> tuple[dict, dict]:
     """
     Loads dictionaries from JSON files representing model performance metrics 
@@ -482,18 +502,9 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
 
         # Renames tick labels for each feature to be more readable
         for feature_name in model.feature_names_in_:
-
-            # Generates a more readable title for each feature based on its type
-            if feature_name in boolean_features:
-                model_features.append(
-                    generate_boolean_feature_title(feature_name)
-                )
-            elif feature_name in numeric_features:
-                model_features.append(
-                    generate_numeric_feature_title(feature_name)
-                )
-            else:
-                raise Exception(f"The feature \"{feature_name}\" could not be categorized as neither a boolean nor as numeric.")
+            model_features.append(
+                generate_title(feature_name, boolean_features, numeric_features)
+            )
 
         # Creates data frame that sorts features based on importance
         feature_df = (
