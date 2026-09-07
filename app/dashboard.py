@@ -182,6 +182,44 @@ def generate_data_metric(feature_name: str) -> str:
     return metric_name
 
 
+def generate_correlation_matrix(data_frame: pd.DataFrame, threshold: float=0.5) -> "plotly.Figure":
+    """
+    Generates a correlation matrix heatmap for the given data frame.
+
+    Args:
+        data_frame: The data frame for which to generate the correlation matrix.
+        threshold: The minimum correlation value to display.
+
+    Returns:
+        plotly.Figure: The generated correlation matrix heatmap.
+    """
+    correlation_matrix = data_frame.corr(numeric_only=True)
+    boolean_features, numeric_features = categorize_features(data_frame)
+    num_features = len(correlation_matrix)
+
+    fig = px.imshow(
+        correlation_matrix,
+        color_continuous_scale="RdBu_r",
+        text_auto=".2f",
+        aspect="auto",
+        height=max(600, num_features * 20),
+    )
+
+    fig.update_layout(
+        title="Correlation Matrix",
+        title_x=0.5,
+        height=max(600, num_features * 20),
+        autosize=True
+    )
+
+    # Adds spacing between tick labels along y-axis and bar chart
+    fig.update_yaxes(
+        ticklabelstandoff=20
+    )
+
+    return fig
+
+
 def generate_title(feature_name: str, boolean_features: list, numeric_features: list) -> str:
     """
     Generates a more readable title for a feature based on its type.
@@ -473,6 +511,14 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
                 ),
                 style={"margin": "20px auto", "width": "70%"}
             ),
+            # Additional graph to visualize correlation matrix of features
+            dcc.Graph(
+                id="correlation-matrix",
+                style={
+                    "width": "90vw",
+                    "height": "90vh"
+                }
+            )
         ]
     )
 
@@ -705,6 +751,38 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
         )
 
         return phishing_measurements, legitimate_measurements
+
+
+    @app.callback(
+        Output("correlation-matrix", "figure"),
+        Input("model-dropdown", "value")
+    )
+
+
+    def update_correlation_matrix(selected_model: str) -> "plotly.Figure":
+        """
+        Updates the correlation matrix based on the selected model.
+
+        Args:
+            selected_model: The name of the model selected from dropdown.
+
+        Returns:
+            plotly.Figure: The updated correlation matrix to be displayed onscreen.
+        """
+        model = extract_model(selected_model, metrics)
+        data_frame = extract_data_frame(model)
+        boolean_features, numeric_features = categorize_features(data_frame)
+
+        # Renames tick labels for each feature to be more readable
+        for feature_name in model.feature_names_in_:
+            data_frame.rename(
+                columns={
+                    feature_name: generate_title(feature_name, boolean_features, numeric_features)
+                },
+                inplace=True
+            )
+
+        return generate_correlation_matrix(data_frame)
 
 
     # Animates metric values in response to the user selecting a model from dropdown
