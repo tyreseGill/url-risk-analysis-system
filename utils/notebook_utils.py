@@ -11,8 +11,8 @@ from sklearn.metrics import classification_report, confusion_matrix, ConfusionMa
 from sklearn.base import BaseEstimator
 
 
-TRAINING_DATA = "../data/Training.parquet"
-TESTING_DATA = "../data/Testing.parquet"
+TRAINING_DATA = "data/Training.parquet"
+TESTING_DATA = "data/Testing.parquet"
 TARGET = "status"
 
 
@@ -287,7 +287,7 @@ def save_redundant_features(redundant_features: set):
         redundant_features: A set of redundant features to be saved.
     """
     try:
-        with open('../data/redundant_features.pkl', 'wb') as file:
+        with open('data/redundant_features.pkl', 'wb') as file:
             pickle.dump(redundant_features, file)
     finally:
         file.close()
@@ -301,7 +301,7 @@ def pickle_model(model: BaseEstimator, file_name: str):
         model: The scikit-learn model to be saved.
         file_name: The name of the .pkl file to be created.
     """
-    MODEL_PATH = f"../models/machine_learning/{file_name}.pkl"
+    MODEL_PATH = f"models/machine_learning/{file_name}.pkl"
 
     # Updates .pkl for existing model if it exists
     try:
@@ -309,7 +309,7 @@ def pickle_model(model: BaseEstimator, file_name: str):
     # Model path doesn't exist
     except FileNotFoundError:
         # Creates directory and .pkl file from scratch
-        os.mkdir("../models/machine_learning")
+        os.mkdir("models/machine_learning")
         open(MODEL_PATH, 'w').close()
 
         joblib.dump(model, MODEL_PATH)
@@ -367,7 +367,7 @@ def save_stage_metrics(model_name: str, stage_name: str, model_path: str, releva
         relevant_features: The features on which the model trained on.
         model: The model from which metric data will be obtained and saved from.
     """
-    FILE_PATH = "../data/model_metrics.json"
+    FILE_PATH = "data/model_metrics.json"
 
     training_data_frame = generate_sub_data_frame(
         relevant_features
@@ -405,18 +405,15 @@ def save_stage_metrics(model_name: str, stage_name: str, model_path: str, releva
     save_metric_data_to_file(model_name, stage_name, stage_metric_data, FILE_PATH)
 
 
-def get_redundant_features(use_parent_directory: bool=True) -> set:
+def get_redundant_features() -> set:
     """
     Returns set of redundant features.
-
-    Args:
-        use_parent_directory: Whether to use the parent directory for the .pkl file path.
     
     Returns:
         set: A set of redundant features.
     """
     REDUNDANT_FEATURES = set()
-    PKL_FILE_PATH = "../data/redundant_features.pkl" if use_parent_directory else "data/redundant_features.pkl"
+    PKL_FILE_PATH = "data/redundant_features.pkl"
     
     # Loads redundant features from .pkl file if it exists
     try:
@@ -428,18 +425,17 @@ def get_redundant_features(use_parent_directory: bool=True) -> set:
     return REDUNDANT_FEATURES
 
 
-def get_relevant_features(data_frame: pd.DataFrame, use_parent_directory: bool=True) -> set:
+def get_relevant_features(data_frame: pd.DataFrame) -> set:
     """
     Returns a set of relevant features from a given data frame.
 
     Args:
         data_frame: The data frame from which relevant features will be obtained.
-        use_parent_directory: Whether to use the parent directory for the .pkl file path.
     
     Returns:
         set: A set of relevant features.
     """
-    REDUNDANT_FEATURES = get_redundant_features(use_parent_directory)
+    REDUNDANT_FEATURES = get_redundant_features()
     
     RELEVANT_FEATURES = {
         col for col in data_frame.columns
@@ -490,9 +486,6 @@ def test_model(model: BaseEstimator, file_name: str, training_data_frame: pd.Dat
     y_test_predicted = model.predict(x_test)
 
     pickle_model(model, file_name)
-
-    print(f"\nTraining Report:\n{classification_report(y_train, y_train_predicted)}")
-    print(f"\nTest Report:\n{classification_report(y_test, y_test_predicted)}")
 
 
 # Source: https://www.geeksforgeeks.org/machine-learning/how-to-generate-feature-importance-plots-from-scikit-learn/
