@@ -5,8 +5,145 @@ import numpy as np
 import seaborn as sns
 import math
 from sklearn.ensemble import RandomForestClassifier
-from utils.notebook_utils import generate_sub_data_frame, test_model, save_stage_metrics, get_relevant_features
+from sklearn.base import BaseEstimator
+from utils.notebook_utils import generate_sub_data_frame, test_model, save_stage_metrics, get_relevant_features, save_redundant_features, get_redundant_correlated_features, get_low_target_correlation_features
 from utils.animations import load_bar, show_popup_message
+
+
+def get_all_relevant_features(model: BaseEstimator) -> pd.DataFrame:
+    """
+    Retrieves all relevant features from the dataset by removing constant features, redundant correlated features, and low target correlation features.
+
+    Args:
+        model: The machine learning model used for testing.
+
+    Returns:
+        cleaned_data_frame: The cleaned data frame after removing irrelevant features.
+    """
+    full_data_frame = pd.read_parquet("data/Training.parquet", engine='pyarrow')
+    cleaned_data_frame = pd.DataFrame()
+    REDUNDANT_FEATURES = set()
+    RELEVANT_FEATURES = set()
+
+    MODEL_TITLE = f"Random Forest (All Features)"
+    MODEL_FILE_NAME = f"random_forest_all"
+
+    # Raw Data
+    save_stage_metrics(
+        MODEL_TITLE,
+        "Raw Data",
+        MODEL_FILE_NAME,
+        set(full_data_frame.columns),
+        model
+    )
+
+
+    def remove_constant_features(model: BaseEstimator, full_data_frame: pd.DataFrame) -> set:
+        """
+        Removes features that have constant values across all samples from the full data frame.
+
+        Args:
+            model: The machine learning model used for testing.
+            full_data_frame: The full data frame containing all features.
+
+        Returns:
+            set: A set of redundant features that have constant values.
+        """
+        
+        REDUNDANT_FEATURES = set(
+            full_data_frame.loc[:, (full_data_frame.nunique() == 1)].columns
+        )
+
+        save_redundant_features(REDUNDANT_FEATURES)
+
+        save_stage_metrics(
+            MODEL_TITLE,
+            "Remove Constant Features",
+            MODEL_FILE_NAME,
+            set(full_data_frame.columns) - set(REDUNDANT_FEATURES),
+            model
+        )
+
+        return REDUNDANT_FEATURES
+
+
+    REDUNDANT_FEATURES.update(remove_constant_features(model, full_data_frame))
+
+
+    def remove_redundant_highly_correlated_features(model: BaseEstimator, full_data_frame: pd.DataFrame, cleaned_data_frame: pd.DataFrame) -> tuple:
+        """
+        Removes features that are highly correlated with each other from the cleaned data frame.
+
+        Args:
+            model: The machine learning model used for testing.
+            full_data_frame: The full data frame containing all features.
+            cleaned_data_frame: The cleaned data frame after removing constant features.
+
+        Returns:
+            tuple: A tuple containing the relevant features and the updated cleaned data frame.
+        """
+        RELEVANT_FEATURES = get_relevant_features(full_data_frame)
+
+        cleaned_data_frame = generate_sub_data_frame(
+            RELEVANT_FEATURES
+        )
+
+        REDUNDANT_FEATURES.update(
+            get_redundant_correlated_features(cleaned_data_frame)
+        )
+
+        save_redundant_features(REDUNDANT_FEATURES)
+
+        save_stage_metrics(
+            MODEL_TITLE,
+            "Remove Redundant Correlation Features",
+            MODEL_FILE_NAME,
+            set(full_data_frame.columns) - set(REDUNDANT_FEATURES),
+            model
+        )
+
+        return RELEVANT_FEATURES, cleaned_data_frame
+    
+
+    RELEVANT_FEATURES, cleaned_data_frame = remove_redundant_highly_correlated_features(model, full_data_frame, cleaned_data_frame)
+
+
+    def remove_low_target_correlation_features(model: BaseEstimator, full_data_frame: pd.DataFrame, cleaned_data_frame: pd.DataFrame):
+        """
+        Removes features that have low correlation with the target variable from the cleaned data frame.
+
+        Args:
+            model: The machine learning model used for testing.
+            full_data_frame: The full data frame containing all features.
+            cleaned_data_frame: The cleaned data frame after removing constant features.
+
+        Returns:
+            tuple: A tuple containing the relevant features and the updated cleaned data frame.
+        """
+        REDUNDANT_FEATURES.update(
+            get_low_target_correlation_features(cleaned_data_frame)
+        )
+
+        save_redundant_features(REDUNDANT_FEATURES)
+
+        save_stage_metrics(
+            MODEL_TITLE,
+            "Remove Low-Correlation Features",
+            MODEL_FILE_NAME,
+            set(full_data_frame.columns) - set(REDUNDANT_FEATURES),
+            model
+        )
+
+        return RELEVANT_FEATURES, cleaned_data_frame
+
+    
+    RELEVANT_FEATURES, cleaned_data_frame = remove_low_target_correlation_features(model, full_data_frame, cleaned_data_frame)
+
+    cleaned_data_frame = generate_sub_data_frame(
+        RELEVANT_FEATURES
+    )
+
+    return cleaned_data_frame
 
 
 def get_relevant_structural_features() -> pd.DataFrame:
@@ -167,17 +304,25 @@ def main():
     print()
     show_popup_message("Creating and testing random forest models for each feature category", delay_secs=3, countdown_flag=True)
 
+    tasks = [
+            lambda: get_all_relevant_features(
+                RandomForestClassifier(random_state=41)
+            ),
+            *[
+                lambda mt=model_title, d=data: create_random_forest_model(
+                    mt,
+                    d["data_frame"],
+                    d["suffix"],
+                    d["stage_name"]
+                )
+                for model_title, data in model_data.items()
+            ]
+        ]
+    
+
     # Creates and tests random forest models for each feature category
     load_bar(
-        [
-            lambda mt=model_title, d=data: create_random_forest_model(
-                mt,
-                d["data_frame"],
-                d["suffix"],
-                d["stage_name"]
-            )
-            for model_title, data in model_data.items()
-        ]
+        tasks
     )
 
 

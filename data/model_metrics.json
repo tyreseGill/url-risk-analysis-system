@@ -1,5 +1,5 @@
 {
-    "Random Forest w/ All Features": {
+    "Random Forest (All Features)": {
         "Raw Data": {
             "model_path": "models/machine_learning/random_forest_all.pkl",
             "num_features": 89,
@@ -31,16 +31,6 @@
             "misclassifications": 144
         },
         "Remove Low-Correlation Features": {
-            "model_path": "models/machine_learning/random_forest_all.pkl",
-            "num_features": 72,
-            "accuracy": 0.9639448568398727,
-            "precision": 0.9624735729386892,
-            "recall": 0.9655355249204666,
-            "f1": 0.9640021175224986,
-            "roc auc": 0.9639448568398727,
-            "misclassifications": 136
-        },
-        "Remove Redundant Correlated Features": {
             "model_path": "models/machine_learning/random_forest_all.pkl",
             "num_features": 72,
             "accuracy": 0.9639448568398727,
