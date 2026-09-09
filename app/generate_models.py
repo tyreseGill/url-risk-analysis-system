@@ -137,6 +137,10 @@ def get_all_relevant_features(model: BaseEstimator) -> pd.DataFrame:
     cleaned_data_frame = generate_sub_data_frame(
         RELEVANT_FEATURES
     )
+    
+    random_forest = RandomForestClassifier(random_state=41)
+
+    test_model(random_forest, MODEL_FILE_NAME, cleaned_data_frame)
 
     return cleaned_data_frame
 
