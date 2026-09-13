@@ -11,8 +11,9 @@ from sklearn.metrics import classification_report, confusion_matrix, ConfusionMa
 from sklearn.base import BaseEstimator
 
 
-TRAINING_DATA = "data/Training.parquet"
-TESTING_DATA = "data/Testing.parquet"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TRAINING_DATA = os.path.join(PROJECT_ROOT, "data", "Training.parquet")
+TESTING_DATA = os.path.join(PROJECT_ROOT, "data", "Testing.parquet")
 TARGET = "status"
 
 
@@ -132,7 +133,7 @@ def frame_correlation_matrix(df: pd.DataFrame, threshold: float=0, annotate: boo
     plt.show()
 
 
-def get_correlation_to_target(cols: set, target: str = TARGET) -> pd.Series:
+def get_correlation_to_target(cols: set, target: str = TARGET) -> pd.DataFrame:
     """
     Obtains the intersecting correlation value between the given columns and a target row.
 
@@ -141,7 +142,7 @@ def get_correlation_to_target(cols: set, target: str = TARGET) -> pd.Series:
         target: The target row for which to obtain correlation values.
 
     Returns:
-        pd.Series: A series containing the correlation values between the given columns and the target row.
+        pd.DataFrame: A frame containing the correlation values between the given columns and the target row.
     """
     cols.add('status')
     data_frame = generate_sub_data_frame(cols)
@@ -149,12 +150,12 @@ def get_correlation_to_target(cols: set, target: str = TARGET) -> pd.Series:
     corr_with_target = (
         data_frame.corr(numeric_only=True)[target]
         .sort_values(ascending=False)
-    )
+    ).to_frame()
     
     return corr_with_target
 
 
-def get_top_correlation_pairs(data_frame: pd.DataFrame, num_pairs_to_list: int) -> pd.Series:
+def get_top_correlation_pairs(data_frame: pd.DataFrame, num_pairs_to_list: int) -> pd.DataFrame:
     """
     Obtains top data_frame number of column-pairings with the highest correlation. 
 
@@ -163,13 +164,13 @@ def get_top_correlation_pairs(data_frame: pd.DataFrame, num_pairs_to_list: int) 
         num_pairs_to_list: The number of top correlation pairs to return.
     
     Returns:
-        pd.Series: A series containing the top correlation pairs and their corresponding correlation values.
+        pd.DataFrame: A frame containing the top correlation pairs and their corresponding correlation values.
     """
     corr_matrix = data_frame.corr(numeric_only=True).abs()
     num_cols = len(data_frame.columns)
     top_pairs = corr_matrix.unstack().sort_values(ascending=False)[
         num_cols: num_cols + (num_pairs_to_list * 2): 2
-    ]
+    ].to_frame(name="correlation_value")
     
     return top_pairs
 
@@ -218,14 +219,14 @@ def get_redundant_correlated_features(data_frame: pd.DataFrame) -> set:
     """
     REDUNDANT_ATTRIBUTES = set()
     
-    data_frame = generate_sub_data_frame(
+    profile_data_frame = generate_sub_data_frame(
         set(data_frame.columns)
     )
     
-    corr_matrix = data_frame.corr(numeric_only=True).abs()
+    corr_matrix = profile_data_frame.corr(numeric_only=True).abs()
     
     # Compares the correlation values of each column in the pairing to the target variable
-    for x, y in get_highly_correlated_pairs(data_frame):
+    for x, y in get_highly_correlated_pairs(profile_data_frame):
         corr_val_x = corr_matrix.at[TARGET, x]
         corr_val_y = corr_matrix.at[TARGET, y]
     
@@ -265,11 +266,11 @@ def get_low_target_correlation_features(data_frame: pd.DataFrame, threshold: flo
     """
     REDUNDANT_ATTRIBUTES = set()
     
-    data_frame = generate_sub_data_frame(
+    profile_data_frame = generate_sub_data_frame(
         set(data_frame.columns)
     )
     
-    target_row = data_frame.corr(numeric_only=True)[TARGET].abs()
+    target_row = profile_data_frame.corr(numeric_only=True)[TARGET].abs()
 
     # Adds any non-status columns whose correlation value to the target variable is too low
     for column_name, corr_val in target_row.items():
@@ -412,15 +413,14 @@ def get_redundant_features() -> set:
     Returns:
         set: A set of redundant features.
     """
-    REDUNDANT_FEATURES = set()
-    PKL_FILE_PATH = "data/redundant_features.pkl"
+    PKL_FILE_PATH = os.path.join(PROJECT_ROOT, "data", "redundant_features.pkl")
     
     # Loads redundant features from .pkl file if it exists
     try:
-        with open(PKL_FILE_PATH, 'rb') as file:
+        with open(PKL_FILE_PATH, "rb") as file:
             REDUNDANT_FEATURES = pickle.load(file)
-    finally:
-        file.close()
+    except FileNotFoundError:
+        REDUNDANT_FEATURES = set()
 
     return REDUNDANT_FEATURES
 
@@ -517,3 +517,13 @@ def plot_feature_importance(clf: BaseEstimator):
     plt.xlabel("Features")
     plt.ylabel("Importance")
     plt.show()
+
+
+def feature_reason_table(features: set, reason: str) -> pd.DataFrame:
+    features = sorted(features)
+    return pd.DataFrame(
+        {
+            "feature": features,
+            "reason": [reason] * len(features),
+        }
+    )
