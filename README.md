@@ -29,6 +29,8 @@ obtained from [Kaggle](https://www.kaggle.com/) at https://www.kaggle.com/datase
 
 The dataset is licensed under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/). No modifications were made to the original dataset. It is used for model training, evaluation, and feature analysis within this project.
 
+For exploratory data analysis (EDA) and to understand the rationale behind feature removal decisions, see [dataset_overview.ipynb](docs/dataset_overview.ipynb).
+
 ## Project Highlights
 - Built and evaluated multiple machine learning phishing detection models
 - Interactive Dash/Plotly analytics dashboard
@@ -66,9 +68,9 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 
 ### Features
 
-- 🔍 Multi-layer URL inspection pipeline (domain → transport → content)
+- 🔍 Multi-layer URL inspection pipeline
 - 🧠 Signal-based risk detection with rule-based reasoning
-- 🔐 TLS and certificate validation (including edge cases)
+- 🔐 TLS and certificate validation
 - 🌐 URL structure and obfuscation analysis
 - 🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)
 - 📖 Explainable outputs with human-readable security insights
@@ -89,7 +91,7 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 ### Usage
 
 #### Dashboard
-- Run *.ipynb* notebooks 00-04 in the `notebooks` folder.
+- Run `python -m app.generate_models`
     - Confirm that files ending in *.pkl* were generated under `models/machine_learning` folder (these are the machine learning models from which performance will be measured)
 - Run `python -m utils.statistcal_profiling.py`
     - Confirm that `url_profile.json` was created under the folder `data`.
