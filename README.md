@@ -22,13 +22,19 @@
 
 The tool aggregates low-level signals (e.g., domain age, mismatched links, hidden elements) into higher-level insights, helping users identify potentially unsafe or deceptive websites.
 
+## Attributions to Datasets Used
+
+This project utilizes the **Phishing Url** dataset by [Hemanth Pingali](https://www.kaggle.com/hemanthpingali),
+obtained from [Kaggle](https://www.kaggle.com/) at https://www.kaggle.com/datasets/hemanthpingali/phishing-url.
+
+The dataset is licensed under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/). No modifications were made to the original dataset. It is used for model training, evaluation, and feature analysis within this project.
+
 ## Project Highlights
 - Built and evaluated multiple machine learning phishing detection models
 - Interactive Dash/Plotly analytics dashboard
 - Feature importance and explainable ML visualizations
 - Statistical profiling of phishing and legitimate URLs
 - Command-line URL risk assessment and inspection
-
 
 ## Dashboard
 The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites.
