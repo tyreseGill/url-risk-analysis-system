@@ -57,7 +57,7 @@ def categorize_features(data_frame: pd.DataFrame) -> (list, list):
     """
     # Redefine data frame based on relevant features
     if len(data_frame.columns) <= 5:
-        RELEVANT_FEATURES = get_relevant_features(data_frame, use_parent_directory=False)
+        RELEVANT_FEATURES = get_relevant_features(data_frame)
         data_frame = data_frame.reindex(sorted(RELEVANT_FEATURES), axis=1)
 
     # Feature collection
