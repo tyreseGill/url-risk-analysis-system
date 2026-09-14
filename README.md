@@ -14,6 +14,7 @@
 - [Project Highlights](#project-highlights)
 - [Dashboard](#dashboard)
 - [Command Line Interface](#command-line-interface)
+- [Architecture](#architecture)
 - [Installation](#installation)
 - [Technologies Used](#technologies-used)
 
@@ -75,6 +76,15 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 - 🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)
 - 📖 Explainable outputs with human-readable security insights
 
+## Architecture
+
+The URL Risk Analysis System combines multiple analysis techniques and external intelligence sources to evaluate the risk associated with a URL. For a detailed overview of the system design, see [architecture.md](docs/architecture.md) for architecture diagrams created using [diagrams.net](https://app.diagrams.net/).
+
+The architecture documentation includes:
+- Network topology
+- Risk analysis hierarchy
+- Multi-stage evaluation pipeline
+- Analysis methods and data sources
 
 ## Installation
 1. Download python from the official website ([https://www.python.org/downloads/](https://www.python.org/downloads/)) if you have not already done so.
