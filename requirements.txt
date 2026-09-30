@@ -1,6 +1,7 @@
 beautifulsoup4
 dash
 dash-bootstrap-components
+dotenv
 python-whois
 requests
 tldextract
