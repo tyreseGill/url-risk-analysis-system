@@ -1,8 +1,16 @@
 beautifulsoup4
 dash
 dash-bootstrap-components
-dotenv
+python-dotenv
 python-whois
 requests
 tldextract
 cryptography
+numpy
+pandas
+scikit-learn
+joblib
+plotly
+matplotlib
+seaborn
+pyarrow
