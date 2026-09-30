@@ -1,5 +1,7 @@
 from views.helpers import print_header, print_kv
 import dns.resolver
+import geoip2.database
+import requests
 
 
 def get_ipv4_address(url: str) -> str:
@@ -19,7 +21,7 @@ def get_ipv4_address(url: str) -> str:
     ipv4_addresses = [
         str(address) for address in answers
     ]
-    return ", ".join(ipv4_addresses)
+    return ipv4_addresses
 
 
 def get_ipv6_address(url: str) -> str:
@@ -62,6 +64,19 @@ def get_mail_servers(url: str) -> str:
     return ", ".join(mail_servers)
 
 
+def get_geoip_info(ip_address: str) -> str:
+    """
+    Get the GeoIP information for the given IP address.
+
+    Args:
+        ip_address (str): The IP address to query for GeoIP information.
+
+    Returns:
+        str: A string containing GeoIP information.
+    """
+    response = requests.get(f"https://ipinfo.io/{ip_address}/json")
+    return response.json()
+
 def print_dns_analysis(hostname: str):
     """
     Perform a DNS analysis for the given hostname, including IPv4, IPv6, and mail server information.
@@ -71,11 +86,28 @@ def print_dns_analysis(hostname: str):
     """
     print_header("DNS Analysis")
 
-    ipv4_address = str(get_ipv4_address(hostname)) or "None"
-    ipv6_address = str(get_ipv6_address(hostname)) or "None"
-    
-    print_kv("Associated IPv4 Addresses", ipv4_address)
-    print_kv("Associated IPv6 Addresses", ipv6_address)
-    
+    ipv4_addresses = get_ipv4_address(hostname) or "Unknown"
+    ipv6_addresses = str(get_ipv6_address(hostname)) or "Unknown"
+
+    origins = set()
+    state = None
+    country = None
+
+    # Gather GeoIP information for each IPv4 address
+    for ip_address in ipv4_addresses:
+        geo_ip_info = get_geoip_info(ip_address)
+        
+        if "error" in geo_ip_info:
+            print_kv("Status", f"{geo_ip_info["status"]} Error ({geo_ip_info["error"]["title"]} - {geo_ip_info["error"]["message"]})")
+        
+        state = geo_ip_info["region"]
+        country = geo_ip_info["country"]
+        origins.add(f"{state}, {country}")
+
+    origins = ", ".join(list(origins))
+
+    print_kv("GeoIP Information", f"{origins}")
+    print_kv("Associated IPv4 Addresses", ", ".join(ipv4_addresses))
+    print_kv("Associated IPv6 Addresses", ipv6_addresses)
     
     
