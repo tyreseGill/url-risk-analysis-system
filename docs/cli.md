@@ -48,44 +48,44 @@ python main.py <url> [options]
 ```bash
 python ./main.py google.com
 ```
-![Default URL Analysis](../img/default-analysis.png)
+![Default URL Analysis](../assets/png/default-analysis.png)
 
 ### Case #2: Full Analysis
 ```bash
 python ./main.py https://example.com --full
 ```
-![Full URL Analysis](../img/full-analysis.gif)
+![Full URL Analysis](../assets/gif/full-analysis.gif)
 
 ### Case #3: Passive Analysis
 ```bash
 python ./main.py example.net --domain_identity
 ```
-![Whois URL Analysis](../img/passive-analysis.png)
+![Whois URL Analysis](../assets/png/passive-analysis.png)
 
 ### Case #4: Offline Analysis (w/ Spoofed URL)
 ```bash
 # Intentionally spoofed URL for demonstration
 python ./main.py http://login-goȱgle.verify.secure.account.attacker.xyz --url_structure
 ```
-![Structural URL Analysis](../img/url-struct-analysis.png)
+![Structural URL Analysis](../assets/png/url-struct-analysis.png)
 
 ### Case #5: Transport Security Analysis
 ```bash
 python ./main.py http://neverssl.com/ --transport_security
 ```
-![Secure Communication Analysis](../img/insecure-comm-analysis.png)
+![Secure Communication Analysis](../assets/png/insecure-comm-analysis.png)
 
 ### Case #6: SSL/TLS Certificate Analysis (w/ Expired Certificate)
 ```bash
 python ./main.py https://expired.badssl.com --cert
 ```
-![SSL/TLS Certificate Analysis](../img/expired-cert-analysis.png)
+![SSL/TLS Certificate Analysis](../assets/png/expired-cert-analysis.png)
 
 ### Case #7: SSL/TLS Certificate Analysis (w/ Self-Signed Certificate)
 ```bash
 python ./main.py https://self-signed.badssl.com/ --cert
 ```
-![SSL/TLS Certificate Analysis](../img/self-signed-cert-analysis.png)
+![SSL/TLS Certificate Analysis](../assets/png/self-signed-cert-analysis.png)
 
 
 ## Notes

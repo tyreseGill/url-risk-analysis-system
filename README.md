@@ -43,7 +43,7 @@ For exploratory data analysis (EDA) and to understand the rationale behind featu
 The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites.
 
 ### Dashboard Preview
-![Dashboard Preview](img/dashboard.gif)
+![Dashboard Preview](assets/gif/dashboard.gif)
 
 ### Features
 - 📈 Model Performance Metrics
@@ -65,7 +65,7 @@ The dashboard enables users to explore model performance, visualize feature impo
 A detailed URL inspection tool that analyzes domain, certificate, transport, structural URL, and webpage characteristics to identify potential phishing indicators and provide explainable security insights.
 
 ### Command Line Interface Preview
-![Full URL Analysis](img/full-analysis.gif)
+![Full URL Analysis](assets/gif/full-analysis.gif)
 
 ### Features
 
