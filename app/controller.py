@@ -6,6 +6,7 @@ from models.risk_context import RiskContext
 from models.url.parsing import extract_hostname
 from views.domain import print_domain_identity_analysis
 from views.url import print_url_struct_analysis
+from views.dns import print_dns_analysis
 from views.transport import print_transport_security_analysis
 from views.cert import print_cert_analysis
 from views.html import print_html_analysis
@@ -32,12 +33,15 @@ def analysis(params: argparse.Namespace):
         return
     
     risk = classify_risk(params, ctx, query)
-    
-    if params.domain_identity:
-        print_domain_identity_analysis(risk, query)
 
     if params.url_structure:
         print_url_struct_analysis(risk)
+
+    if params.dns:
+        print_dns_analysis(params.url)
+
+    if params.domain_identity:
+        print_domain_identity_analysis(risk, query)
 
     if params.transport_security:
         print_transport_security_analysis(risk)

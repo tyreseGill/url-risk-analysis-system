@@ -51,8 +51,9 @@ def resolve_analysis_flags(params: argparse.Namespace) -> argparse.Namespace:
         params.virustotal = vt_available
 
     analysis_requested = any([
-        params.domain_identity,
         params.url_structure,
+        params.domain_identity,
+        params.dns,
         params.transport_security,
         params.tls,
         params.html,
@@ -61,8 +62,9 @@ def resolve_analysis_flags(params: argparse.Namespace) -> argparse.Namespace:
 
     # Performs analysis without direct network contact
     if params.passive :
-        params.domain_identity = True
         params.url_structure = True
+        params.domain_identity = True
+        params.dns = False
         params.transport_security = False
         params.tls = False
         params.html = False
@@ -70,8 +72,9 @@ def resolve_analysis_flags(params: argparse.Namespace) -> argparse.Namespace:
 
     # Performs all analyses
     elif params.full:
-        params.domain_identity = True
         params.url_structure = True
+        params.domain_identity = True
+        params.dns = True
         params.transport_security = True
         params.tls = True
         params.html = True
@@ -79,8 +82,9 @@ def resolve_analysis_flags(params: argparse.Namespace) -> argparse.Namespace:
     
     # Performs analysis with offline-capabilities
     elif params.offline:
-        params.domain_identity = False
         params.url_structure = True
+        params.domain_identity = False
+        params.dns = False
         params.transport_security = False
         params.tls = False
         params.html = False

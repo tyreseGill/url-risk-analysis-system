@@ -27,14 +27,19 @@ def add_analysis_options(parser: SafeArgumentParser) -> SafeArgumentParser:
     analysis_group = parser.add_argument_group("Analysis Options")
 
     analysis_group.add_argument(
+        "--url_structure",
+        action="store_true",
+        help="URL structural analysis"
+    )
+    analysis_group.add_argument(
         "--domain_identity",
         action="store_true",
         help="Whois info"
     )
     analysis_group.add_argument(
-        "--url_structure",
+        "--dns",
         action="store_true",
-        help="URL structural analysis"
+        help="DNS analysis"
     )
     analysis_group.add_argument(
         "--transport_security",
@@ -93,8 +98,9 @@ def add_filter_options(parser: SafeArgumentParser) -> SafeArgumentParser:
         "--exclude",
         nargs="+",
         choices=[
-            "domain_identity",
             "url_structure",
+            "domain_identity",
+            "dns",
             "transport_security",
             "tls_cert",
             "html",
