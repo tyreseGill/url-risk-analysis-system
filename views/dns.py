@@ -54,12 +54,13 @@ def get_mail_servers(url: str) -> str:
     Returns:
         str: A comma-separated list of mail servers.
     """
-    answers = dns.resolver.resolve(
+    servers = dns.resolver.resolve(
         url,
         "MX"
     )
+
     mail_servers = [
-        str(server) for server in answers
+        str(server.exchange) for server in servers
     ]
     return ", ".join(mail_servers)
 
@@ -89,6 +90,11 @@ def print_dns_analysis(hostname: str):
     ipv4_addresses = get_ipv4_address(hostname) or "Unknown"
     ipv6_addresses = str(get_ipv6_address(hostname)) or "Unknown"
 
+    if get_mail_servers(hostname) == ".":
+        has_mx_records = False
+    else:
+        has_mx_records = True
+
     origins = set()
     state = None
     country = None
@@ -107,7 +113,8 @@ def print_dns_analysis(hostname: str):
     origins = ", ".join(list(origins))
 
     print_kv("GeoIP Information", f"{origins}")
+    print_kv("Has Email Infrastructure", has_mx_records)
     print_kv("Associated IPv4 Addresses", ", ".join(ipv4_addresses))
-    print_kv("Associated IPv6 Addresses", ipv6_addresses)
+    # print_kv("Associated IPv6 Addresses", ipv6_addresses)
     
     
