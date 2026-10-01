@@ -15,4 +15,3 @@ matplotlib
 seaborn
 pyarrow
 dnspython
-geoip2

@@ -2,7 +2,6 @@ from views.helpers import print_header, print_kv
 from views.style import highlight_red, highlight_green, highlight_yellow
 from models.risk_context import RiskContext
 import dns.resolver
-import geoip2.database
 import requests
 
 
@@ -153,11 +152,12 @@ def print_email_infrastructure_support(hostname: str, ctx: RiskContext):
         ctx: The risk context to update based on the email infrastructure analysis.
     """
     response = get_mail_servers(hostname)
+    has_mx_records =
 
     # Check if the hostname has any MX records
     if response is None:
         has_mx_records = highlight_yellow("Unknown")
-    elif response == ".":
+    if response == ".":
         has_mx_records = highlight_red("No")
         ctx.add("no_mx_records")
     else:
