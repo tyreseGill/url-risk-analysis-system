@@ -38,7 +38,7 @@ def analysis(params: argparse.Namespace):
         print_url_struct_analysis(risk)
 
     if params.dns:
-        print_dns_analysis(params.url)
+        print_dns_analysis(params.url, ctx)
 
     if params.domain_identity:
         print_domain_identity_analysis(risk, query)

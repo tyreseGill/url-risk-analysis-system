@@ -28,7 +28,9 @@ EXPLANATIONS = {
     "external_links": "External links may redirect users to untrusted domains.",
     "mismatched_links": "One or more displayed links don't match the expected destination.",
     "hidden_elements": "Hidden elements may be used to obscure malicious content or trick users.",
-    "overlay_detected": "Overlays can be used to capture user interaction or spoof legitimate interfaces."
+    "overlay_detected": "Overlays can be used to capture user interaction or spoof legitimate interfaces.",
+    "country_mismatch": "The domain is associated with a country unassociated with the user's region.",
+    "no_mx_records": "No MX records found for the domain. This indicates that the domain is not configured to receive email."
 }
 
 STATEMENTS = {
@@ -56,7 +58,9 @@ STATEMENTS = {
     "external_links": "External links",
     "mismatched_links": "Mismatched links",
     "hidden_elements": "Hidden elements",
-    "overlay_detected": "Overlay detected"
+    "overlay_detected": "Overlay detected",
+    "country_mismatch": "Mismatching country",
+    "no_mx_records": "No MX Records Found"
 }
 
 RISK_VALUES = {
@@ -84,7 +88,9 @@ RISK_VALUES = {
     "external_links": 5,
     "mismatched_links": 30,
     "hidden_elements": 5,
-    "overlay_detected": 5
+    "overlay_detected": 5,
+    "country_mismatch": 5,
+    "no_mx_records": 5
 }
 
 

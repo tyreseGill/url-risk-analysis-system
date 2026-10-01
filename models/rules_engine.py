@@ -1,11 +1,5 @@
 
 RULES = [
-    # Domain Identity
-    {
-        "name": "High Risk of Phishing",
-        "all": {"young_domain", "external_links"},
-        "any": {"multiple_subdomains", "ip_address", "at_symbol_in_url", "lets_encrypt_cert"}
-    },
     # URL Structure
     {
         "name": "Possible Domain Impersonation",
@@ -27,6 +21,22 @@ RULES = [
         "name": "IP-Based Phishing Attempt",
         "all": {"ip_address"},
         # "any": {"no_https"}
+    },
+    # Domain Identity
+    {
+        "name": "High Risk of Phishing",
+        "all": {"young_domain", "external_links"},
+        "any": {"multiple_subdomains", "ip_address", "at_symbol_in_url", "lets_encrypt_cert"}
+    },
+    # DNS Infrastructure
+    {
+        "name": "No MX Records",
+        "all": {"no_mx_records"},
+    },
+    # TODO: Enable user to add country of residence to interpret this
+    {
+        "name": "Country Mismatch",
+        "all": {"country_mismatch"},
     },
     # Transport Security
     {

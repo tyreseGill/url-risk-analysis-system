@@ -25,12 +25,15 @@ def classify_risk(params: argparse.Namespace, ctx: RiskContext, query: dict | No
 
     result = {}
 
-    if params.domain_identity:
-        result |= classify_domain_identity(query, ctx)
-
     if params.url_structure:
         url = params.url
         result |= classify_url_structure(url, ctx)
+
+    if params.domain_identity:
+        result |= classify_domain_identity(query, ctx)
+
+    if params.dns:
+        pass
 
     if params.transport_security:
         result |= classify_transport_security(domain_name, ctx)
