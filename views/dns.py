@@ -152,7 +152,6 @@ def print_email_infrastructure_support(hostname: str, ctx: RiskContext):
         ctx: The risk context to update based on the email infrastructure analysis.
     """
     response = get_mail_servers(hostname)
-    has_mx_records =
 
     # Check if the hostname has any MX records
     if response is None:
