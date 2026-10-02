@@ -1,4 +1,19 @@
-# URL Risk Analysis System
+<div align="center">
+    <h1>URL Risk Analysis System</h1>
+    <img src="assets/svg/hero.svg">
+    <p>
+    A data-driven approach to URL security
+     <br />
+    <a href="docs/README.md"><strong>Explore the docs »</strong></a>
+    <br/>
+    <br/>
+    <a href="https://url-risk-analysis-dashboard.onrender.com/">View Dashboard</a>
+    &middot;
+    <a href="https://github.com/tyreseGill/url-risk-analysis-system/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/tyreseGill/url-risk-analysis-system/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    </p>
+</div>
 
 <details>
   <summary>Table of Contents</summary>
