@@ -3,6 +3,7 @@ import json
 import joblib
 import dash_bootstrap_components as dbc
 import pandas as pd
+import os
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.base import BaseEstimator
@@ -805,7 +806,11 @@ def main():
     metric_cards = build_metric_cards()
     profile_cards = build_profile_cards(profile)
     app = build_app(metrics, profile, metric_cards, profile_cards)
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8050)),
+        debug=False
+    )
 
 
 if __name__ == "__main__":
