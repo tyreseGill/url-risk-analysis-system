@@ -91,20 +91,32 @@ The architecture documentation includes:
 2. Clone/download a copy of this repository.
 3. Open your terminal and navigate to the project folder.
 4. Create a virtual environment within the folder by typing in `python -m venv venv` and pressing enter.
-    - Confirm that the `venv/` folder exists with: `ls` for Linux/macOs or `dir` for Windows.
+    > [!NOTE]
+    > Confirm that the `venv/` folder was created using `dir` for Windows users or `ls` for Linux/macOs users.
 5. Activate the environment
-    - On Windows, this is done via: `venv\Scripts\Activate`.
-    - On Linux/macOS, this is done via: `source venv/bin/activate`.
-6. Install the necessary packages with into the environment: `pip install -r requirements.txt`.
-7. Run either the dashboard or command line tool.
+    > [!NOTE]
+    > On Windows, this is done via: `venv\Scripts\Activate`.
+    > On Linux/macOS, this is done via: `source venv/bin/activate`.
+6. Install the necessary packages into the environment
+    - Application users run: `pip install -r requirements.txt`.
+    > [!TIP]
+    > In addition to running the above command, developers looking to contribute should run: `pip install -r requirements-dev.txt`
+7. Run either the dashboard or command line tool based on
+    > [!NOTE]
+    > In order to scan a URL with VirusTotal, create `.env` at project root and enter 
+    ```sh
+    API_KEY = 'ENTER YOUR API KEY';
+    ```
 
 ### Usage
 
 #### Dashboard
 - Run `python -m app.generate_models`
-    - Confirm that files ending in *.pkl* were generated under `models/machine_learning` folder (these are the machine learning models from which performance will be measured)
+    > [!NOTE]
+    > Confirm that files ending in *.pkl* were generated under `models/machine_learning/` folder (these are the machine learning models from which performance will be measured)
 - Run `python -m utils.statistcal_profiling.py`
-    - Confirm that `url_profile.json` was created under the folder `data`.
+    > [!NOTE]
+    > Confirm that `url_profile.json` was created under the folder `data/`.
 - Run `python -m app.dashboard`.
 - Open [http://127.0.0.1:8050/](http://127.0.0.1:8050/) on your browser to view dashboard.
 
