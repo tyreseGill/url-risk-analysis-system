@@ -1,5 +1,8 @@
 # Command Line Interface
 
+> [!NOTE]
+> All domains used in the following examples are safe, publicly documented, or reserved for testing purposes (e.g., example.com, badssl.com, neverssl.com).
+
 ## Arguments
 
 ### Usage:
@@ -86,8 +89,3 @@ python ./main.py https://expired.badssl.com --cert
 python ./main.py https://self-signed.badssl.com/ --cert
 ```
 ![SSL/TLS Certificate Analysis](../assets/png/self-signed-cert-analysis.png)
-
-
-> [!NOTE]
-> All domains used in the following examples are safe, publicly documented, or reserved for testing purposes (e.g., example.com, badssl.com, neverssl.com).
-> To utilize the VirusTotal feature, you will need to signup with VirusTotal in order to get an API key to interact with their API. Use of this feature will be permitted after inputting the line `API_KEY={YOUR_API_KEY_FOR_VIRUSTOTAL}` into a *.env* file within the directory.
