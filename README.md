@@ -181,7 +181,11 @@ python ./main.py google.com
 
 [![GeeksForGeeks][GeeksForGeeks-icon]][GeeksForGeeks-url]
 
-- Utilized the `plot_feature_importance` function in `notebook_utils.py`.
+- Utilized the `plot_feature_importance` function in [notebook_utils.py](utils/notebook_utils.py).
+
+[![Github][Github-icon]][Github-url]
+
+- Borrowed template formatting based on [othneildrew's](https://github.com/othneildrew) "Best-README-Template".
 
 [![Kaggle][Kaggle-icon]][Kaggle-url]
 
@@ -225,5 +229,7 @@ python ./main.py google.com
 <!-- Acknowledgements -->
 [GeeksForGeeks-icon]: https://img.shields.io/badge/GeeksforGeeks-298D46?style=for-the-badge&logo=geeksforgeeks&logoColor=white
 [GeeksForGeeks-url]: https://www.geeksforgeeks.org/machine-learning/how-to-generate-feature-importance-plots-from-scikit-learn/
+[Github-icon]: https://img.shields.io/badge/GitHub-%23121011.svg?style=for-the-badge&logo=github&logoColor=white
+[Github-url]: https://github.com/othneildrew/Best-README-Template/
 [Kaggle-icon]: https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=fff
 [Kaggle-url]: https://www.kaggle.com/datasets/hemanthpingali/phishing-url
