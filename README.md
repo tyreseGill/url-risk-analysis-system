@@ -1,14 +1,5 @@
 # URL Risk Analysis System
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![Dash](https://img.shields.io/badge/Dash-Framework-blue?logo=plotly&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Dash_Bootstrap_Components-7952Brap&logoColor=white)
-![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-Web_Scraping-green)
-![Requests](https://img.shields.io/badge/Requests-HTTP_Client-orange)
-![Python-Whois](https://img.shields.io/badge/Python--Whois-Domain_Analysis-red)
-![tldextract](https://img.shields.io/badge/tldextract-URL_Parsing-yellow)
-![Cryptography](https://img.shields.io/badge/Cryptography-Security-darkgreen)
-
 ## Table of Contents
 - [Overview](#overview)
 - [Project Highlights](#project-highlights)
