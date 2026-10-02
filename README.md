@@ -14,6 +14,24 @@
 
 The tool aggregates low-level signals (e.g., domain age, mismatched links, hidden elements) into higher-level insights, helping users identify potentially unsafe or deceptive websites.
 
+## Built With
+
+- Programming Languages
+    * [![Python][Python-icon]][Python-url]
+    * [![JavaScript][JavaScript-icon]][JavaScript-url]
+    * [![Jupyter][Jupyter-icon]][Jupyter-url]
+    * [![CSS][CSS-icon]][CSS-url]
+
+- Major Libraries
+    * [![Dash][Dash-icon]][Dash-url]
+    * [![Matplotlib][Matplotlib-icon]][Matplotlib-url]
+    * [![Numpy][Numpy-icon]][Numpy-url]
+    * [![Pandas][Pandas-icon]][Pandas-url]
+    * [![Plotly][Plotly-icon]][Plotly-url]
+    * [![Seaborn][Seaborn-icon]][Seaborn-url]
+    * [![Scikit-Learn][Scikit-Learn-icon]][Scikit-Learn-url]
+
+
 ## Attributions to Datasets Used
 
 This project utilizes the **Phishing Url** dataset by [Hemanth Pingali](https://www.kaggle.com/hemanthpingali),
@@ -120,18 +138,28 @@ The architecture documentation includes:
 #### Command Line
 - Refer to [cli.md](docs/cli.md) for specific command instructions and usages.
 
-## Technologies Used
-- Programming Languages
-    - Python
-    - JavaScript
-    - CSS
-- Python Libraries Used
-    - BeautifulSoup
-    - Dash
-    - Joblib
-    - Matplotlib
-    - Numpy
-    - Plotly
-    - Pandas
-    - Seaborn
-    - Scikit-learn
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[CSS-icon]: https://img.shields.io/badge/CSS-639?style=for-the-badge&logo=css&logoColor=fff
+[CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[JavaScript-icon]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[Jupyter-icon]: https://img.shields.io/badge/Jupyter-ffffff?style=for-the-badge&logo=Jupyter
+[Jupyter-url]: https://jupyter.org/
+[Python-icon]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[Python-url]: https://www.python.org/
+
+[Dash-icon]: https://img.shields.io/badge/Dash-008DE4?style=for-thee-badge&logo=plotly&logoColor=white
+[Dash-url]: https://dash.plotly.com/
+[Matplotlib-icon]: https://custom-icon-badges.demolab.com/badge/Matplotlib-71D291?logo=matplotlib&logoColor=fff
+[Matplotlib-url]: https://matplotlib.org/
+[Numpy-icon]: https://img.shields.io/badge/NumPy-4DABCF?logo=numpy&logoColor=fff
+[Numpy-url]: https://numpy.org/
+[Pandas-icon]: https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff
+[Pandas-url]: https://pandas.pydata.org/
+[Plotly-icon]: https://img.shields.io/badge/Plotly-3F44F75?logo=plotly&logoColor=white
+[Plotly-url]: https://plotly.com/python/
+[Seaborn-icon]: https://img.shields.io/badge/Seaborn-4EAEAA?logo=python&logoColor=fff
+[Seaborn-url]: https://seaborn.pydata.org/
+[Scikit-Learn-icon]: https://img.shields.io/badge/-Scikit--Learn-%23F7931E?logo=scikit-learn&logoColor=white
+[Scikit-Learn-url]: https://scikit-learn.org/stable/index.html
