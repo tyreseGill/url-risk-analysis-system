@@ -1,4 +1,8 @@
-# Documentation
+<div align="center">
+    <h1>Documentation</h1>
+</div>
+
+[← Go to Home](../README.md)
 
 This directory contains supporting documentation for the URL Risk Analysis System.
 
@@ -6,7 +10,10 @@ This directory contains supporting documentation for the URL Risk Analysis Syste
 
 ### Architecture
 
-- [architecture.md](architecture.md)
+- [01 Network Topology](architecture/01_network_topology.md)
+- [02 Risk Analysis Hierarchy](architecture/02_risk_analysis_order.md)
+- [03 Multi-Layer Analysis Pipeline](architecture/03_multi_layer_analysis.md)
+- [04 Analysis Methods](architecture/04_analysis_methods.md)
 
 System design documentation, including:
 

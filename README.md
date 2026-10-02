@@ -123,7 +123,7 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 
 ## Architecture
 
-The URL Risk Analysis System combines multiple analysis techniques and external intelligence sources to evaluate the risk associated with a URL. For a detailed overview of the system design, see [architecture.md](docs/architecture.md) for architecture diagrams created using [diagrams.net](https://app.diagrams.net/).
+The URL Risk Analysis System combines multiple analysis techniques and external intelligence sources to evaluate the risk associated with a URL. For a detailed overview of the system design, see [architecture.md](docs/architecture/01_network_topology.md) for architecture diagrams created using [diagrams.net](https://app.diagrams.net/).
 
 The architecture documentation includes:
 - Network topology
