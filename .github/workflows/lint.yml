@@ -25,5 +25,5 @@ jobs:
             - name: Install ruff
               run: pip install ruff
 
-            - name: ruff check .
-              run: Lint check all files
+            - name: Lint check all files
+              run: ruff check .
