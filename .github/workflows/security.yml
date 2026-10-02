@@ -1,0 +1,24 @@
+
+name: Security
+
+on: [push]
+jobs:
+    pip-audit:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the code
+              uses: actions/checkout@v4
+
+            - name: Setup python environment
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.11"
+
+            - name: Install application dependencies
+              run: pip install -r requirements
+
+            - name: Install pip-audit
+              run: pip install pip-audit
+
+            - name: Run vulnerability check on application dependencies
+              run: pip-audit
