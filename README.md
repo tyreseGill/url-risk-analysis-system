@@ -98,16 +98,14 @@ The architecture documentation includes:
 5. Activate the environment
 
 > [!NOTE]
-> On Windows, this is done via: `venv\Scripts\Activate`.
-> On Linux/macOS, this is done via: `source venv/bin/activate`.
+> Windows users run `venv\Scripts\Activate` while those on Linux/macOS should run `source venv/bin/activate`.
 
-6. Install the necessary packages into the environment
-    - Application users run: `pip install -r requirements.txt`.
+6. Install the necessary packages into the environment  by running `pip install -r requirements.txt`.
 
 > [!TIP]
 > In addition to running the above command, developers looking to contribute should run: `pip install -r requirements-dev.txt`
 
-7. Run either the dashboard or command line tool based on
+7. Run either the dashboard or command line tool.
 
 > [!NOTE]
 > To utilize the "VirusTotal Malware Scan" feature, you will need to signup with [VirusTotal](https://www.virustotal.com/gui/join-us) in order to get an API key to interact with their API. Use of this feature will be permitted after inputting the line `API_KEY="{YOUR_API_KEY_FOR_VIRUSTOTAL}"` into a *.env* file at project root.
@@ -115,18 +113,18 @@ The architecture documentation includes:
 ### Usage
 
 #### Dashboard
-- Run `python -m app.generate_models`
+1. Run `python -m app.generate_models`
 
 > [!NOTE]
 > Confirm that files ending in *.pkl* were generated under `models/machine_learning/` folder (these are the machine learning models from which performance will be measured)
 
-- Run `python -m utils.statistcal_profiling.py`
+2. Run `python -m utils.statistcal_profiling.py`
 
 > [!NOTE]
 > Confirm that `url_profile.json` was created under the folder `data/`.
 
-- Run `python -m app.dashboard`.
-- Open [http://127.0.0.1:8050/](http://127.0.0.1:8050/) on your browser to view dashboard.
+3. Run `python -m app.dashboard`.
+4. Open [http://127.0.0.1:8050/](http://127.0.0.1:8050/) on your browser to view dashboard.
 
 #### Command Line
 - Refer to [cli.md](docs/cli.md) for specific command instructions and usages.
