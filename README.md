@@ -9,7 +9,6 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#attributions-to-datasets-used">Attributions to Datasets Used</a></li>
     <li><a href="#project-highlights">Project Highlights</a></li>
     <li>
       <a href="#dashboard">Dashboard</a>
@@ -34,6 +33,7 @@
         <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -59,16 +59,6 @@ The tool aggregates low-level signals (e.g., domain age, mismatched links, hidde
     * [![Seaborn][Seaborn-icon]][Seaborn-url]
     * [![Scikit-Learn][Scikit-Learn-icon]][Scikit-Learn-url]
 
-
-## Attributions to Datasets Used
-
-This project utilizes the **Phishing Url** dataset by [Hemanth Pingali](https://www.kaggle.com/hemanthpingali),
-obtained from [Kaggle](https://www.kaggle.com/) at https://www.kaggle.com/datasets/hemanthpingali/phishing-url.
-
-The dataset is licensed under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/). No modifications were made to the original dataset. It is used for model training, evaluation, and feature analysis within this project.
-
-For exploratory data analysis (EDA) and to understand the rationale behind feature removal decisions, see [dataset_overview.ipynb](docs/dataset_overview.ipynb).
-
 ## Project Highlights
 - Built and evaluated multiple machine learning phishing detection models
 - Interactive Dash/Plotly analytics dashboard
@@ -77,7 +67,10 @@ For exploratory data analysis (EDA) and to understand the rationale behind featu
 - Command-line URL risk assessment and inspection
 
 ## Dashboard
-The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites. The dashboard is deployed and available at [https://url-risk-analysis-dashboard.onrender.com/](https://url-risk-analysis-dashboard.onrender.com/).
+The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites. 
+
+> [!NOTE]
+> The dashboard is deployed and available at https://url-risk-analysis-dashboard.onrender.com/.
 
 ### Dashboard Preview
 ![Dashboard Preview](assets/gif/dashboard.gif)
@@ -169,8 +162,26 @@ python ./main.py google.com
 ```
 - Refer to [cli.md](docs/cli.md) for more examples and specific command instructions.
 
+## Acknowledgements
+
+[![GeeksForGeeks][GeeksForGeeks-icon]][GeeksForGeeks-url]
+
+- Utilized the `plot_feature_importance` function in `notebook_utils.py`.
+
+[![Kaggle][Kaggle-icon]][Kaggle-url]
+
+- This project utilizes the **Phishing Url** dataset by [Hemanth Pingali](https://www.kaggle.com/hemanthpingali).
+
+- The dataset is licensed under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+    - No modifications were made to the original dataset.
+    - It is used for model training, evaluation, and feature analysis within this project.
+
+- For exploratory data analysis (EDA) and to understand the rationale behind feature removal decisions, see [dataset_overview.ipynb](docs/dataset_overview.ipynb).
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+<!-- Programming Languages -->
 [CSS-icon]: https://img.shields.io/badge/CSS-639?style=for-the-badge&logo=css&logoColor=fff
 [CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
 [JavaScript-icon]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000
@@ -180,6 +191,7 @@ python ./main.py google.com
 [Python-icon]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
 
+<!-- Libraries -->
 [Dash-icon]: https://img.shields.io/badge/Dash-008DE4?style=for-thee-badge&logo=plotly&logoColor=white
 [Dash-url]: https://dash.plotly.com/
 [Matplotlib-icon]: https://custom-icon-badges.demolab.com/badge/Matplotlib-71D291?logo=matplotlib&logoColor=fff
@@ -194,3 +206,9 @@ python ./main.py google.com
 [Seaborn-url]: https://seaborn.pydata.org/
 [Scikit-Learn-icon]: https://img.shields.io/badge/-Scikit--Learn-%23F7931E?logo=scikit-learn&logoColor=white
 [Scikit-Learn-url]: https://scikit-learn.org/stable/index.html
+
+<!-- Acknowledgements -->
+[GeeksForGeeks-icon]: https://img.shields.io/badge/GeeksforGeeks-298D46?style=for-the-badge&logo=geeksforgeeks&logoColor=white
+[GeeksForGeeks-url]: https://www.geeksforgeeks.org/machine-learning/how-to-generate-feature-importance-plots-from-scikit-learn/
+[Kaggle-icon]: https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=fff
+[Kaggle-url]: https://www.kaggle.com/datasets/hemanthpingali/phishing-url
