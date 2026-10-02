@@ -40,7 +40,7 @@ For exploratory data analysis (EDA) and to understand the rationale behind featu
 - Command-line URL risk assessment and inspection
 
 ## Dashboard
-The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites.
+The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites. The dashboard is deployed and available at [https://url-risk-analysis-dashboard.onrender.com/](https://url-risk-analysis-dashboard.onrender.com/).
 
 ### Dashboard Preview
 ![Dashboard Preview](assets/gif/dashboard.gif)
