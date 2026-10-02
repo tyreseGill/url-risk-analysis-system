@@ -7,7 +7,7 @@
 
 ### Usage:
 ```bash
-python main.py <url> [options]
+python ./main.py <url> [options]
 ```
 
 ### Analysis Options
