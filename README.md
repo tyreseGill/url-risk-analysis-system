@@ -1,20 +1,48 @@
 # URL Risk Analysis System
 
-## Table of Contents
-- [Overview](#overview)
-- [Project Highlights](#project-highlights)
-- [Dashboard](#dashboard)
-- [Command Line Interface](#command-line-interface)
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Technologies Used](#technologies-used)
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#attributions-to-datasets-used">Attributions to Datasets Used</a></li>
+    <li><a href="#project-highlights">Project Highlights</a></li>
+    <li>
+      <a href="#dashboard">Dashboard</a>
+      <ul>
+        <li><a href="#dashboard-preview">Dashboard Preview</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#command-line-interface">Command Line Interface</a>
+      <ul>
+        <li><a href="#cli-preview">CLI Interface Preview</a></li>
+        <li><a href="#features-1">Features</a></li>
+      </ul>
+    </li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
 
-## Overview
+## About the Project
 ***URL Risk Analysis System*** is a phishing website analysis platform consisting of an interactive machine learning dashboard and a command-line URL inspection tool. Users can explore phishing detection models, compare phishing and legitimate website characteristics, and perform detailed URL security analysis.
 
 The tool aggregates low-level signals (e.g., domain age, mismatched links, hidden elements) into higher-level insights, helping users identify potentially unsafe or deceptive websites.
 
-## Built With
+### Built With
 
 - Programming Languages
     * [![Python][Python-icon]][Python-url]
@@ -73,7 +101,7 @@ The dashboard enables users to explore model performance, visualize feature impo
 ## Command Line Interface
 A detailed URL inspection tool that analyzes domain, certificate, transport, structural URL, and webpage characteristics to identify potential phishing indicators and provide explainable security insights.
 
-### Command Line Interface Preview
+### CLI Preview
 ![Full URL Analysis](assets/gif/full-analysis.gif)
 
 ### Features
@@ -95,11 +123,18 @@ The architecture documentation includes:
 - Multi-stage evaluation pipeline
 - Analysis methods and data sources
 
-## Installation
-1. Download python from the official website ([https://www.python.org/downloads/](https://www.python.org/downloads/)) if you have not already done so.
-2. Clone/download a copy of this repository.
-3. Open your terminal and navigate to the project folder.
-4. Create a virtual environment within the folder by typing in `python -m venv venv` and pressing enter.
+## Getting Started
+If you're a developer and looking to contribute to the application yourself, follow the given steps.
+
+### Prerequisites
+Before installing the URL Risk Analysis System, ensure the following are available:
+- Python 3.11 or later
+- An active internet connection for retrieving DNS, WHOIS, reputation, and webpage data
+
+### Installation
+1. Clone/download a copy of this repository.
+2. Open your terminal and navigate to the project folder.
+3. Create a virtual environment within the folder by typing in `python -m venv venv` and pressing enter.
 
 > [!NOTE]
 > Confirm that the `venv/` folder was created using `dir` for Windows users or `ls` for Linux/macOs users.
@@ -123,20 +158,16 @@ The architecture documentation includes:
 
 #### Dashboard
 1. Run `python -m app.generate_models`
-
-> [!NOTE]
-> Confirm that files ending in *.pkl* were generated under `models/machine_learning/` folder (these are the machine learning models from which performance will be measured)
-
 2. Run `python -m utils.statistcal_profiling.py`
-
-> [!NOTE]
-> Confirm that `url_profile.json` was created under the folder `data/`.
-
 3. Run `python -m app.dashboard`.
 4. Open [http://127.0.0.1:8050/](http://127.0.0.1:8050/) on your browser to view dashboard.
 
 #### Command Line
-- Refer to [cli.md](docs/cli.md) for specific command instructions and usages.
+- Run 
+```bash
+python ./main.py google.com
+```
+- Refer to [cli.md](docs/cli.md) for more examples and specific command instructions.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
