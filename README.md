@@ -130,9 +130,9 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 
 Additional project documentation is available in the [`docs/`](./docs/README.md) folder:
 
-- [docs/architecture.md](docs/architecture.md)
-- [docs/cli.md](docs/cli.md)
-- [docs/dataset_overview.ipynb](docs/dataset_overview.ipynb)
+- [Architecture](./docs/architecture/01_network_topology.md)
+- [CLI Commands](docs/cli.md)
+- [Dataset Overview](docs/dataset_overview.ipynb)
 
 > [!NOTE]
 > The dataset overview notebook is intended as read-only documentation for exploratory data analysis (EDA).
