@@ -76,42 +76,65 @@ The tool aggregates low-level signals (e.g., domain age, mismatched links, hidde
 ## Dashboard
 The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites. 
 
+<details>
+  <summary>Features</summary>
+  <ol>
+    <li>
+      <summary>📈 Model Performance Metrics</summary>
+      <ul>
+        <li>Accuracy</li>
+        <li>Precision</li>
+        <li>Recall</li>
+        <li>F1-Score</li>
+        <li>ROC-AUC</li>
+      </ul>
+    </li>
+    <li>
+      <summary>📊 Feature Importance Analysis</summary>
+      <ul>
+        <li>Displays the most important predictive features used by the selected model</li>
+        <li>Updates automatically when a different model is selected</li>
+      </ul>
+    </li>
+    <li>
+      <summary>🆚 URL Profile Comparison</summary>
+      <ul>
+        <li>Compares characteristic phishing and legitimate URL patterns side-by-side</li>
+      </ul>
+    </li>
+    <li>
+      <summary>𖣠 Radar Chart</summary>
+      <ul>
+        <li>Compares phishing and legitimate URL profiles across the model's five most important features</li>
+        <li>Enables quick visual identification of distinguishing characteristics</li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
 > [!NOTE]
 > The dashboard is deployed and available at https://url-risk-analysis-dashboard.onrender.com/.
 
 ### Dashboard Preview
 ![Dashboard Preview](assets/gif/dashboard.gif)
 
-### Features
-- 📈 Model Performance Metrics
-    - Accuracy
-    - Precision
-    - Recall
-    - F1-Score
-    - ROC-AUC
-- 📊 Feature Importance Analysis
-    - Displays the most important predictive features used by the selected model
-    - Updates automatically when a different model is selected
-- 🆚 URL Profile Comparison
-    - Compares characteristic phishing and legitimate URL patterns side-by-side
-- 𖣠 Radar Chart
-    - Compares phishing and legitimate URL profiles across the model's five most important features
-    - Enables quick visual identification of distinguishing characteristics
-
 ## Command Line Interface
 A detailed URL inspection tool that analyzes domain, certificate, transport, structural URL, and webpage characteristics to identify potential phishing indicators and provide explainable security insights.
 
+<details>
+  <summary>Features</summary>
+  <ul>
+    <li><a href="#">🔍 Multi-layer URL inspection pipeline</a></li>
+    <li><a href="#">🧠 Signal-based risk detection with rule-based reasoning</a></li>
+    <li><a href="#">🔐 TLS and certificate validation</a></li>
+    <li><a href="#">🌐 URL structure and obfuscation analysis</a></li>
+    <li><a href="#">🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)</a></li>
+    <li><a href="#">📖 Explainable outputs with human-readable security insights</a></li>
+  </ul>
+</details>
+
 ### CLI Preview
 ![Full URL Analysis](assets/gif/full-analysis.gif)
-
-### Features
-
-- 🔍 Multi-layer URL inspection pipeline
-- 🧠 Signal-based risk detection with rule-based reasoning
-- 🔐 TLS and certificate validation
-- 🌐 URL structure and obfuscation analysis
-- 🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)
-- 📖 Explainable outputs with human-readable security insights
 
 ## Documentation
 
