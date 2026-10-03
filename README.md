@@ -26,17 +26,9 @@
     </li>
     <li>
       <a href="#dashboard">Dashboard</a>
-      <ul>
-        <li><a href="#dashboard-preview">Dashboard Preview</a></li>
-        <li><a href="#features">Features</a></li>
-      </ul>
     </li>
     <li>
       <a href="#command-line-interface">Command Line Interface</a>
-      <ul>
-        <li><a href="#cli-preview">CLI Interface Preview</a></li>
-        <li><a href="#features-1">Features</a></li>
-      </ul>
     </li>
     <li><a href="#documentation">Documentation</a></li>
     <li>
@@ -115,7 +107,6 @@ The dashboard enables users to explore model performance, visualize feature impo
 > [!NOTE]
 > The dashboard is deployed and available at https://url-risk-analysis-dashboard.onrender.com/.
 
-### Dashboard Preview
 ![Dashboard Preview](assets/gif/dashboard.gif)
 
 ## Command Line Interface
@@ -133,7 +124,6 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
   </ul>
 </details>
 
-### CLI Preview
 ![Full URL Analysis](assets/gif/full-analysis.gif)
 
 ## Documentation
