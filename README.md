@@ -39,7 +39,7 @@
         <li><a href="#features-1">Features</a></li>
       </ul>
     </li>
-    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#documentation">Documentation</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -121,15 +121,16 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 - 🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)
 - 📖 Explainable outputs with human-readable security insights
 
-## Architecture
+## Documentation
 
-The URL Risk Analysis System combines multiple analysis techniques and external intelligence sources to evaluate the risk associated with a URL. For a detailed overview of the system design, see [architecture.md](docs/architecture/01_network_topology.md) for architecture diagrams created using [diagrams.net](https://app.diagrams.net/).
+Additional project documentation is available in the [`docs/`](./docs/README.md) folder:
 
-The architecture documentation includes:
-- Network topology
-- Risk analysis hierarchy
-- Multi-stage evaluation pipeline
-- Analysis methods and data sources
+- [docs/architecture.md](docs/architecture.md)
+- [docs/cli.md](docs/cli.md)
+- [docs/dataset_overview.ipynb](docs/dataset_overview.ipynb)
+
+> [!NOTE]
+> The dataset overview notebook is intended as read-only documentation for exploratory data analysis (EDA).
 
 ## Getting Started
 If you're a developer and looking to contribute to the application yourself, follow the given steps.
@@ -194,8 +195,6 @@ python ./main.py google.com
 - The dataset is licensed under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
     - No modifications were made to the original dataset.
     - It is used for model training, evaluation, and feature analysis within this project.
-
-- For exploratory data analysis (EDA) and to understand the rationale behind feature removal decisions, see [dataset_overview.ipynb](docs/dataset_overview.ipynb).
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
