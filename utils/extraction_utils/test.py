@@ -1,7 +1,8 @@
 
-from .url_structural_features import *
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+from .url_structural_features import *
 
 TRAINING_DATA = "data/Training.parquet"
 FULL_DATA_FRAME = pd.read_parquet(TRAINING_DATA, engine='pyarrow')

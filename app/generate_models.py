@@ -1,8 +1,17 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.base import BaseEstimator
-from utils.notebook_utils import generate_sub_data_frame, test_model, save_stage_metrics, get_relevant_features, save_redundant_features, get_redundant_correlated_features, get_low_target_correlation_features
+from sklearn.ensemble import RandomForestClassifier
+
 from utils.animations import load_bar, show_popup_message
+from utils.notebook_utils import (
+    generate_sub_data_frame,
+    get_low_target_correlation_features,
+    get_redundant_correlated_features,
+    get_relevant_features,
+    save_redundant_features,
+    save_stage_metrics,
+    test_model,
+)
 
 
 def get_all_relevant_features(model: BaseEstimator) -> pd.DataFrame:
@@ -152,7 +161,14 @@ def get_relevant_structural_features() -> pd.DataFrame:
     Returns:
         pd.DataFrame: A data frame containing the relevant structural features.
     """   
-    from utils.feature_categories import URL_LENGTH_FEATURES, URL_NUMERIC_FEATURES, URL_STRUCTURAL_FEATURES, URL_BEHAVIOR_FEATURES, WORD_STATS, DOMAIN_AND_SUBDOMAIN_FEATURES
+    from utils.feature_categories import (
+        DOMAIN_AND_SUBDOMAIN_FEATURES,
+        URL_BEHAVIOR_FEATURES,
+        URL_LENGTH_FEATURES,
+        URL_NUMERIC_FEATURES,
+        URL_STRUCTURAL_FEATURES,
+        WORD_STATS,
+    )
 
     # Combines all URL-structural features into a single set
     ALL_URL_FEATURES = URL_LENGTH_FEATURES | URL_NUMERIC_FEATURES | URL_STRUCTURAL_FEATURES | URL_BEHAVIOR_FEATURES | WORD_STATS | DOMAIN_AND_SUBDOMAIN_FEATURES
@@ -229,7 +245,12 @@ def get_relevant_webpage_features() -> pd.DataFrame:
     Returns:
         pd.DataFrame: A data frame containing the relevant webpage features.
     """
-    from utils.feature_categories import HTML_FEATURES, MEDIA_FEATURES, JAVASCRIPT_FEATURES, CONTENT_METADATA_FEATURES
+    from utils.feature_categories import (
+        CONTENT_METADATA_FEATURES,
+        HTML_FEATURES,
+        JAVASCRIPT_FEATURES,
+        MEDIA_FEATURES,
+    )
 
     # Combines all webpage-related features into a single set
     WEBPAGE_FEATURES = HTML_FEATURES | MEDIA_FEATURES | JAVASCRIPT_FEATURES | CONTENT_METADATA_FEATURES

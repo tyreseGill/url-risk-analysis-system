@@ -1,9 +1,9 @@
-from models.risk_context import RiskContext
 from models.network.certs import *
 from models.risk.classifiers import classify_expiration_date
+from models.risk_context import RiskContext
 from utils.text_utils import cutoff_print_statement
-from views.style import highlight_green, highlight_yellow, highlight_red
 from views.helpers import print_header, print_kv
+from views.style import highlight_green, highlight_red, highlight_yellow
 
 
 def print_cert_analysis(hostname: str, ctx: RiskContext):

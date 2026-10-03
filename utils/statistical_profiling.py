@@ -1,7 +1,8 @@
-import pandas as pd
 import json
-from utils.notebook_utils import get_relevant_features, generate_sub_data_frame
 
+import pandas as pd
+
+from utils.notebook_utils import get_relevant_features
 
 TRAINING_DATA = "data/Training.parquet"
 TESTING_DATA = "data/Testing.parquet"

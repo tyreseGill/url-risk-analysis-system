@@ -1,8 +1,10 @@
 import sys
 import threading
 import time
-from typing import Callable, Any
-from views.style import highlight, RED, YELLOW, GREEN
+from collections.abc import Callable
+from typing import Any
+
+from views.style import GREEN, RED, YELLOW, highlight
 
 
 def dot_animation(base_message: str, stop_event: threading.Event):
@@ -28,7 +30,6 @@ def dot_animation(base_message: str, stop_event: threading.Event):
 
     # Runs animation until function completes its task
     while not stop_event.is_set():
-        # 
         if (num_dots_to_load + 1) % 4 == 0:
             dynamic_message = base_message
             num_dots_to_load = 0

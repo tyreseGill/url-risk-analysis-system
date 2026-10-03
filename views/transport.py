@@ -1,5 +1,5 @@
-from views.style import highlight
 from views.helpers import print_header, print_kv
+from views.style import highlight
 
 
 def print_transport_security_analysis(risk: dict):

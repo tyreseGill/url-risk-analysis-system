@@ -1,7 +1,11 @@
 
-from models.url.parsing import extract_hostname, contains_ip_address, extract_url_components, fetch_ip_addresses
 import re
 
+from models.url.parsing import (
+    extract_hostname,
+    extract_url_components,
+    fetch_ip_addresses,
+)
 
 # BOOLEAN functions
 

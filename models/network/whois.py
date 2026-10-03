@@ -1,5 +1,7 @@
-from datetime import datetime as dt, timezone as tz
+from datetime import datetime as dt
+from datetime import timezone as tz
 from functools import lru_cache
+
 import whois
 
 

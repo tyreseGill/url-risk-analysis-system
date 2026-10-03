@@ -1,7 +1,6 @@
 from models.rules_engine import deduce_rule
 from utils.text_utils import cutoff_print_statement
-from views.style import highlight_green, highlight_yellow, highlight_red
-
+from views.style import highlight_green, highlight_red, highlight_yellow
 
 EXPLANATIONS = {
     "young_domain": "Phishing sites often have extremely short lifespans.",

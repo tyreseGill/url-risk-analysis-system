@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup
-from utils.animations import display_load_animation
 import requests
+from bs4 import BeautifulSoup
+
+from utils.animations import display_load_animation
 
 
 def supports_https(domain_name: str) -> bool:

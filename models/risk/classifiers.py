@@ -1,14 +1,14 @@
-from datetime import datetime as dt, timezone as tz
+import argparse
+from datetime import datetime as dt
+from datetime import timezone as tz
+
 from models.network.requests import supports_https
 from models.network.whois import normalize_expiration_date
 from models.risk_context import RiskContext
 from models.url.parsing import *
 from utils.text_utils import find_literal, find_literals
-from views.span import Span, make_spans, collect_spans
+from views.span import Span, collect_spans, make_spans
 from views.style import *
-import argparse
-
-
 
 DAYS_IN_YEAR = 365
 DAYS_IN_MONTH = 30

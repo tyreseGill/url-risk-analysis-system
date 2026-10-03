@@ -1,6 +1,6 @@
 from models.network.virustotal import fetch_virustotal_stats
-from views.style import highlight_green, highlight_yellow, highlight_red
 from views.helpers import print_header, print_kv
+from views.style import highlight_green, highlight_red, highlight_yellow
 
 
 def print_virus_total_stats(url: str):

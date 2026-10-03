@@ -1,8 +1,9 @@
+import argparse
+
 from app.cli_options import *
 from app.parser import SafeArgumentParser
 from models.network.virustotal import virustotal_available
 from utils.animations import show_popup_message
-import argparse
 
 
 def parse_args() -> argparse.Namespace:

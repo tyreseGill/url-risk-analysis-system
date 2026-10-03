@@ -1,12 +1,15 @@
+import socket
+import ssl
+from datetime import datetime
+from datetime import timezone as tz
+
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import Certificate as CryptCert
-from utils.animations import display_load_animation
+
 from models.risk_context import RiskContext
 from models.url.parsing import extract_hostname, extract_url_components
-from datetime import datetime, timezone as tz
-import ssl
-import socket
+from utils.animations import display_load_animation
 
 
 class Certificate:

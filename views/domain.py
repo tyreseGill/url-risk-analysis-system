@@ -1,7 +1,8 @@
-from models.risk.classifiers import normalize_expiration_date
-from views.style import highlight
-from views.helpers import print_header, print_kv
 from datetime import datetime as dt
+
+from models.risk.classifiers import normalize_expiration_date
+from views.helpers import print_header, print_kv
+from views.style import highlight
 
 
 def print_domain_identity_analysis(risk: dict, query: dict):

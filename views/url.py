@@ -1,4 +1,3 @@
-from views.style import highlight_green, highlight_yellow, highlight_red
 from views.helpers import print_header, print_kv
 
 

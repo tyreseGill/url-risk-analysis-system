@@ -1,20 +1,19 @@
-from models.network.whois import query_url, query_exists
-from models.network.html_parser import fetch_absolute_links
-from models.network.html_parser import convert_html_to_soup
+import argparse
+import os
+
+from models.network.html_parser import convert_html_to_soup, fetch_absolute_links
+from models.network.whois import query_exists, query_url
 from models.risk.classifiers import classify_risk
 from models.risk_context import RiskContext
 from models.url.parsing import extract_hostname
-from views.domain import print_domain_identity_analysis
-from views.url import print_url_struct_analysis
-from views.dns import print_dns_analysis
-from views.transport import print_transport_security_analysis
 from views.cert import print_cert_analysis
+from views.dns import print_dns_analysis
+from views.domain import print_domain_identity_analysis
 from views.html import print_html_analysis
-from views.virustotal import print_virus_total_stats
 from views.summary import print_risk_summary
-from utils.animations import show_popup_message
-import argparse
-import os
+from views.transport import print_transport_security_analysis
+from views.url import print_url_struct_analysis
+from views.virustotal import print_virus_total_stats
 
 
 def analysis(params: argparse.Namespace):

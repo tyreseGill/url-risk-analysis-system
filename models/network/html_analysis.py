@@ -1,12 +1,14 @@
-from models.network.html_parser import fetch_absolute_links, fetch_js, fetch_external_css
-from models.network.whois import query_exists, query_url
-from models.risk.classifiers import classify_url_structure, classify_domain_identity
-from models.url.parsing import extract_hostname, contains_ip_address
-from models.network.requests import fetch_page_resource
-from models.risk_context import RiskContext
-from views.style import RED, YELLOW
-from bs4 import BeautifulSoup, element
 import re
+
+from bs4 import BeautifulSoup, element
+
+from models.network.html_parser import fetch_absolute_links, fetch_js
+from models.network.requests import fetch_page_resource
+from models.network.whois import query_exists, query_url
+from models.risk.classifiers import classify_domain_identity, classify_url_structure
+from models.risk_context import RiskContext
+from models.url.parsing import contains_ip_address, extract_hostname
+from views.style import RED, YELLOW
 
 
 def remove_js_from_html(soup: BeautifulSoup) -> str:

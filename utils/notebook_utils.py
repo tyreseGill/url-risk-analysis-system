@@ -1,15 +1,22 @@
+import json
 import math
+import os
+import pickle
+
+import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import pickle
-import json
-import joblib
-import os
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 from sklearn.base import BaseEstimator
-
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRAINING_DATA = os.path.join(PROJECT_ROOT, "data", "Training.parquet")

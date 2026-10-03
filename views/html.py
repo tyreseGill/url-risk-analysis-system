@@ -1,10 +1,14 @@
-from models.risk_context import RiskContext
-from models.network.requests import fetch_page_resource_soup, fetch_page_resource
-from models.network.html_analysis import analyze_html, analyze_external_domains, analyze_css
+from models.network.html_analysis import (
+    analyze_css,
+    analyze_external_domains,
+    analyze_html,
+)
 from models.network.html_parser import fetch_external_css
+from models.network.requests import fetch_page_resource, fetch_page_resource_soup
+from models.risk_context import RiskContext
 from models.url.parsing import contains_scheme
-from views.style import highlight_green, highlight_yellow, highlight_red
 from views.helpers import print_header, print_kv
+from views.style import highlight_green, highlight_red, highlight_yellow
 
 
 def print_html_analysis(url: str, ctx: RiskContext):

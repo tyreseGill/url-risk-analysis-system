@@ -1,9 +1,9 @@
-from views.helpers import print_header, print_kv
-from views.style import highlight_red, highlight_green, highlight_yellow
-from models.risk_context import RiskContext
 import dns.resolver
 import requests
 
+from models.risk_context import RiskContext
+from views.helpers import print_header, print_kv
+from views.style import highlight_green, highlight_red, highlight_yellow
 
 USER_COUNTRY = "US"
 
