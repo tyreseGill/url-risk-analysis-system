@@ -1,4 +1,8 @@
-# Command Line Interface
+<div align="center">
+    <h1>Command Line Interface</h1>
+</div>
+
+[← Go back to Documentation page](README.md)
 
 > [!NOTE]
 > All domains used in the following examples are safe, publicly documented, or reserved for testing purposes (e.g., example.com, badssl.com, neverssl.com).
@@ -89,3 +93,8 @@ python ./main.py https://expired.badssl.com --cert
 python ./main.py https://self-signed.badssl.com/ --cert
 ```
 ![SSL/TLS Certificate Analysis](../assets/png/self-signed-cert-analysis.png)
+
+<!-- FooterStart -->
+---
+[README on Documentation](README.md) | [Architecture Documentation](architecture/01_network_topology.md) | [Dataset Overview](./dataset_overview.ipynb)
+<!-- FooterEnd -->
