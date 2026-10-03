@@ -111,7 +111,7 @@ def extract_urls(file:str):
             urls = [
                 line.strip("\n")
                 for line in 
-                file.readlines()  # Only works for .txt and .csv
+                file  # Only works for .txt and .csv
                 if not line.startswith("#")
                 and line.strip("\n") != ""
             ]

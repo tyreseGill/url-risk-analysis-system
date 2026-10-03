@@ -27,7 +27,7 @@ class Span:
                 
         color = get_color()
         
-        return f"(({self.start}, {self.end}), {str(color)})"
+        return f"(({self.start}, {self.end}), {color!s})"
     
 
 def make_spans(list_spans: list[Span], color: str) -> list[Span]:

@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+
 class SafeArgumentParser(argparse.ArgumentParser):
     """
     A subclass of argparse.ArgumentParser that overrides the default error behavior.

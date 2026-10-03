@@ -23,7 +23,7 @@ def validate_helper_func(feature_name: str, funct: callable, *args):
     num_conflicts = 0
     conflicts_dict = {}
 
-    for idx in range(0, len(FULL_DATA_FRAME)):
+    for idx in range(len(FULL_DATA_FRAME)):
         URL = FULL_DATA_FRAME["url"][idx]
         RECEIVED_VALUE = funct(URL, *args)
         EXPECTED_VALUE = FULL_DATA_FRAME[feature_name][idx]

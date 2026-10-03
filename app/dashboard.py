@@ -1,14 +1,20 @@
-import dash
 import json
-import joblib
+
+import dash
 import dash_bootstrap_components as dbc
+import joblib
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from dash import ClientsideFunction, Input, Output, dcc, html
 from sklearn.base import BaseEstimator
-from dash import html, dcc, Input, Output, ClientsideFunction
-from utils.statistical_profiling import generate_boolean_feature_title, generate_numeric_feature_title, categorize_features, generate_profiles
 
+from utils.statistical_profiling import (
+    categorize_features,
+    generate_boolean_feature_title,
+    generate_numeric_feature_title,
+    generate_profiles,
+)
 
 metric_titles = {
     "Accuracy Score": "Accuracy",
@@ -278,7 +284,7 @@ def build_metric_cards() -> list:
         "Roc-Auc Score": "Evaluates how effectively the model distinguishes between phishing and legitimate URLs across classification thresholds."
     }
 
-    for metric_name in metric_titles.keys():
+    for metric_name in metric_titles:
         # Defines HTML composition of new Metric Card
         metric_cards.append(
             dbc.Col(
@@ -345,7 +351,7 @@ def build_profile_cards(profile: dict, feature_order: list = None, build_cards: 
             INTEGER_VALUE = int(decimal_value)
 
             # Parses feature title for symbols with an associated unit
-            for symbol in symbol_units.keys():
+            for symbol in symbol_units:
                 if symbol in feature:
                     symbol_used = symbol
                     break
@@ -483,7 +489,7 @@ def build_app(metrics: dict, profile: dict, metric_cards: list, profile_cards: l
                 id="title"
             ),
             dcc.Dropdown(
-                [ model for model in metrics.keys() ],
+                [ model for model in metrics ],
                 placeholder="Select a model",
                 value=max(
                     metrics,

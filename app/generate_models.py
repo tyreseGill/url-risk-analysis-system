@@ -29,8 +29,8 @@ def get_all_relevant_features(model: BaseEstimator) -> pd.DataFrame:
     REDUNDANT_FEATURES = set()
     RELEVANT_FEATURES = set()
 
-    MODEL_TITLE = f"Random Forest (All Features)"
-    MODEL_FILE_NAME = f"random_forest_all"
+    MODEL_TITLE = "Random Forest (All Features)"
+    MODEL_FILE_NAME = "random_forest_all"
 
     # Raw Data
     save_stage_metrics(
