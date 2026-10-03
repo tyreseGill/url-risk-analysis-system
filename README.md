@@ -24,7 +24,6 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#project-highlights">Project Highlights</a></li>
     <li>
       <a href="#dashboard">Dashboard</a>
       <ul>
@@ -73,13 +72,6 @@ The tool aggregates low-level signals (e.g., domain age, mismatched links, hidde
     * [![Plotly][Plotly-icon]][Plotly-url]
     * [![Seaborn][Seaborn-icon]][Seaborn-url]
     * [![Scikit-Learn][Scikit-Learn-icon]][Scikit-Learn-url]
-
-## Project Highlights
-- Built and evaluated multiple machine learning phishing detection models
-- Interactive Dash/Plotly analytics dashboard
-- Feature importance and explainable ML visualizations
-- Statistical profiling of phishing and legitimate URLs
-- Command-line URL risk assessment and inspection
 
 ## Dashboard
 The dashboard enables users to explore model performance, visualize feature importance, compare phishing and legitimate URL characteristics, and better understand how machine learning models identify malicious websites. 
