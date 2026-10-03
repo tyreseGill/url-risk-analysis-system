@@ -115,12 +115,12 @@ A detailed URL inspection tool that analyzes domain, certificate, transport, str
 <details>
   <summary>Features</summary>
   <ul>
-    <li><a href="#">🔍 Multi-layer URL inspection pipeline</a></li>
-    <li><a href="#">🧠 Signal-based risk detection with rule-based reasoning</a></li>
-    <li><a href="#">🔐 TLS and certificate validation</a></li>
-    <li><a href="#">🌐 URL structure and obfuscation analysis</a></li>
-    <li><a href="#">🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)</a></li>
-    <li><a href="#">📖 Explainable outputs with human-readable security insights</a></li>
+    <li>🔍 Multi-layer URL inspection pipeline</li>
+    <li>🧠 Signal-based risk detection with rule-based reasoning</li>
+    <li>🔐 TLS and certificate validation</li>
+    <li>🌐 URL structure and obfuscation analysis</li>
+    <li>🎭 HTML/CSS behavior detection (hidden elements, overlays, deceptive links)</li>
+    <li>📖 Explainable outputs with human-readable security insights</li>
   </ul>
 </details>
 
