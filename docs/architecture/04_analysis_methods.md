@@ -7,6 +7,8 @@
 ![Image Depicting Analysis Methods](../../assets/svg/analysis-methods.drawio.svg)
 
 <!-- FooterStart -->
----
-[← 03 Multi-Layer Analysis Pipeline](03_multi_layer_analysis.md)
-<!-- FooterEnd -->
+<br>
+
+<div style="display: flex; justify-content: space-between;">
+    <a href="./02_risk_analysis_order.md">← 03 Multi-Layer Analysis Pipeline</a>
+</div>

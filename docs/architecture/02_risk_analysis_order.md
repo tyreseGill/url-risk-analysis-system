@@ -8,7 +8,9 @@
 
 The system carries out multiple data gathering techniques to be used in determining whether a URL poses a phishing risk. Analyses requiring direct interaction with the target website are considered higher risk than passive information gathering techniques.
 
-<!-- FooterStart -->
----
-[← 01 Network Topology](./01_network_topology.md) | [03 Multi-Layer Analysis Pipeline →](03_multi_layer_analysis.md)
-<!-- FooterEnd -->
+<br>
+
+<div style="display: flex; justify-content: space-between;">
+    <a href="./01_network_topology.md">← 01 Network Topology</a>
+    <a href="./03_multi_layer_analysis.md">03 Multi-Layer Analysis Pipeline →</a>
+</div>

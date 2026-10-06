@@ -8,7 +8,8 @@
 
 This diagram presents the overall architecture and workflow of the URL Risk Analysis System. User-submitted URLs pass through a series of analysis stages that gather information from external intelligence sources.
 
-<!-- FooterStart -->
----
-[← README on Documentation](../README.md) | [02 Risk Analysis Hierarchy →](02_risk_analysis_order.md)
-<!-- FooterEnd -->
+<br>
+
+<div style="display: flex; justify-content: right;">
+    <a href="./02_risk_analysis_order.md">02 Risk Analysis Hierarchy →</a>
+</div>

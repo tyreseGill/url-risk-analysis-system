@@ -10,7 +10,9 @@
 
 - Upon reaching each checkpoint, the system determines with its current knowledge of the target's risk indicators whether to proceed to the next stage of analysis or stop early. This risk-conscious architecture minimizes unnecessary interaction with potentially malicious websites while prioritizing safer, lower-risk intelligence gathering techniques whenever possible.
 
-<!-- FooterStart -->
----
-[02 Risk Analysis Hierarchy →](02_risk_analysis_order.md) | [04 Analysis Methods →](04_analysis_methods.md)
-<!-- FooterEnd -->
+<br>
+
+<div style="display: flex; justify-content: space-between;">
+    <a href="./02_risk_analysis_order.md">02 Risk Analysis Hierarchy →</a>
+    <a href="./04_analysis_methods.md">04 Analysis Methods →</a>
+</div>
